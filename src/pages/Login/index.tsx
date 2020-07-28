@@ -1,12 +1,19 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { Wrapper } from "./styles";
 
 interface Props {}
 
 export default function Login(props: Props) {
+  const navigation = useNavigation();
+
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Wrapper>
+      <Wrapper>
+        <Button title="Login" onPress={() => navigation.navigate("Home")} />
+      </Wrapper>
+    </Wrapper>
   );
 }

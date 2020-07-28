@@ -1,12 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Button } from "react-native";
+import { Wrapper } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {}
 
 export default function Home(props: Props) {
+  const navigation = useNavigation();
+
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Wrapper>
+      <Wrapper>
+        <Button title="Home" onPress={() => navigation.navigate("Analysis")} />
+      </Wrapper>
+    </Wrapper>
   );
 }
