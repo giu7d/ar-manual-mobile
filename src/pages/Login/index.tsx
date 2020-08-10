@@ -1,8 +1,16 @@
 import React from "react";
-import { Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { Wrapper } from "./styles";
+import {
+  Wrapper,
+  Input,
+  Label,
+  Required,
+  InputWrapper,
+  ButtonWrapper,
+  ButtonText,
+} from "./styles";
+import { GlobalStyle } from "../../styles";
 
 interface Props {}
 
@@ -10,10 +18,24 @@ export default function Login(props: Props) {
   const navigation = useNavigation();
 
   return (
-    <Wrapper>
+    <GlobalStyle>
       <Wrapper>
-        <Button title="Login" onPress={() => navigation.navigate("Home")} />
+        <InputWrapper>
+          <Label>
+            Usuário<Required>*</Required>
+          </Label>
+          <Input placeholder="user@domain.com" />
+        </InputWrapper>
+        <InputWrapper>
+          <Label>
+            Senha<Required>*</Required>
+          </Label>
+          <Input placeholder="*******" />
+        </InputWrapper>
+        <ButtonWrapper onPress={() => {}}>
+          <ButtonText>Hello WOrld</ButtonText>
+        </ButtonWrapper>
       </Wrapper>
-    </Wrapper>
+    </GlobalStyle>
   );
 }
