@@ -63,7 +63,7 @@ const Theme: ITheme = {
   colors: {
     primary: "#0070F3",
     secundary: "#7828C8",
-    text: "#000000",
+    text: "#333333",
     background: "#F5F5F5",
     foreground: "#FFFFFF",
     info: "#FC0080",

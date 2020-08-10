@@ -1,93 +1,45 @@
 import styled from "styled-components/native";
 import { ITheme } from "../../theme";
 
-/**
- * Card
- */
-interface IWrapperProps {
+interface IThemeProps {
   theme: ITheme;
 }
 
-export const Wrapper = styled.View<IWrapperProps>`
+export const Wrapper = styled.View<IThemeProps>`
   display: flex;
   flex-direction: column;
-
+  /* Size */
   padding: 24px;
-
-  width: 400px;
-
-  background-color: ${({ theme }) => theme.colors.foreground};
-  border-radius: ${({ theme }) => theme.roundness}px;
-`;
-
-/**
- * Input
- */
-interface ILabelProps {
-  theme: ITheme;
-}
-
-interface IRequiredProps {
-  theme: ITheme;
-}
-
-interface IInputProps {
-  theme: ITheme;
-}
-
-export const InputWrapper = styled.View<IWrapperProps>`
-  margin: 14px 0;
-`;
-
-export const Label = styled.Text<ILabelProps>`
-  height: 24px;
-  align-content: center;
-  justify-content: center;
-  /* Font */
-  font-size: 14px;
-  color: #333333;
-`;
-
-export const Required = styled.Text<IRequiredProps>`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.danger};
-`;
-
-export const Input = styled.TextInput<IInputProps>`
-  padding: 14px 24px;
-  width: 100%;
-  height: 54px;
-  /* Font */
-  font-weight: 600;
-  font-size: 14px;
-  color: #333333;
-  /* Border */
-  border: 2px solid rgba(0, 0, 0, 0.05);
-  border-radius: ${({ theme }) => theme.roundness}px;
-`;
-
-/**
- * Button
- */
-// interface IButtonWrapperProps {
-//   theme: ITheme;
-// }
-
-export const ButtonWrapper = styled.TouchableOpacity<IWrapperProps>`
-  margin: 14px 0;
-  padding: 14px 24px;
-  width: 100%;
-  height: 54px;
+  width: 35%;
   align-items: center;
-  justify-content: center;
-
-  background-color: ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.roundness}px;
+  /* Theme */
+  background-color: ${({ theme }) => theme.colors.foreground};
+  border-radius: ${({ theme }) => `${theme.roundness}px`};
 `;
 
-export const ButtonText = styled.Text<IWrapperProps>`
+export const Title = styled.Text<IThemeProps>`
+  margin: 24px 0;
+  font-size: 32px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Divider = styled.View<IThemeProps>`
+  margin: 24px;
+  width: 100%;
+  height: 2px;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+export const Paragraph = styled.Text<IThemeProps>`
+  font-size: 18px;
+  align-self: flex-start;
+  color: ${({ theme }) => theme.colors.text};
+  opacity: 0.8;
+`;
+
+export const HyperLink = styled.Text<IThemeProps>`
   font-size: 18px;
   font-weight: bold;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.foreground};
+  color: ${({ theme }) => theme.colors.primary};
 `;

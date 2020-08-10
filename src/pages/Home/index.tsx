@@ -3,9 +3,9 @@ import { Button } from "react-native";
 import { Wrapper } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 
-interface Props {}
+export interface Props {}
 
-export default function Home(props: Props) {
+export const Home: React.FC<Props> = (props) => {
   const navigation = useNavigation();
 
   return (
@@ -15,4 +15,4 @@ export default function Home(props: Props) {
       </Wrapper>
     </Wrapper>
   );
-}
+};
