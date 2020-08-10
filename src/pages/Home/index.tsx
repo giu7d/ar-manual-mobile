@@ -20,7 +20,6 @@ import {
   CardContentValue,
   CardAction,
   CardContentText,
-  Row,
   Col,
 } from "./styles";
 import { Button, ButtonText } from "../../components/Button";

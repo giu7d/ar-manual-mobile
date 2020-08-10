@@ -46,7 +46,7 @@ export const Col = styled.View<IThemeProps>`
 export const Card = styled.View<IThemeProps>`
   margin: 14px;
   display: flex;
-  flex: 50%
+  flex: 50%;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.foreground};
   border-radius: ${({ theme }) => `${theme.roundness}px`};
