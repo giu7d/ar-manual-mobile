@@ -1,17 +1,16 @@
 import React from "react";
+import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather as Icon } from "@expo/vector-icons";
 
+import { Wrapper, Header, Title, Content, Column } from "./styles";
+import { GlobalStyle as GlobalWrapper } from "../../styles";
 import { Avatar, AvatarText } from "../../components/Avatar";
 import { SearchArea, SearchInput } from "../../components/SearchInput";
 import { AppBar, ActionsArea } from "../../components/AppBar";
 import { IconButton } from "../../components/IconButton";
-import { GlobalStyle as GlobalWrapper } from "../../styles";
+import { Button, ButtonText } from "../../components/Button";
 import {
-  Wrapper,
-  Header,
-  Title,
-  Content,
   Card,
   CardContentGroup,
   CardContent,
@@ -20,9 +19,7 @@ import {
   CardContentValue,
   CardAction,
   CardContentText,
-  Col,
-} from "./styles";
-import { Button, ButtonText } from "../../components/Button";
+} from "../../components/Card";
 
 export interface Props {}
 
@@ -32,6 +29,46 @@ export const Home: React.FC<Props> = (props) => {
   const handleLogout = () => {
     navigation.navigate("Login");
   };
+
+  const handleAnalysis = () => {
+    navigation.navigate("Analysis");
+  };
+
+  const renderCard = (el: number) => (
+    <Card key={el}>
+      <CardContent>
+        <CardImage>
+          <Image
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+            source={{
+              uri: "https://via.placeholder.com/250x250",
+            }}
+          />
+        </CardImage>
+        <CardContentGroup>
+          <CardContentText>
+            <CardContentTitle>Galga de Controlo</CardContentTitle>
+            <CardContentValue>C24105974</CardContentValue>
+          </CardContentText>
+          <CardContentText>
+            <CardContentTitle>Componente</CardContentTitle>
+            <CardContentValue>C24105974</CardContentValue>
+          </CardContentText>
+        </CardContentGroup>
+      </CardContent>
+      <CardAction>
+        <Button style={{ width: "80%" }} onPress={handleAnalysis}>
+          <ButtonText>Iniciar Teste</ButtonText>
+        </Button>
+        <IconButton style={{ width: "20%" }}>
+          <Icon name="more-vertical" size={24} />
+        </IconButton>
+      </CardAction>
+    </Card>
+  );
 
   return (
     <GlobalWrapper>
@@ -56,60 +93,8 @@ export const Home: React.FC<Props> = (props) => {
           <Title>Todos os Manuais</Title>
         </Header>
         <Content>
-          <Col>
-            {[0, 1, 2].map((el) => (
-              <Card key={el}>
-                <CardContent>
-                  <CardImage />
-                  <CardContentGroup>
-                    <CardContentText>
-                      <CardContentTitle>Galga de Controlo</CardContentTitle>
-                      <CardContentValue>C24105974</CardContentValue>
-                    </CardContentText>
-                    <CardContentText>
-                      <CardContentTitle>Galga de Controlo</CardContentTitle>
-                      <CardContentValue>C24105974</CardContentValue>
-                    </CardContentText>
-                  </CardContentGroup>
-                </CardContent>
-                <CardAction>
-                  <Button style={{ width: "80%" }}>
-                    <ButtonText>Iniciar Teste</ButtonText>
-                  </Button>
-                  <IconButton style={{ width: "20%" }}>
-                    <Icon name="more-vertical" size={24} />
-                  </IconButton>
-                </CardAction>
-              </Card>
-            ))}
-          </Col>
-          <Col>
-            {[0, 1, 2].map((el) => (
-              <Card key={el}>
-                <CardContent>
-                  <CardImage />
-                  <CardContentGroup>
-                    <CardContentText>
-                      <CardContentTitle>Galga de Controlo</CardContentTitle>
-                      <CardContentValue>C24105974</CardContentValue>
-                    </CardContentText>
-                    <CardContentText>
-                      <CardContentTitle>Galga de Controlo</CardContentTitle>
-                      <CardContentValue>C24105974</CardContentValue>
-                    </CardContentText>
-                  </CardContentGroup>
-                </CardContent>
-                <CardAction>
-                  <Button style={{ width: "80%" }}>
-                    <ButtonText>Iniciar Teste</ButtonText>
-                  </Button>
-                  <IconButton style={{ width: "20%" }}>
-                    <Icon name="more-vertical" size={24} />
-                  </IconButton>
-                </CardAction>
-              </Card>
-            ))}
-          </Col>
+          <Column>{[0, 1, 2].map(renderCard)}</Column>
+          <Column>{[0, 1, 2].map(renderCard)}</Column>
         </Content>
       </Wrapper>
     </GlobalWrapper>
