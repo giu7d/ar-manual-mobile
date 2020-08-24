@@ -2,9 +2,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Home } from "./pages/Home";
-import { Login } from "./pages/Login";
-import { Analysis } from "./pages/Analysis";
+import { Home } from "./screens/Home";
+import { Login } from "./screens/Login";
+import { Analysis } from "./screens/Analysis";
 
 const Stack = createStackNavigator();
 
