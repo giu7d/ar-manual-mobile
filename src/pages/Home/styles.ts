@@ -36,7 +36,7 @@ export const Content = styled.View<IThemeProps>`
   justify-content: center;
 `;
 
-export const Column = styled.View<IThemeProps>`
+export const Col = styled.View<IThemeProps>`
   flex: 45%;
   max-width: 45%;
   padding: 0 4px;

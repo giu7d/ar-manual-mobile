@@ -1,17 +1,18 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import { Wrapper, Title, Divider, Paragraph, HyperLink } from "./styles";
+import { FormInput } from "../../components/molecules/FormInput";
+import { Button } from "../../components/molecules/Button";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
-import { InputArea, Label, Input, Required } from "../../components/Input";
-import { Button, ButtonText } from "../../components/Button";
+import { Wrapper, Title, Divider, Paragraph, HyperLink } from "./styles";
 
 interface ILoginProps {}
 
-export const Login: React.FC<ILoginProps> = (props) => {
+export const Login: React.FC<ILoginProps> = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
+    console.log("Home");
     navigation.navigate("Home");
   };
 
@@ -19,21 +20,25 @@ export const Login: React.FC<ILoginProps> = (props) => {
     <GlobalWrapper>
       <Wrapper>
         <Title>Log In</Title>
-        <InputArea>
-          <Label>
-            Usuário<Required>*</Required>
-          </Label>
-          <Input placeholder="you@domain.com" keyboardType="email-address" />
-        </InputArea>
-        <InputArea>
-          <Label>
-            Senha<Required>*</Required>
-          </Label>
-          <Input placeholder="******" secureTextEntry={true} />
-        </InputArea>
-        <Button onPress={handleLogin}>
-          <ButtonText>Entrar</ButtonText>
-        </Button>
+
+        <FormInput
+          label="Usuário"
+          required
+          inputProps={{
+            placeholder: "you@domain.com",
+            keyboardType: "email-address",
+          }}
+        />
+        <FormInput
+          label="Senha"
+          required
+          inputProps={{
+            placeholder: "******",
+            secureTextEntry: true,
+          }}
+        />
+
+        <Button onPress={handleLogin}>Entrar</Button>
         <Divider />
         <Paragraph>
           Não possui acesso? <HyperLink>Entre aqui</HyperLink>

@@ -64,7 +64,7 @@ const Theme: ITheme = {
     primary: "#0070F3",
     secundary: "#7828C8",
     text: "#333333",
-    background: "#F5F5F5",
+    background: "#f5f5f5",
     foreground: "#FFFFFF",
     info: "#FC0080",
     success: "#79FCE0",
