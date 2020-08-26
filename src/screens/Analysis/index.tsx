@@ -40,6 +40,7 @@ export const Analysis: React.FC<IAnalysisProps> = (props) => {
           />
           <AnalysisInstructionCard title="hello world" description="nicee" />
           <AnalysisInstructionCard title="hello world" description="nicee" />
+          <AnalysisInstructionCard title="hello world" description="nicee" />
         </AnalysisBar>
       </Wrapper>
     </GlobalWrapper>

@@ -5,13 +5,17 @@ import { FormInput } from "../../components/molecules/FormInput";
 import { Button } from "../../components/molecules/Button";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
 import { Wrapper, Title, Divider, Paragraph, HyperLink } from "./styles";
-
+import { useStores } from "../../hooks/useStores";
+import { observer } from "mobx-react";
 interface ILoginProps {}
 
-export const Login: React.FC<ILoginProps> = () => {
+export const Login: React.FC<ILoginProps> = observer(() => {
   const navigation = useNavigation();
+  const { globalStore } = useStores();
 
   const handleLogin = () => {
+    globalStore.fetchUser("hello", "word");
+    console.log(globalStore.user.email);
     console.log("Home");
     navigation.navigate("Home");
   };
@@ -46,4 +50,4 @@ export const Login: React.FC<ILoginProps> = () => {
       </Wrapper>
     </GlobalWrapper>
   );
-};
+});
