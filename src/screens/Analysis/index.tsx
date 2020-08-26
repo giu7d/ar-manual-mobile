@@ -33,6 +33,12 @@ export const Analysis: React.FC<IAnalysisProps> = (props) => {
           />
         </AnalysisCanvas>
         <AnalysisBar handleLogout={handleLogout}>
+          <AnalysisInstructionCard
+            title="hello world"
+            description="nicee"
+            initialSelected
+          />
+          <AnalysisInstructionCard title="hello world" description="nicee" />
           <AnalysisInstructionCard title="hello world" description="nicee" />
         </AnalysisBar>
       </Wrapper>

@@ -1,10 +1,5 @@
-import React from "react";
-import { Feather as Icon } from "@expo/vector-icons";
-import { useTheme } from "styled-components";
+import React, { useState, useEffect } from "react";
 
-import { ITheme } from "../../../theme";
-import { IconButton } from "../../atoms/IconButton";
-import { Button } from "../../molecules/Button";
 import {
   Wrapper,
   ContentWrapper,
@@ -13,98 +8,59 @@ import {
   WarnWrapper,
   ActionsWrapper,
 } from "./styles";
+import { Actions } from "./Actions";
 
 export interface IAnalysisInstructionCardProps {
   title: string;
   description: string;
   warning?: Array<{ title: string; description: string }>;
-  selected?: boolean;
-  status?: "pending" | "success" | "fail";
+  initialSelected?: boolean;
+  initialAnalyzed?: boolean;
+  initialStatus?: "pending" | "success" | "fail";
 }
 
 export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = ({
   title,
   description,
   warning = [],
-  selected = false,
-  status = "pending",
+  initialSelected = false,
+  initialAnalyzed = false,
+  initialStatus = "pending",
 }) => {
-  const theme = useTheme() as ITheme;
+  const [status, setStatus] = useState(initialStatus);
+  const [selected, setSelected] = useState(initialSelected);
+  const [analyzed, setAnalyzed] = useState(initialAnalyzed);
 
-  const renderAction = () => {
-    if (status === "pending") {
-      return (
-        <>
-          <Button
-            touchableProps={{
-              style: {
-                minWidth: "70%",
-                backgroundColor: theme.colors.foreground,
-              },
-            }}
-            textProps={{
-              style: {
-                color: theme.colors.primary,
-              },
-            }}
-          >
-            Aprovar
-          </Button>
+  useEffect(() => {
+    if (status !== initialStatus) {
+      setStatus(initialStatus);
+    }
 
-          <IconButton style={{ backgroundColor: theme.colors.foreground }}>
-            <Icon name="alert-triangle" size={24} color={theme.colors.danger} />
-          </IconButton>
-        </>
-      );
+    if (selected !== initialSelected) {
+      setSelected(initialSelected);
     }
-    if (status === "success") {
-      return (
-        <>
-          <Button
-            touchableProps={{
-              style: {
-                alignSelf: "center",
-                minWidth: "90%",
-                backgroundColor: theme.colors.primary,
-              },
-            }}
-            textProps={{
-              style: {
-                color: theme.colors.foreground,
-              },
-            }}
-          >
-            Aprovado
-          </Button>
-        </>
-      );
+
+    if (analyzed !== initialAnalyzed) {
+      setAnalyzed(initialAnalyzed);
     }
-    if (status === "fail") {
-      return (
-        <>
-          <Button
-            touchableProps={{
-              style: {
-                alignSelf: "center",
-                minWidth: "90%",
-                backgroundColor: theme.colors.danger,
-              },
-            }}
-            textProps={{
-              style: {
-                color: theme.colors.foreground,
-              },
-            }}
-          >
-            Reprovado
-          </Button>
-        </>
-      );
+  }, [initialStatus, initialSelected, initialAnalyzed]);
+
+  useEffect(() => {
+    if (status !== "pending") {
+      setAnalyzed(true);
+    } else {
+      setAnalyzed(false);
     }
+  }, [status]);
+
+  const handleStatusChange = (newStatus: "pending" | "success" | "fail") => {
+    setStatus(newStatus);
   };
 
+  const handleSelection = () => setSelected(true);
+
   return (
-    <Wrapper selected={selected}>
+    <Wrapper selected={selected} onPress={handleSelection}>
       <ContentWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>
@@ -117,7 +73,11 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
             <Description>{description}</Description>
           </WarnWrapper>
         ))}
-      <ActionsWrapper>{renderAction()}</ActionsWrapper>
+      {(analyzed || selected) && (
+        <ActionsWrapper>
+          <Actions status={status} handleStatusChange={handleStatusChange} />
+        </ActionsWrapper>
+      )}
     </Wrapper>
   );
 };

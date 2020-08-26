@@ -27,7 +27,7 @@ interface IActionsWrapperProps {
   theme: ITheme;
 }
 
-export const Wrapper = styled.View<IWrapperProps>`
+export const Wrapper = styled.TouchableOpacity<IWrapperProps>`
   display: flex;
   flex-direction: column;
   margin: 24px;
