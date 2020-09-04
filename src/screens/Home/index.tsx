@@ -22,7 +22,7 @@ export const Home: React.FC<Props> = (props) => {
 
   return (
     <GlobalWrapper>
-      <AppBar handleLogout={handleLogout} />
+      <AppBar initial="G" handleLogout={handleLogout} />
       <Wrapper>
         <Header>
           <Icon name="book" size={38} />

@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { GlobalStore } from "../stores/GlobalStore";
+import { UserStore } from "../stores/UserStore";
 
 export const storesContext = createContext({
-  globalStore: new GlobalStore(),
+  userStore: new UserStore(),
 });

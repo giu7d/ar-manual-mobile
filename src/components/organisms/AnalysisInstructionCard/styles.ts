@@ -11,10 +11,6 @@ interface IContentWrapperProps {
   theme: ITheme;
 }
 
-interface IWarnWrapperProps {
-  theme: ITheme;
-}
-
 interface ITitleProps {
   theme: ITheme;
 }
@@ -42,13 +38,6 @@ export const Wrapper = styled.TouchableOpacity<IWrapperProps>`
 export const ContentWrapper = styled.View<IContentWrapperProps>`
   margin: 14px;
   padding: 14px;
-`;
-
-export const WarnWrapper = styled.View<IWarnWrapperProps>`
-  margin: 14px;
-  padding: 14px;
-  background-color: ${({ theme }) => rgba(theme.colors.background, 0.5)};
-  border-radius: ${({ theme }) => `${theme.roundness}px`};
 `;
 
 export const Title = styled.Text<ITitleProps>`

@@ -5,15 +5,15 @@ import {
   ContentWrapper,
   Title,
   Description,
-  WarnWrapper,
   ActionsWrapper,
 } from "./styles";
 import { Actions } from "./Actions";
+import { Warning, IWarningProps } from "../../molecules/Warning";
 
 export interface IAnalysisInstructionCardProps {
   title: string;
   description: string;
-  warning?: Array<{ title: string; description: string }>;
+  warning?: Array<IWarningProps>;
   initialSelected?: boolean;
   initialAnalyzed?: boolean;
   initialStatus?: "pending" | "success" | "fail";
@@ -67,12 +67,7 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
       </ContentWrapper>
       {selected &&
         warning &&
-        warning.map(({ title, description }, index) => (
-          <WarnWrapper key={index}>
-            <Title>{title}</Title>
-            <Description>{description}</Description>
-          </WarnWrapper>
-        ))}
+        warning.map((value, index) => <Warning key={index} {...value} />)}
       {(analyzed || selected) && (
         <ActionsWrapper>
           <Actions status={status} handleStatusChange={handleStatusChange} />

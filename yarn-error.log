@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add -D @types/mobx-react
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add -D @types/ react-native-uuid
 
 PATH: 
   C:\Python38\Scripts\;C:\Python38\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\giuse\AppData\Local\Microsoft\WindowsApps;;C:\Users\giuse\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\giuse\AppData\Roaming\npm;C:\Users\giuse\AppData\Local\Yarn\bin
@@ -14,8 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fmobx-react: Not found
-      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66096:18)
+  Error: https://registry.yarnpkg.com/@types%2f: Request "https://registry.yarnpkg.com/@types%2f" returned a 405
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66105:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
       at Request.emit (events.js:315:20)
       at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141720:10)
@@ -48,6 +48,7 @@ npm manifest:
       "expo-status-bar": "^1.0.2",
       "mobx": "^5.15.6",
       "mobx-react": "^6.2.5",
+      "mobx-react-lite": "^2.1.0",
       "polished": "^3.6.5",
       "react": "~16.11.0",
       "react-dom": "~16.11.0",
@@ -56,6 +57,7 @@ npm manifest:
       "react-native-reanimated": "~1.9.0",
       "react-native-safe-area-context": "~3.0.7",
       "react-native-screens": "~2.9.0",
+      "react-native-uuid": "^1.4.9",
       "react-native-web": "~0.11.7",
       "styled-components": "^5.1.1"
     },
@@ -4842,7 +4844,7 @@ Lockfile:
     dependencies:
       minimist "^1.2.5"
   
-  mobx-react-lite@>=2.0.6:
+  mobx-react-lite@>=2.0.6, mobx-react-lite@^2.1.0:
     version "2.1.0"
     resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-2.1.0.tgz#1c70723832317ba55ac2094fec66845e3d320f45"
     integrity sha512-9IrwflgaO4OzNf8rjFgq6BIAOAhwqqZ7YrJQRvmVONhRT7kOXfMFDu1+YSVxMJZ6kzrXd9HN6OuI+sjGp5GFZQ==
@@ -5441,6 +5443,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
     integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
   
+  randombytes@^2.0.3:
+    version "2.1.0"
+    resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
+    integrity sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
+    dependencies:
+      safe-buffer "^5.1.0"
+  
   range-parser@~1.2.1:
     version "1.2.1"
     resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
@@ -5509,6 +5518,13 @@ Lockfile:
     version "2.9.0"
     resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.9.0.tgz#ead2843107ba00fee259aa377582e457c74f1f3b"
     integrity sha512-5MaiUD6HA3nzY3JbVI8l3V7pKedtxQF3d8qktTVI0WmWXTI4QzqOU8r8fPVvfKo3MhOXwhWBjr+kQ7DZaIQQeg==
+  
+  react-native-uuid@^1.4.9:
+    version "1.4.9"
+    resolved "https://registry.yarnpkg.com/react-native-uuid/-/react-native-uuid-1.4.9.tgz#a526742f8fddfe6414500655212ca8d109c40229"
+    integrity sha1-pSZ0L4/d/mQUUAZVISyo0QnEAik=
+    dependencies:
+      randombytes "^2.0.3"
   
   react-native-web@~0.11.7:
     version "0.11.7"
@@ -5871,7 +5887,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
     integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
   
-  safe-buffer@~5.2.0:
+  safe-buffer@^5.1.0, safe-buffer@~5.2.0:
     version "5.2.1"
     resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
     integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==

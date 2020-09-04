@@ -6,10 +6,14 @@ import { Feather as Icon } from "@expo/vector-icons";
 import { Avatar } from "../../molecules/Avatar";
 
 export interface IAppBarProps {
+  initial: string;
   handleLogout?: VoidFunction;
 }
 
-export const AppBar: React.FC<IAppBarProps> = ({ handleLogout = () => {} }) => {
+export const AppBar: React.FC<IAppBarProps> = ({
+  initial,
+  handleLogout = () => {},
+}) => {
   return (
     <AppBarWrapper>
       <ActionsWrapper />
@@ -18,7 +22,7 @@ export const AppBar: React.FC<IAppBarProps> = ({ handleLogout = () => {} }) => {
         <IconButton>
           <Icon name="bell" size={24} />
         </IconButton>
-        <Avatar touchableProps={{ onPress: handleLogout }}>PS</Avatar>
+        <Avatar touchableProps={{ onPress: handleLogout }}>{initial}</Avatar>
       </ActionsWrapper>
     </AppBarWrapper>
   );

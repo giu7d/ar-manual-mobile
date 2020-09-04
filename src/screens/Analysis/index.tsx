@@ -36,6 +36,7 @@ export const Analysis: React.FC<IAnalysisProps> = (props) => {
           <AnalysisInstructionCard
             title="hello world"
             description="nicee"
+            warning={[{ title: "warning", description: "hello world" }]}
             initialSelected
           />
           <AnalysisInstructionCard title="hello world" description="nicee" />

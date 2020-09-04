@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { FormInput } from "../../components/molecules/FormInput";
@@ -7,30 +7,47 @@ import { GlobalStyle as GlobalWrapper } from "../../styles";
 import { Wrapper, Title, Divider, Paragraph, HyperLink } from "./styles";
 import { useStores } from "../../hooks/useStores";
 import { observer } from "mobx-react";
+import { Warning } from "../../components/molecules/Warning";
+
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = observer(() => {
   const navigation = useNavigation();
-  const { globalStore } = useStores();
+  const { userStore } = useStores();
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = () => {
-    globalStore.fetchUser("hello", "word");
-    console.log(globalStore.user.email);
-    console.log("Home");
-    navigation.navigate("Home");
+  const [error, setError] = useState<string>();
+
+  const handleSubmit = () => {
+    const { email, password } = form;
+
+    if (email === "" || password === "") {
+      setError("Os campos são obrigatórios!");
+    } else {
+      setError(undefined);
+      userStore.fetch(email, password);
+      navigation.navigate("Home");
+    }
   };
 
   return (
     <GlobalWrapper>
       <Wrapper>
         <Title>Log In</Title>
-
+        {error && <Warning title="Atenção!" description={error} />}
         <FormInput
-          label="Usuário"
+          label="Email"
           required
           inputProps={{
             placeholder: "you@domain.com",
             keyboardType: "email-address",
+            autoCapitalize: "none",
+            value: form.email,
+            onChange: ({ nativeEvent }) =>
+              setForm((state) => ({ ...state, email: nativeEvent.text })),
           }}
         />
         <FormInput
@@ -39,10 +56,13 @@ export const Login: React.FC<ILoginProps> = observer(() => {
           inputProps={{
             placeholder: "******",
             secureTextEntry: true,
+            value: form.password,
+            onChange: ({ nativeEvent }) =>
+              setForm((state) => ({ ...state, password: nativeEvent.text })),
           }}
         />
 
-        <Button onPress={handleLogin}>Entrar</Button>
+        <Button onPress={handleSubmit}>Entrar</Button>
         <Divider />
         <Paragraph>
           Não possui acesso? <HyperLink>Entre aqui</HyperLink>
