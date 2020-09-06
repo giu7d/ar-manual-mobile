@@ -14,7 +14,7 @@ export const AppBarWrapper = styled.View<IAppBarWrapperProps>`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 24px;
+  padding: 14px 24px;
   width: 100%;
   height: auto;
 `;
@@ -24,5 +24,5 @@ export const ActionsWrapper = styled.View<IActionsWrapperProps>`
   align-items: center;
   justify-content: flex-end;
   flex-direction: row;
-  width: 25%;
+  width: 15%;
 `;

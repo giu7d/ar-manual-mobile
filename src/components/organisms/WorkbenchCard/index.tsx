@@ -18,7 +18,19 @@ export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
   handleAnalysis = () => {},
 }) => {
   return (
-    <Card.Card>
+    <Card.Card
+      style={{
+        shadowColor: "#333",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+      }}
+    >
       <Card.Content>
         <Card.Image>
           <WorkbenchImage
@@ -40,12 +52,18 @@ export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
       </Card.Content>
       <Card.ActionsWrapper>
         <Button
-          touchableProps={{ style: { minWidth: "75%" } }}
+          touchableProps={{ style: { minWidth: "80%", minHeight: 64 } }}
           onPress={handleAnalysis}
         >
           Iniciar Teste
         </Button>
-        <IconButton style={{ width: "20%" }}>
+        <IconButton
+          style={{
+            width: 64,
+            height: 64,
+            marginLeft: 14,
+          }}
+        >
           <Icon name="more-vertical" size={24} />
         </IconButton>
       </Card.ActionsWrapper>

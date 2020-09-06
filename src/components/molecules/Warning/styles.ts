@@ -16,7 +16,7 @@ interface IDescriptionProps {
 export const Wrapper = styled.View<IWrapperProps>`
   margin: 14px;
   padding: 14px;
-  min-width: 80%;
+  min-width: 100%;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => `${theme.roundness}px`};
 `;

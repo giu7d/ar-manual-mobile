@@ -10,7 +10,9 @@ export const Wrapper = styled.View<IThemeProps>`
   flex-direction: column;
   /* Size */
   padding: 24px;
-  width: 35%;
+  width: 450px;
+  height: auto;
+  margin: auto;
   align-items: center;
   /* Theme */
   background-color: ${({ theme }) => theme.colors.foreground};

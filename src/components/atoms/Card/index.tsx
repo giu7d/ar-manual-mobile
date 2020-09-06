@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { ITheme } from "../../../theme";
+import { rgba } from "polished";
 
 interface ICardProps {
   theme: ITheme;
@@ -42,8 +43,8 @@ export const ActionsWrapper = styled.View<ICardProps>`
   flex-direction: row;
   flex: 1;
   padding: 8px 14px;
+  background: ${({ theme }) => rgba(theme.colors.text, 0.1)};
   height: auto;
-  background-color: #e5e5e5;
   align-items: center;
   justify-content: center;
 `;
