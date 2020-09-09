@@ -15,28 +15,28 @@ export class API {
 
     return [
       {
-        id: "",
-        thumbnailSrc: "",
-        testbenchSerialNumber: "",
-        componentSerialNumber: "",
+        id: "0",
+        thumbnailSrc: "https://via.placeholder.com/250x250",
+        testbenchSerialNumber: "C24105974",
+        componentSerialNumber: "1697143X",
       },
       {
-        id: "",
-        thumbnailSrc: "",
-        testbenchSerialNumber: "",
-        componentSerialNumber: "",
+        id: "1",
+        thumbnailSrc: "https://via.placeholder.com/250x250",
+        testbenchSerialNumber: "C24105974",
+        componentSerialNumber: "1697143X",
       },
       {
-        id: "",
-        thumbnailSrc: "",
-        testbenchSerialNumber: "",
-        componentSerialNumber: "",
+        id: "2",
+        thumbnailSrc: "https://via.placeholder.com/250x250",
+        testbenchSerialNumber: "C24105974",
+        componentSerialNumber: "1697143X",
       },
       {
-        id: "",
-        thumbnailSrc: "",
-        testbenchSerialNumber: "",
-        componentSerialNumber: "",
+        id: "3",
+        thumbnailSrc: "https://via.placeholder.com/250x250",
+        testbenchSerialNumber: "C24105974",
+        componentSerialNumber: "1697143X",
       },
     ];
   }

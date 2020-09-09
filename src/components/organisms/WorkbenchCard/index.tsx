@@ -9,12 +9,14 @@ import { WorkbenchImage } from "./styles";
 export interface IWorkbenchCardProps {
   componentSeries: string;
   workbenchSeries: string;
+  thumbnailSrc: string;
   handleAnalysis?: VoidFunction;
 }
 
 export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
   componentSeries,
   workbenchSeries,
+  thumbnailSrc,
   handleAnalysis = () => {},
 }) => {
   return (
@@ -35,7 +37,7 @@ export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
         <Card.Image>
           <WorkbenchImage
             source={{
-              uri: "https://via.placeholder.com/250x250",
+              uri: thumbnailSrc,
             }}
           />
         </Card.Image>

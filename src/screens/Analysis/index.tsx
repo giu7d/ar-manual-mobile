@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { AnalysisInformation } from "../../components/molecules/AnalysisInformation";
 import { AnalysisCanvas } from "../../components/molecules/AnalysisCanvas";
@@ -12,6 +12,11 @@ export interface IAnalysisProps {}
 
 export const Analysis: React.FC<IAnalysisProps> = (props) => {
   const navigation = useNavigation();
+  const route = useRoute() as { params: { id: string } };
+
+  useEffect(() => {
+    console.log(route.params.id);
+  }, []);
 
   const handleLogout = () => {
     navigation.navigate("Login");
