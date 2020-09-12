@@ -14,7 +14,9 @@ export interface IAnalysisInstructionCardProps {
   title: string;
   description: string;
   warning?: Array<IWarningProps>;
-  initialSelected?: boolean;
+  selected?: boolean;
+  setSelected?: (state: boolean) => void;
+  onAnalysisFinished?: (status: "pending" | "success" | "fail") => void;
   initialAnalyzed?: boolean;
   initialStatus?: "pending" | "success" | "fail";
 }
@@ -23,12 +25,13 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
   title,
   description,
   warning = [],
-  initialSelected = false,
+  selected = false,
+  setSelected = () => {},
+  onAnalysisFinished = () => {},
   initialAnalyzed = false,
   initialStatus = "pending",
 }) => {
   const [status, setStatus] = useState(initialStatus);
-  const [selected, setSelected] = useState(initialSelected);
   const [analyzed, setAnalyzed] = useState(initialAnalyzed);
 
   useEffect(() => {
@@ -36,14 +39,10 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
       setStatus(initialStatus);
     }
 
-    if (selected !== initialSelected) {
-      setSelected(initialSelected);
-    }
-
     if (analyzed !== initialAnalyzed) {
       setAnalyzed(initialAnalyzed);
     }
-  }, [initialStatus, initialSelected, initialAnalyzed]);
+  }, [initialStatus, initialAnalyzed]);
 
   useEffect(() => {
     if (status !== "pending") {
@@ -55,6 +54,7 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
 
   const handleStatusChange = (newStatus: "pending" | "success" | "fail") => {
     setStatus(newStatus);
+    onAnalysisFinished(newStatus);
   };
 
   const handleSelection = () => setSelected(true);

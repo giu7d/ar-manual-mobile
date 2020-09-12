@@ -45,34 +45,34 @@ export class API {
     if (error) throw new Error("Error!");
 
     return {
-      id: "",
-      testbenchSerialNumber: "",
-      componentSerialNumber: "",
+      id: "1",
+      testbenchSerialNumber: "C24105974",
+      componentSerialNumber: "1697143X",
       cao: {},
       instructions: [
         {
           id: "a",
-          description: "",
-          src: "",
+          description: "description",
+          src: "https://via.placeholder.com/250x250",
           nextStep: "b",
           stepNumber: 0,
           warning: [
             {
-              id: "",
-              description: "",
+              id: "a1",
+              description: "I am a warning!",
             },
           ],
         },
         {
           id: "b",
-          description: "",
-          src: "",
+          description: "description",
+          src: "https://via.placeholder.com/250x250",
           nextStep: "",
           stepNumber: 1,
           warning: [
             {
-              id: "",
-              description: "",
+              id: "b1",
+              description: "I am another warning",
             },
           ],
         },

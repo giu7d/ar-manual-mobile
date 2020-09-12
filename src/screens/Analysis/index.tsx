@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { observer } from "mobx-react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { AnalysisInformation } from "../../components/molecules/AnalysisInformation";
@@ -7,15 +8,19 @@ import { AnalysisBar } from "../../components/organisms/AnalysisBar";
 import { AnalysisInstructionCard } from "../../components/organisms/AnalysisInstructionCard";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
 import { Wrapper } from "./styles";
+import { useStores } from "../../hooks/useStores";
 
 export interface IAnalysisProps {}
 
-export const Analysis: React.FC<IAnalysisProps> = (props) => {
+export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   const navigation = useNavigation();
   const route = useRoute() as { params: { id: string } };
 
+  const { analysisStore } = useStores();
+
   useEffect(() => {
     console.log(route.params.id);
+    analysisStore.fetch();
   }, []);
 
   const handleLogout = () => {
@@ -32,23 +37,41 @@ export const Analysis: React.FC<IAnalysisProps> = (props) => {
         <AnalysisCanvas handleGoBack={handleGoBack}>
           <AnalysisInformation
             items={[
-              { key: "Galga de controlo", value: "C24105974" },
-              { key: "Componente", value: "1697143X" },
+              {
+                key: "Galga de controlo",
+                value: analysisStore.testbenchSerialNumber,
+              },
+              { key: "Componente", value: analysisStore.componentSerialNumber },
             ]}
           />
         </AnalysisCanvas>
         <AnalysisBar handleLogout={handleLogout}>
-          <AnalysisInstructionCard
-            title="hello world"
-            description="nicee"
-            warning={[{ title: "warning", description: "hello world" }]}
-            initialSelected
-          />
-          <AnalysisInstructionCard title="hello world" description="nicee" />
-          <AnalysisInstructionCard title="hello world" description="nicee" />
-          <AnalysisInstructionCard title="hello world" description="nicee" />
+          {analysisStore.instructions.map(
+            ({ id, description, stepNumber, warning, nextStep }) => (
+              <AnalysisInstructionCard
+                key={id}
+                title={`#${stepNumber}`}
+                description={description}
+                warning={[
+                  ...warning.map(({ description }) => ({
+                    title: "Atenção",
+                    description,
+                  })),
+                ]}
+                selected={analysisStore.selectedInstructionId === id}
+                setSelected={(state) => {
+                  if (state) {
+                    analysisStore.selectInstruction(id);
+                  }
+                }}
+                onAnalysisFinished={() => {
+                  analysisStore.selectInstruction(nextStep);
+                }}
+              />
+            )
+          )}
         </AnalysisBar>
       </Wrapper>
     </GlobalWrapper>
   );
-};
+});

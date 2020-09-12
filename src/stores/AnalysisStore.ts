@@ -32,6 +32,15 @@ export class AnalysisStore {
 
   @action
   fetch = () => {
-    Object.assign(this, API.testbenchesById());
+    const data = API.testbenchesById();
+    Object.assign(this, data);
+    this.selectedInstructionId = data.instructions.find(
+      ({ stepNumber }) => stepNumber === 0
+    )?.id;
+  };
+
+  @action
+  selectInstruction = (id: string) => {
+    this.selectedInstructionId = id;
   };
 }
