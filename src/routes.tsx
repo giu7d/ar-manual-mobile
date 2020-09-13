@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Home } from "./screens/Home";
 import { Login } from "./screens/Login";
 import { Analysis } from "./screens/Analysis";
+import { ReportFailure } from "./screens/ReportFailure";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ export const Routes = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Analysis" component={Analysis} />
+        <Stack.Screen name="ReportFailure" component={ReportFailure} />
       </Stack.Navigator>
     </NavigationContainer>
   );

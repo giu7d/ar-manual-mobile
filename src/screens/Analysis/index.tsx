@@ -22,7 +22,7 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   const { analysisStore } = useStores();
 
   useEffect(() => {
-    console.log(route.params.id);
+    console.log("> Testbench ID", route.params.id);
     analysisStore.fetch();
   }, []);
 
@@ -70,8 +70,12 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
                   }
                 }}
                 onAnalysisFinished={(status) => {
-                  analysisStore.setAnalysis(instruction, status);
-                  analysisStore.selectInstruction(instruction.nextStep);
+                  if (status === "fail") {
+                    navigation.navigate("ReportFailure", { instruction });
+                  } else {
+                    analysisStore.setAnalysis(instruction, status);
+                    analysisStore.selectInstruction(instruction.nextStep);
+                  }
                 }}
               />
             ))}

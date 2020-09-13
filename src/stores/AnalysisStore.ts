@@ -2,7 +2,7 @@ import { observable, action, computed } from "mobx";
 import { API } from "../services/mock";
 import { Instruction } from "../models/Instruction";
 import { CAO } from "../models/CAO";
-import { Analysis } from "../models/Analysis";
+import { Analysis, AnalysisFailure } from "../models/Analysis";
 
 export class AnalysisStore {
   @observable
@@ -50,7 +50,6 @@ export class AnalysisStore {
     { id, ...instruction }: Instruction,
     status: "success" | "fail" | "pending"
   ) => {
-    console.log(this.analysis.length);
     if (status !== "pending") {
       this.analysis.push(
         new Analysis({
@@ -66,6 +65,11 @@ export class AnalysisStore {
       );
       this.analysis.splice(existentAnalysisIndex, 1);
     }
+  };
+
+  @action
+  setAnalysisFailure = (instruction: Instruction, failure: AnalysisFailure) => {
+    console.log("> setAnalysisFailure:", instruction, failure);
   };
 
   @computed

@@ -1,7 +1,7 @@
 import { CAOItem } from "./CAOItem";
 import { Instruction } from "./Instruction";
 
-interface AnalysisFailure {
+export interface AnalysisFailure {
   id: string;
   description: string;
   src: string;
