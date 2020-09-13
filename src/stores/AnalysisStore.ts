@@ -1,7 +1,8 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { API } from "../services/mock";
 import { Instruction } from "../models/Instruction";
 import { CAO } from "../models/CAO";
+import { Analysis } from "../models/Analysis";
 
 export class AnalysisStore {
   @observable
@@ -26,7 +27,7 @@ export class AnalysisStore {
   cao?: CAO = undefined;
 
   @observable
-  analysis = [];
+  analysis: Analysis[] = [];
 
   constructor() {}
 
@@ -43,4 +44,32 @@ export class AnalysisStore {
   selectInstruction = (id: string) => {
     this.selectedInstructionId = id;
   };
+
+  @action
+  setAnalysis = (
+    { id, ...instruction }: Instruction,
+    status: "success" | "fail" | "pending"
+  ) => {
+    console.log(this.analysis.length);
+    if (status !== "pending") {
+      this.analysis.push(
+        new Analysis({
+          id: new Date().toISOString(),
+          status,
+          instruction: { id, ...instruction },
+          completeAt: new Date(),
+        })
+      );
+    } else {
+      const existentAnalysisIndex = this.analysis.findIndex(
+        ({ instruction }) => instruction.id === id
+      );
+      this.analysis.splice(existentAnalysisIndex, 1);
+    }
+  };
+
+  @computed
+  get isAnalysisFinished() {
+    return this.analysis.length === this.instructions.length;
+  }
 }

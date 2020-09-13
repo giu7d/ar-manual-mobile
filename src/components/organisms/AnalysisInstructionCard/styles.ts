@@ -4,7 +4,6 @@ import { rgba } from "polished";
 
 interface IWrapperProps {
   theme: ITheme;
-  selected: boolean;
 }
 
 interface IContentWrapperProps {
@@ -32,7 +31,6 @@ export const Wrapper = styled.TouchableOpacity<IWrapperProps>`
   overflow: hidden;
   background-color: ${({ theme }) => theme.colors.foreground};
   border-radius: ${({ theme }) => `${theme.roundness}px`};
-  opacity: ${({ selected }) => (selected ? 1 : 0.75)};
 `;
 
 export const ContentWrapper = styled.View<IContentWrapperProps>`

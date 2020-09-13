@@ -60,7 +60,7 @@ export const Title = styled.Text<ITitleProps>`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export const ActionsWrapper = styled.View<IActionsWrapperProps>`
+export const HeaderActionsWrapper = styled.View<IActionsWrapperProps>`
   display: flex;
   width: 100%;
   flex-direction: row;

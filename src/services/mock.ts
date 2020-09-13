@@ -67,11 +67,24 @@ export class API {
           id: "b",
           description: "description",
           src: "https://via.placeholder.com/250x250",
-          nextStep: "",
+          nextStep: "c",
           stepNumber: 1,
           warning: [
             {
               id: "b1",
+              description: "I am another warning",
+            },
+          ],
+        },
+        {
+          id: "c",
+          description: "description",
+          src: "https://via.placeholder.com/250x250",
+          nextStep: "",
+          stepNumber: 2,
+          warning: [
+            {
+              id: "c1",
               description: "I am another warning",
             },
           ],

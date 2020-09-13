@@ -60,7 +60,7 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
   const handleSelection = () => setSelected(true);
 
   return (
-    <Wrapper selected={selected} onPress={handleSelection}>
+    <Wrapper onPress={handleSelection}>
       <ContentWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>

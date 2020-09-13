@@ -83,7 +83,6 @@ export const Actions: React.FC<IActionsProps> = ({
       >
         Aprovar
       </Button>
-
       <IconButton
         onPress={() => handleStatusChange("fail")}
         style={{ backgroundColor: theme.colors.foreground }}

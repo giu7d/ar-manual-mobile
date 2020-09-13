@@ -1,21 +1,24 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useTheme } from "styled-components";
 
 import { AnalysisInformation } from "../../components/molecules/AnalysisInformation";
 import { AnalysisCanvas } from "../../components/molecules/AnalysisCanvas";
 import { AnalysisBar } from "../../components/organisms/AnalysisBar";
 import { AnalysisInstructionCard } from "../../components/organisms/AnalysisInstructionCard";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
-import { Wrapper } from "./styles";
+import { ActionsWrapper, Wrapper } from "./styles";
 import { useStores } from "../../hooks/useStores";
+import { Button } from "../../components/molecules/Button";
+import { ITheme } from "../../theme";
 
 export interface IAnalysisProps {}
 
 export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   const navigation = useNavigation();
   const route = useRoute() as { params: { id: string } };
-
+  const theme = useTheme() as ITheme;
   const { analysisStore } = useStores();
 
   useEffect(() => {
@@ -46,30 +49,54 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
           />
         </AnalysisCanvas>
         <AnalysisBar handleLogout={handleLogout}>
-          {analysisStore.instructions.map(
-            ({ id, description, stepNumber, warning, nextStep }) => (
+          <>
+            {analysisStore.instructions.map((instruction) => (
               <AnalysisInstructionCard
-                key={id}
-                title={`#${stepNumber}`}
-                description={description}
+                key={instruction.id}
+                title={`#${instruction.stepNumber}`}
+                description={instruction.description}
                 warning={[
-                  ...warning.map(({ description }) => ({
+                  ...instruction.warning.map(({ description }) => ({
                     title: "Atenção",
                     description,
                   })),
                 ]}
-                selected={analysisStore.selectedInstructionId === id}
+                selected={
+                  analysisStore.selectedInstructionId === instruction.id
+                }
                 setSelected={(state) => {
                   if (state) {
-                    analysisStore.selectInstruction(id);
+                    analysisStore.selectInstruction(instruction.id);
                   }
                 }}
-                onAnalysisFinished={() => {
-                  analysisStore.selectInstruction(nextStep);
+                onAnalysisFinished={(status) => {
+                  analysisStore.setAnalysis(instruction, status);
+                  analysisStore.selectInstruction(instruction.nextStep);
                 }}
               />
-            )
-          )}
+            ))}
+            <ActionsWrapper>
+              <Button
+                onPress={() => {}}
+                touchableProps={{
+                  disabled: !analysisStore.isAnalysisFinished,
+                  style: {
+                    alignSelf: "center",
+                    minWidth: "90%",
+                    backgroundColor: theme.colors.primary,
+                    opacity: !analysisStore.isAnalysisFinished ? 0.5 : 1,
+                  },
+                }}
+                textProps={{
+                  style: {
+                    color: theme.colors.foreground,
+                  },
+                }}
+              >
+                Finalizar
+              </Button>
+            </ActionsWrapper>
+          </>
         </AnalysisBar>
       </Wrapper>
     </GlobalWrapper>

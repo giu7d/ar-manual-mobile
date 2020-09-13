@@ -7,14 +7,14 @@ import { IconButton } from "../../atoms/IconButton";
 import {
   Wrapper,
   HeaderWrapper,
-  ActionsWrapper,
   ScrollWrapper,
   TitleWrapper,
+  HeaderActionsWrapper,
   Title,
 } from "./styles";
 
 export interface IAnalysisBarProps {
-  children?: Array<JSX.Element> | JSX.Element;
+  children: Array<JSX.Element> | JSX.Element;
   handleLogout?: VoidFunction;
 }
 
@@ -25,12 +25,12 @@ export const AnalysisBar: React.FC<IAnalysisBarProps> = ({
   return (
     <Wrapper>
       <HeaderWrapper>
-        <ActionsWrapper>
+        <HeaderActionsWrapper>
           <IconButton>
             <Icon name="bell" size={24} />
           </IconButton>
           <Avatar touchableProps={{ onPress: handleLogout }}>PH</Avatar>
-        </ActionsWrapper>
+        </HeaderActionsWrapper>
       </HeaderWrapper>
       <ScrollWrapper>
         <ScrollView>
