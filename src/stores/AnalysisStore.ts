@@ -48,17 +48,20 @@ export class AnalysisStore {
   @action
   setAnalysis = (
     { id, ...instruction }: Instruction,
-    status: "success" | "fail" | "pending"
+    status: "success" | "fail" | "pending",
+    failure: AnalysisFailure | undefined = undefined
   ) => {
     if (status !== "pending") {
-      this.analysis.push(
-        new Analysis({
-          id: new Date().toISOString(),
-          status,
-          instruction: { id, ...instruction },
-          completeAt: new Date(),
-        })
-      );
+      const analysis = new Analysis({
+        id: new Date().toISOString(),
+        status,
+        instruction: { id, ...instruction },
+        completeAt: new Date(),
+      });
+
+      analysis.failure = failure;
+
+      this.analysis.push(analysis);
     } else {
       const existentAnalysisIndex = this.analysis.findIndex(
         ({ instruction }) => instruction.id === id
@@ -68,8 +71,8 @@ export class AnalysisStore {
   };
 
   @action
-  setAnalysisFailure = (instruction: Instruction, failure: AnalysisFailure) => {
-    console.log("> setAnalysisFailure:", instruction, failure);
+  finishAnalysis = async () => {
+    console.log("> Analysis Finished");
   };
 
   @computed

@@ -6,6 +6,7 @@ import { Home } from "./screens/Home";
 import { Login } from "./screens/Login";
 import { Analysis } from "./screens/Analysis";
 import { ReportFailure } from "./screens/ReportFailure";
+import { ReportFailureCamera } from "./screens/ReportFailureCamera";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,10 @@ export const Routes = () => {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Analysis" component={Analysis} />
         <Stack.Screen name="ReportFailure" component={ReportFailure} />
+        <Stack.Screen
+          name="ReportFailureCamera"
+          component={ReportFailureCamera}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

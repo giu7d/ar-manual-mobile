@@ -34,7 +34,7 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
     }, []);
 
     const handleFinish = () => {
-      analysisStore.setAnalysisFailure(route.params.instruction, failure);
+      analysisStore.setAnalysis(route.params.instruction, "fail", failure);
       handleGoBack();
     };
 
@@ -42,74 +42,79 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
       navigation.goBack();
     };
 
+    const handleCamera = () => {
+      navigation.navigate("ReportFailureCamera");
+    };
+
     return (
-      <GlobalWrapper>
-        <Wrapper>
-          <HeaderAppBar initial="G" handleGoBack={handleGoBack} />
-          <ScrollView>
-            <FormWrapper>
-              <Title>Reportar Falha</Title>
-              <Subtitle>
-                Preencha os campos a baixo para reportar a falha.
-              </Subtitle>
-              <FormInput
-                label="Tipo da falha"
-                inputProps={{
-                  value: failure.src,
-                  onChange: ({ nativeEvent }) =>
-                    setFailure((state) => ({
-                      ...state,
-                      src: nativeEvent.text,
-                    })),
-                }}
-                required
-              />
-              <FormInput
-                label="Descrição da falha"
-                inputProps={{
-                  multiline: true,
-                  numberOfLines: 3,
-                  value: failure.description,
-                  onChange: ({ nativeEvent }) =>
-                    setFailure((state) => ({
-                      ...state,
-                      description: nativeEvent.text,
-                    })),
-                }}
-                required
-              />
-
-              <Button
-                touchableProps={{
-                  style: {
-                    backgroundColor: "none",
-                    minHeight: 64,
-                  },
-                }}
-                textProps={{
-                  style: {
-                    color: theme.colors.primary,
-                  },
-                }}
-              >
-                Adicionar Foto
-              </Button>
-
-              <Button
-                onPress={handleFinish}
-                touchableProps={{
-                  style: {
-                    minHeight: 64,
-                    backgroundColor: theme.colors.danger,
-                  },
-                }}
-              >
-                Reportar Falha
-              </Button>
-            </FormWrapper>
-          </ScrollView>
-        </Wrapper>
-      </GlobalWrapper>
+      <>
+        <HeaderAppBar initial="G" handleGoBack={handleGoBack} />
+        <GlobalWrapper>
+          <Wrapper>
+            <ScrollView>
+              <FormWrapper>
+                <Title>Reportar Falha</Title>
+                <Subtitle>
+                  Preencha os campos a baixo para reportar a falha.
+                </Subtitle>
+                <FormInput
+                  label="Tipo da falha"
+                  inputProps={{
+                    value: failure.src,
+                    onChange: ({ nativeEvent }) =>
+                      setFailure((state) => ({
+                        ...state,
+                        src: nativeEvent.text,
+                      })),
+                  }}
+                  required
+                />
+                <FormInput
+                  label="Descrição da falha"
+                  inputProps={{
+                    multiline: true,
+                    numberOfLines: 3,
+                    value: failure.description,
+                    onChange: ({ nativeEvent }) =>
+                      setFailure((state) => ({
+                        ...state,
+                        description: nativeEvent.text,
+                      })),
+                  }}
+                  required
+                />
+                <Button
+                  onPress={handleCamera}
+                  touchableProps={{
+                    style: {
+                      backgroundColor: "none",
+                      minHeight: 64,
+                    },
+                  }}
+                  textProps={{
+                    style: {
+                      color: theme.colors.primary,
+                    },
+                  }}
+                >
+                  Adicionar Foto
+                </Button>
+                <Button
+                  onPress={handleFinish}
+                  touchableProps={{
+                    style: {
+                      minHeight: 64,
+                      backgroundColor: theme.colors.danger,
+                    },
+                  }}
+                >
+                  Reportar Falha
+                </Button>
+              </FormWrapper>
+            </ScrollView>
+          </Wrapper>
+        </GlobalWrapper>
+      </>
     );
   }
 );

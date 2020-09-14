@@ -15,7 +15,7 @@ export const Wrapper = styled.View<IThemeProps>`
   flex-direction: column;
   flex: 1 1;
   width: 100%;
-  margin: 0 64px;
+  min-height: 100%;
 `;
 
 export const ActionsWrapper = styled.View<IActionsWrapperProps>`
@@ -23,7 +23,6 @@ export const ActionsWrapper = styled.View<IActionsWrapperProps>`
   width: 100%;
   padding: 14px;
   margin-top: 14px;
-  margin-bottom: 100px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -32,13 +31,11 @@ export const ActionsWrapper = styled.View<IActionsWrapperProps>`
 export const FormWrapper = styled.View<IActionsWrapperProps>`
   display: flex;
   flex-direction: column;
-  /* Size */
   padding: 24px;
   width: 50%;
   height: auto;
   margin: auto;
   align-items: center;
-  /* Theme */
   background-color: ${({ theme }) => theme.colors.foreground};
   border-radius: ${({ theme }) => `${theme.roundness}px`};
 `;

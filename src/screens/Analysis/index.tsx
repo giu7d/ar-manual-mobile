@@ -34,6 +34,11 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
     navigation.goBack();
   };
 
+  const handleFinished = async () => {
+    await analysisStore.finishAnalysis();
+    navigation.navigate("Home");
+  };
+
   return (
     <GlobalWrapper>
       <Wrapper>
@@ -81,7 +86,7 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
             ))}
             <ActionsWrapper>
               <Button
-                onPress={() => {}}
+                onPress={handleFinished}
                 touchableProps={{
                   disabled: !analysisStore.isAnalysisFinished,
                   style: {
