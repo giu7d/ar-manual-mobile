@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, KeyboardAvoidingView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -9,27 +9,37 @@ import { Wrapper, Title, Divider, Paragraph, HyperLink } from "./styles";
 import { useStores } from "../../hooks/useStores";
 import { observer } from "mobx-react";
 import { Warning } from "../../components/molecules/Warning";
+import { validate } from "./LoginFormValidation";
 
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = observer(() => {
   const navigation = useNavigation();
   const { userStore } = useStores();
+  const [error, setError] = useState<string>();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState<string>();
+  useEffect(() => {
+    handleValidation();
+  }, [form]);
 
-  const handleSubmit = () => {
-    const { email, password } = form;
+  const handleValidation = () => {
+    const validationError = validate(form);
 
-    if (email === "" || password === "") {
-      setError("Os campos são obrigatórios!");
+    if (validationError) {
+      setError(validationError[0]);
     } else {
       setError(undefined);
-      userStore.fetch(email, password);
+    }
+  };
+
+  const handleSubmit = () => {
+    handleValidation();
+    if (!error) {
+      userStore.fetch(form.email, form.password);
       navigation.navigate("Home");
     }
   };
@@ -37,16 +47,16 @@ export const Login: React.FC<ILoginProps> = observer(() => {
   return (
     <GlobalWrapper>
       <KeyboardAvoidingView style={{ width: "100%" }}>
-        <Wrapper>
-          <ScrollView
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            style={{
-              width: "100%",
-            }}
-          >
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          style={{
+            width: "100%",
+          }}
+        >
+          <Wrapper>
             <Title>Log In</Title>
             {error && <Warning title="Atenção!" description={error} />}
             <FormInput
@@ -85,8 +95,8 @@ export const Login: React.FC<ILoginProps> = observer(() => {
             <Paragraph>
               Não possui acesso? <HyperLink>Clique aqui</HyperLink>
             </Paragraph>
-          </ScrollView>
-        </Wrapper>
+          </Wrapper>
+        </ScrollView>
       </KeyboardAvoidingView>
     </GlobalWrapper>
   );
