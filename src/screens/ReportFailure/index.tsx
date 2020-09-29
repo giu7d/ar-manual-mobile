@@ -4,7 +4,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { Instruction } from "../../models/Instruction";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
-import { Title, Wrapper, Subtitle, FormWrapper } from "./styles";
+import {
+  Title,
+  Wrapper,
+  Subtitle,
+  FormWrapper,
+  ThumbnailWrapper,
+} from "./styles";
 import { HeaderAppBar } from "../../components/organisms/HeaderAppBar";
 import { FormInput } from "../../components/molecules/FormInput";
 import { Button } from "../../components/molecules/Button";
@@ -13,6 +19,7 @@ import { ITheme } from "../../theme";
 import { useTheme } from "styled-components";
 import { useStores } from "../../hooks/useStores";
 import { AnalysisFailure } from "../../models/Analysis";
+import { Thumbnail } from "../../components/molecules/Thumbnail";
 
 export interface IReportFailureProps {}
 
@@ -24,10 +31,10 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
       description: "",
       src: "",
     } as AnalysisFailure);
+    const { analysisStore, failureStore } = useStores();
     const navigation = useNavigation();
     const route = useRoute() as { params: { instruction: Instruction } };
     const theme = useTheme() as ITheme;
-    const { analysisStore } = useStores();
 
     useEffect(() => {
       console.log("> Reported Instruction ID", route.params.instruction.id);
@@ -35,6 +42,7 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
 
     const handleFinish = () => {
       analysisStore.setAnalysis(route.params.instruction, "fail", failure);
+      failureStore.clear();
       handleGoBack();
     };
 
@@ -83,11 +91,20 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                   }}
                   required
                 />
+                <ThumbnailWrapper>
+                  {failureStore.failure.photos.map(({ uri }, i) => (
+                    <Thumbnail
+                      key={i}
+                      uri={uri}
+                      onPress={() => failureStore.removePhoto(i)}
+                    />
+                  ))}
+                </ThumbnailWrapper>
                 <Button
                   onPress={handleCamera}
                   touchableProps={{
                     style: {
-                      backgroundColor: "none",
+                      backgroundColor: theme.colors.foreground,
                       minHeight: 64,
                     },
                   }}

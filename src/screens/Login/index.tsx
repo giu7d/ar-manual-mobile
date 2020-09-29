@@ -11,6 +11,8 @@ import { observer } from "mobx-react";
 import { Warning } from "../../components/molecules/Warning";
 import { validate } from "./LoginFormValidation";
 
+const { REACT_NATIVE_USERNAME, REACT_NATIVE_PASSWORD } = process.env;
+
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = observer(() => {
@@ -18,8 +20,8 @@ export const Login: React.FC<ILoginProps> = observer(() => {
   const { userStore } = useStores();
   const [error, setError] = useState<string>();
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: REACT_NATIVE_USERNAME || "",
+    password: REACT_NATIVE_PASSWORD || "",
   });
 
   useEffect(() => {

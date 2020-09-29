@@ -54,3 +54,9 @@ export const Subtitle = styled.Text<IThemeProps>`
   font-size: 18px;
   color: ${({ theme }) => rgba(theme.colors.text, 0.5)};
 `;
+
+export const ThumbnailWrapper = styled.View<IThemeProps>`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+`;
