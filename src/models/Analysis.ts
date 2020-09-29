@@ -4,7 +4,7 @@ import { Instruction } from "./Instruction";
 export interface AnalysisFailure {
   id: string;
   description: string;
-  src: string;
+  src: string[];
   createdAt: Date;
   caoItem: CAOItem;
 }

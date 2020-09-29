@@ -11,7 +11,11 @@ export const validation = {
   },
   password: {
     presence: {
-      message: "^Atenção informe uma senha",
+      message: "^Atenção informe uma senha.",
+    },
+    length: {
+      minimum: 4,
+      message: "^Atenção a senha deve conter ao menos 4 caracteres!",
     },
   },
 };

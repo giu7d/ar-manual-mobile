@@ -1,8 +1,10 @@
 import { CameraCapturedPicture } from "expo-camera";
 import { action, observable } from "mobx";
+import { CAOItem } from "../models/CAOItem";
 
 interface Failure {
-  type: string;
+  type?: string;
+  createdAt?: Date;
   description: string;
   photos: CameraCapturedPicture[];
 }
@@ -10,7 +12,8 @@ interface Failure {
 export class FailureStore {
   @observable
   failure: Failure = {
-    type: "",
+    type: undefined,
+    createdAt: undefined,
     description: "",
     photos: [],
   };
@@ -18,9 +21,10 @@ export class FailureStore {
   constructor() {}
 
   @action
-  saveForm = (type: string, description: string) => {
+  save = (type: string, description: string) => {
     this.failure.type = type;
     this.failure.description = description;
+    this.failure.createdAt = new Date();
   };
 
   @action
@@ -36,7 +40,8 @@ export class FailureStore {
   @action
   clear = () => {
     this.failure = {
-      type: "",
+      type: undefined,
+      createdAt: undefined,
       description: "",
       photos: [],
     };

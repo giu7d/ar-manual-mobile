@@ -18,20 +18,17 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ITheme } from "../../theme";
 import { useTheme } from "styled-components";
 import { useStores } from "../../hooks/useStores";
-import { AnalysisFailure } from "../../models/Analysis";
 import { Thumbnail } from "../../components/molecules/Thumbnail";
 
 export interface IReportFailureProps {}
 
 export const ReportFailure: React.FC<IReportFailureProps> = observer(
   (props) => {
-    const [failure, setFailure] = useState({
-      id: "",
-      createdAt: new Date(),
+    const [form, setForm] = useState({
+      type: "",
       description: "",
-      src: "",
-    } as AnalysisFailure);
-    const { analysisStore, failureStore } = useStores();
+    });
+    const { failureStore } = useStores();
     const navigation = useNavigation();
     const route = useRoute() as { params: { instruction: Instruction } };
     const theme = useTheme() as ITheme;
@@ -41,7 +38,7 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
     }, []);
 
     const handleFinish = () => {
-      analysisStore.setAnalysis(route.params.instruction, "fail", failure);
+      failureStore.save(form.type, form.description);
       failureStore.clear();
       handleGoBack();
     };
@@ -68,11 +65,11 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                 <FormInput
                   label="Tipo da falha"
                   inputProps={{
-                    value: failure.src,
+                    value: form.type,
                     onChange: ({ nativeEvent }) =>
-                      setFailure((state) => ({
+                      setForm((state) => ({
                         ...state,
-                        src: nativeEvent.text,
+                        type: nativeEvent.text,
                       })),
                   }}
                   required
