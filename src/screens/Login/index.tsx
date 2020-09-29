@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, KeyboardAvoidingView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -24,6 +24,10 @@ export const Login: React.FC<ILoginProps> = observer(() => {
     password: REACT_NATIVE_PASSWORD || "",
   });
 
+  useEffect(() => {
+    handleValidation();
+  }, [form]);
+
   const handleValidation = () => {
     const validationError = validate(form);
 
@@ -36,7 +40,6 @@ export const Login: React.FC<ILoginProps> = observer(() => {
 
   const handleInput = (fieldName: string, value: string) => {
     setForm((state) => ({ ...state, [fieldName]: value }));
-    handleValidation();
   };
 
   const handleSubmit = () => {
