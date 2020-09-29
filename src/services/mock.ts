@@ -1,3 +1,6 @@
+import { CAO } from "../models/CAO";
+import { CAOItem } from "../models/CAOItem";
+
 export class API {
   static authenticate(error: boolean = false) {
     if (error) throw new Error("Error!");
@@ -48,7 +51,40 @@ export class API {
       id: "1",
       testbenchSerialNumber: "C24105974",
       componentSerialNumber: "1697143X",
-      cao: {},
+      cao: new CAO({
+        description: "hello world",
+        items: [
+          new CAOItem({
+            id: "0",
+            conformity: "a",
+            description: "cao 1",
+            frequency: "hz",
+            method: "idk",
+            reforce: "tre",
+            serie: "abcd",
+          }),
+
+          new CAOItem({
+            id: "1",
+            conformity: "b",
+            description: "cao 2",
+            frequency: "hz",
+            method: "idk",
+            reforce: "tre",
+            serie: "abcd",
+          }),
+
+          new CAOItem({
+            id: "2",
+            conformity: "c",
+            description: "cao 3",
+            frequency: "hz",
+            method: "idk",
+            reforce: "tre",
+            serie: "abcd",
+          }),
+        ],
+      }),
       instructions: [
         {
           id: "a",

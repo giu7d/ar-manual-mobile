@@ -19,6 +19,7 @@ import { ITheme } from "../../theme";
 import { useTheme } from "styled-components";
 import { useStores } from "../../hooks/useStores";
 import { Thumbnail } from "../../components/molecules/Thumbnail";
+import { DropdownInput } from "../../components/molecules/DropdownInput";
 
 export interface IReportFailureProps {}
 
@@ -28,7 +29,7 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
       type: "",
       description: "",
     });
-    const { failureStore } = useStores();
+    const { analysisStore, failureStore } = useStores();
     const navigation = useNavigation();
     const route = useRoute() as { params: { instruction: Instruction } };
     const theme = useTheme() as ITheme;
@@ -62,26 +63,28 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                 <Subtitle>
                   Preencha os campos a baixo para reportar a falha.
                 </Subtitle>
-                <FormInput
-                  label="Tipo da falha"
-                  inputProps={{
-                    value: form.type,
-                    onChange: ({ nativeEvent }) =>
+                {analysisStore.cao && (
+                  <DropdownInput
+                    label="Tipo da falha"
+                    required
+                    items={analysisStore.cao?.items}
+                    defaultValue={form.type}
+                    onChange={(item) =>
                       setForm((state) => ({
                         ...state,
-                        type: nativeEvent.text,
-                      })),
-                  }}
-                  required
-                />
+                        type: item.value,
+                      }))
+                    }
+                  />
+                )}
                 <FormInput
                   label="Descrição da falha"
                   inputProps={{
                     multiline: true,
                     numberOfLines: 3,
-                    value: failure.description,
+                    value: form.description,
                     onChange: ({ nativeEvent }) =>
-                      setFailure((state) => ({
+                      setForm((state) => ({
                         ...state,
                         description: nativeEvent.text,
                       })),

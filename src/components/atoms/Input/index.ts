@@ -11,7 +11,7 @@ export const Input = styled.TextInput<IInputProps>`
   min-width: 100%;
   font-weight: 600;
   font-size: 18px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   color: ${({ theme }) => theme.colors.text};
   border-radius: ${({ theme }) => `${theme.roundness}px`};
 `;
