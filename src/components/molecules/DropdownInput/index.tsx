@@ -10,6 +10,8 @@ interface IDropdownInputProps {
   label: string;
   onChange?: (item: any) => void;
   required?: boolean;
+  placeholder?: string;
+  searchablePlaceholder?: string;
 }
 
 export const DropdownInput: React.FC<IDropdownInputProps> = ({
@@ -17,6 +19,8 @@ export const DropdownInput: React.FC<IDropdownInputProps> = ({
   defaultValue,
   label,
   required = false,
+  placeholder = "",
+  searchablePlaceholder = "",
   onChange = () => {},
 }) => {
   return (
@@ -26,6 +30,8 @@ export const DropdownInput: React.FC<IDropdownInputProps> = ({
         {required && <LabelRequired>*</LabelRequired>}
       </Label>
       <DropDownPicker
+        searchablePlaceholder={searchablePlaceholder}
+        placeholder={placeholder}
         items={items.map((dao) => ({
           label: dao.description,
           value: dao.id,

@@ -65,6 +65,8 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                 </Subtitle>
                 {analysisStore.cao && (
                   <DropdownInput
+                    placeholder="Selecione a falha encontrada"
+                    searchablePlaceholder="Digite para buscar"
                     label="Tipo da falha"
                     required
                     items={analysisStore.cao?.items}
