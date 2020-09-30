@@ -67,7 +67,13 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
       </ContentWrapper>
       {selected &&
         warning &&
-        warning.map((value, index) => <Warning key={index} {...value} />)}
+        warning.map((value, index) => (
+          <Warning
+            key={index}
+            {...value}
+            wrapperProps={{ style: { minWidth: "80%" } }}
+          />
+        ))}
       {(analyzed || selected) && (
         <ActionsWrapper>
           <Actions status={status} handleStatusChange={handleStatusChange} />
