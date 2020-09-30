@@ -32,12 +32,20 @@ export class AnalysisStore {
   constructor() {}
 
   @action
-  fetch = () => {
-    const data = API.testbenchesById();
-    Object.assign(this, data);
-    this.selectedInstructionId = data.instructions.find(
-      ({ stepNumber }) => stepNumber === 0
-    )?.id;
+  fetch = async (id: string) => {
+    try {
+      console.log(`> Fetch: ${id}`);
+      const data = API.testbenchesById();
+
+      Object.assign(this, data);
+
+      this.selectedInstructionId = data.instructions.find(
+        ({ stepNumber }) => stepNumber === 0
+      )?.id;
+    } catch (error) {
+      console.log(error);
+      this.error = error.message;
+    }
   };
 
   @action
@@ -78,5 +86,12 @@ export class AnalysisStore {
   @computed
   get isAnalysisFinished() {
     return this.analysis.length === this.instructions.length;
+  }
+
+  @computed
+  get selectedInstruction() {
+    return this.instructions.find(
+      ({ id }) => this.selectedInstructionId === id
+    );
   }
 }

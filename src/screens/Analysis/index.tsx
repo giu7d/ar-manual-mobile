@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Image } from "react-native";
 import { observer } from "mobx-react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useTheme } from "styled-components";
@@ -22,8 +23,7 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   const { analysisStore } = useStores();
 
   useEffect(() => {
-    console.log("> Testbench ID", route.params.id);
-    analysisStore.fetch();
+    analysisStore.fetch(route.params.id);
   }, []);
 
   const handleLogout = () => {
@@ -43,15 +43,32 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
     <GlobalWrapper>
       <Wrapper>
         <AnalysisCanvas handleGoBack={handleGoBack}>
-          <AnalysisInformation
-            items={[
-              {
-                key: "Galga de controlo",
-                value: analysisStore.testbenchSerialNumber,
-              },
-              { key: "Componente", value: analysisStore.componentSerialNumber },
-            ]}
-          />
+          <>
+            {analysisStore.selectedInstruction && (
+              <Image
+                source={{ uri: analysisStore.selectedInstruction.src }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                resizeMode="contain"
+              />
+            )}
+            <AnalysisInformation
+              items={[
+                {
+                  key: "Galga de controlo",
+                  value: analysisStore.testbenchSerialNumber,
+                },
+                {
+                  key: "Componente",
+                  value: analysisStore.componentSerialNumber,
+                },
+              ]}
+            />
+          </>
         </AnalysisCanvas>
         <AnalysisBar handleLogout={handleLogout}>
           <>

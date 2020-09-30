@@ -12,7 +12,7 @@ export class TestbenchsStore {
   constructor() {}
 
   @action
-  fetch = () => {
+  fetch = async () => {
     try {
       this.testbenchs = API.testbenches();
     } catch (error) {

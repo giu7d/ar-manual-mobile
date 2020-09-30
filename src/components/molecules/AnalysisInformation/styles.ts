@@ -27,6 +27,7 @@ export const Wrapper = styled.View<IWrapperProps>`
   flex-direction: row;
   left: 0;
   bottom: 0;
+  z-index: 99;
   margin: 24px;
   padding: 24px;
   background-color: #000000;

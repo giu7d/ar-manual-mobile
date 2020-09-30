@@ -89,7 +89,7 @@ export class API {
         {
           id: "a",
           description: "description",
-          src: "https://via.placeholder.com/250x250",
+          src: "https://via.placeholder.com/250x150",
           nextStep: "b",
           stepNumber: 0,
           warning: [
@@ -102,7 +102,7 @@ export class API {
         {
           id: "b",
           description: "description",
-          src: "https://via.placeholder.com/250x250",
+          src: "https://via.placeholder.com/500x500",
           nextStep: "c",
           stepNumber: 1,
           warning: [
@@ -115,7 +115,7 @@ export class API {
         {
           id: "c",
           description: "description",
-          src: "https://via.placeholder.com/250x250",
+          src: "https://via.placeholder.com/500x250",
           nextStep: "",
           stepNumber: 2,
           warning: [

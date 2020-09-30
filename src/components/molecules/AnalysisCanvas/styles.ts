@@ -33,6 +33,7 @@ export const HeaderWrapper = styled.View<IHeaderWrapperProps>`
   top: 0px;
   left: 0px;
   padding: 24px;
+  z-index: 99;
   width: 100%;
   justify-content: space-between;
 `;
