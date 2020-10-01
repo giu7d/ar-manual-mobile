@@ -10,6 +10,7 @@ export const Wrapper = styled.ScrollView<IThemeProps>`
   flex-direction: column;
   flex: 1 1;
   width: 100%;
+  padding: 0 64px;
   margin: 0 64px;
 `;
 
@@ -34,10 +35,4 @@ export const Content = styled.View<IThemeProps>`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
-`;
-
-export const Col = styled.View<IThemeProps>`
-  flex: 45%;
-  max-width: 45%;
-  padding: 0 4px;
 `;

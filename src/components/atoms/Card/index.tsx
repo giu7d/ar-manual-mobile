@@ -8,9 +8,10 @@ interface ICardProps {
 
 export const Card = styled.View<ICardProps>`
   margin: 14px;
+  max-width: 500px;
+  height: 300px;
   display: flex;
   flex-direction: column;
-  flex: 1;
   overflow: hidden;
   background-color: ${({ theme }) => theme.colors.foreground};
   border-radius: ${({ theme }) => `${theme.roundness}px`};

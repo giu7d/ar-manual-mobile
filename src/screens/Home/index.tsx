@@ -37,32 +37,15 @@ export const Home: React.FC<Props> = observer((props) => {
           <Title>Todos os Manuais</Title>
         </Header>
         <Content>
-          <Col>
-            {testbenchsStore.testbenchs
-              .filter((testbench, index) => index % 2 === 0)
-              .map((testbench) => (
-                <WorkbenchCard
-                  key={testbench.id}
-                  componentSeries={testbench.componentSerialNumber}
-                  workbenchSeries={testbench.testbenchSerialNumber}
-                  thumbnailSrc={testbench.thumbnailSrc}
-                  handleAnalysis={() => handleAnalysis(testbench.id)}
-                />
-              ))}
-          </Col>
-          <Col>
-            {testbenchsStore.testbenchs
-              .filter((testbench, index) => index % 2 !== 0)
-              .map((testbench) => (
-                <WorkbenchCard
-                  key={testbench.id}
-                  componentSeries={testbench.componentSerialNumber}
-                  workbenchSeries={testbench.testbenchSerialNumber}
-                  thumbnailSrc={testbench.thumbnailSrc}
-                  handleAnalysis={() => handleAnalysis(testbench.id)}
-                />
-              ))}
-          </Col>
+          {testbenchsStore.testbenchs.map((testbench) => (
+            <WorkbenchCard
+              key={testbench.id}
+              componentSeries={testbench.componentSerialNumber}
+              workbenchSeries={testbench.testbenchSerialNumber}
+              thumbnailSrc={testbench.thumbnailSrc}
+              handleAnalysis={() => handleAnalysis(testbench.id)}
+            />
+          ))}
         </Content>
       </Wrapper>
     </GlobalWrapper>
