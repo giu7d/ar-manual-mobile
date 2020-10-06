@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import {
   Wrapper,
@@ -16,9 +16,8 @@ export interface IAnalysisInstructionCardProps {
   warning?: Array<IWarningProps>;
   selected?: boolean;
   setSelected?: (state: boolean) => void;
-  onAnalysisFinished?: (status: "pending" | "success" | "fail") => void;
-  initialAnalyzed?: boolean;
-  initialStatus?: "pending" | "success" | "fail";
+  status?: "pending" | "success" | "fail";
+  onAnalysisDone?: (status: "pending" | "success" | "fail") => void;
 }
 
 export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = ({
@@ -27,40 +26,15 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
   warning = [],
   selected = false,
   setSelected = () => {},
-  onAnalysisFinished = () => {},
-  initialAnalyzed = false,
-  initialStatus = "pending",
+  status = "pending",
+  onAnalysisDone = () => {},
 }) => {
-  const [status, setStatus] = useState(initialStatus);
-  const [analyzed, setAnalyzed] = useState(initialAnalyzed);
-
-  useEffect(() => {
-    if (status !== initialStatus) {
-      setStatus(initialStatus);
-    }
-
-    if (analyzed !== initialAnalyzed) {
-      setAnalyzed(initialAnalyzed);
-    }
-  }, [initialStatus, initialAnalyzed]);
-
-  useEffect(() => {
-    if (status !== "pending") {
-      setAnalyzed(true);
-    } else {
-      setAnalyzed(false);
-    }
-  }, [status]);
-
-  const handleStatusChange = (newStatus: "pending" | "success" | "fail") => {
-    setStatus(newStatus);
-    onAnalysisFinished(newStatus);
+  const handleAnalysis = (newStatus: "pending" | "success" | "fail") => {
+    onAnalysisDone(newStatus);
   };
 
-  const handleSelection = () => setSelected(true);
-
   return (
-    <Wrapper onPress={handleSelection}>
+    <Wrapper onPress={() => setSelected(true)}>
       <ContentWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>
@@ -74,9 +48,9 @@ export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = 
             wrapperProps={{ style: { minWidth: "80%" } }}
           />
         ))}
-      {(analyzed || selected) && (
+      {selected && (
         <ActionsWrapper>
-          <Actions status={status} handleStatusChange={handleStatusChange} />
+          <Actions status={status} handleStatusChange={handleAnalysis} />
         </ActionsWrapper>
       )}
     </Wrapper>

@@ -91,7 +91,13 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
                     analysisStore.selectInstruction(instruction.id);
                   }
                 }}
-                onAnalysisFinished={(status) => {
+                status={
+                  analysisStore.analysis.find(
+                    ({ instruction }) =>
+                      instruction.id === analysisStore.selectedInstructionId
+                  )?.status
+                }
+                onAnalysisDone={(status) => {
                   if (status === "fail") {
                     navigation.navigate("ReportFailure", { instruction });
                   } else {

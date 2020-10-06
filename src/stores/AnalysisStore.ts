@@ -29,6 +29,12 @@ export class AnalysisStore {
   @observable
   analysis: Analysis[] = [];
 
+  @observable
+  startedAt: Date = new Date();
+
+  @observable
+  finishedAt: Date = new Date();
+
   constructor() {}
 
   @action
@@ -42,6 +48,7 @@ export class AnalysisStore {
       this.selectedInstructionId = data.instructions.find(
         ({ stepNumber }) => stepNumber === 0
       )?.id;
+      this.startedAt = new Date();
     } catch (error) {
       console.log(error);
       this.error = error.message;
@@ -80,7 +87,36 @@ export class AnalysisStore {
 
   @action
   finishAnalysis = async () => {
-    console.log("> Analysis Finished", this.analysis);
+    this.finishedAt = new Date();
+    const timeDiferenceDataNumber =
+      this.finishedAt?.getTime() - this.startedAt?.getTime();
+
+    const timeDiference = new Date(timeDiferenceDataNumber).toLocaleTimeString(
+      "en-GB",
+      {
+        timeZone: "UTC",
+      }
+    );
+
+    console.log(`
+> REPORT
+  general:
+    startedAt: ${this.startedAt?.toLocaleString("en-GB", {
+      timeZone: "UTC",
+    })}
+    finishedAt: ${this.finishedAt?.toLocaleString("en-GB", {
+      timeZone: "UTC",
+    })}
+    timeDiference: ${timeDiference}
+  instructions: 
+    qtd: ${this.instructions.length}
+  analysis:
+    qtd: ${this.analysis.length}
+    successful: ${
+      this.analysis.filter(({ status }) => status === "success").length
+    }
+    fail: ${this.analysis.filter(({ status }) => status === "fail").length}
+    `);
     this.clear();
   };
 
@@ -94,6 +130,7 @@ export class AnalysisStore {
     this.error = undefined;
     this.cao = undefined;
     this.analysis = [];
+    this.startedAt = new Date();
   };
 
   @computed
