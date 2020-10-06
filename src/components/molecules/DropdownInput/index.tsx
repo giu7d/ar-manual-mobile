@@ -8,10 +8,10 @@ interface IDropdownInputProps {
   items: CAOItem[];
   defaultValue: string;
   label: string;
-  onChange?: (item: any) => void;
   required?: boolean;
   placeholder?: string;
   searchablePlaceholder?: string;
+  onChange?: (item: Pick<CAOItem, "id" | "description">) => void;
 }
 
 export const DropdownInput: React.FC<IDropdownInputProps> = ({
@@ -37,7 +37,9 @@ export const DropdownInput: React.FC<IDropdownInputProps> = ({
           value: dao.id,
         }))}
         defaultValue={defaultValue}
-        onChangeItem={onChange}
+        onChangeItem={(item) =>
+          onChange({ id: item.value, description: item.label })
+        }
         searchable={true}
         containerStyle={{ width: "100%", height: 64, borderRadius: 8 }}
         style={{ backgroundColor: "#FFF", borderColor: "#CCC" }}

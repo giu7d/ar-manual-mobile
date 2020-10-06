@@ -20,28 +20,61 @@ import { useTheme } from "styled-components";
 import { useStores } from "../../hooks/useStores";
 import { Thumbnail } from "../../components/molecules/Thumbnail";
 import { DropdownInput } from "../../components/molecules/DropdownInput";
+import { CAOItem } from "../../models/CAOItem";
 
-export interface IReportFailureProps {}
+import { validate } from "./ReportFailureFormValidation";
+
+export interface IReportFailureProps {
+  defaultCAO?: CAOItem;
+}
 
 export const ReportFailure: React.FC<IReportFailureProps> = observer(
-  (props) => {
-    const [form, setForm] = useState({
-      type: "",
-      description: "",
-    });
+  ({ defaultCAO = { description: "" } }) => {
     const { analysisStore, failureStore } = useStores();
     const navigation = useNavigation();
     const route = useRoute() as { params: { instruction: Instruction } };
     const theme = useTheme() as ITheme;
 
-    useEffect(() => {
-      console.log("> Reported Instruction ID", route.params.instruction.id);
-    }, []);
+    const [error, setError] = useState<string>();
+    const [form, setForm] = useState({
+      cao: { description: "", id: "" },
+      description: "",
+    });
 
-    const handleFinish = () => {
-      failureStore.save(form.type, form.description);
-      failureStore.clear();
-      handleGoBack();
+    useEffect(() => {
+      handleValidation();
+    }, [form, failureStore.photosURI]);
+
+    const handleValidation = async () => {
+      const validationError = await validate({
+        caoId: form.cao.description,
+        description: form.description,
+        photos: failureStore.photosURI,
+      });
+
+      if (validationError) {
+        setError(validationError[0]);
+        return false;
+      }
+
+      setError(undefined);
+      return true;
+    };
+
+    const handleFinish = async () => {
+      if (await handleValidation()) {
+        const { instruction } = route.params;
+        analysisStore.setAnalysis(instruction, "fail", {
+          id: new Date().toISOString(),
+          caoItemId: form.cao.id,
+          description: form.description,
+          src: failureStore.photosURI,
+          createdAt: new Date(),
+        });
+        failureStore.clear();
+        analysisStore.selectInstruction(instruction.nextStep);
+        handleGoBack();
+      }
     };
 
     const handleGoBack = () => {
@@ -70,11 +103,11 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                     label="Tipo da falha"
                     required
                     items={analysisStore.cao?.items}
-                    defaultValue={form.type}
+                    defaultValue={defaultCAO.description}
                     onChange={(item) =>
                       setForm((state) => ({
                         ...state,
-                        type: item.value,
+                        cao: item,
                       }))
                     }
                   />
@@ -91,7 +124,6 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                         description: nativeEvent.text,
                       })),
                   }}
-                  required
                 />
                 <ThumbnailWrapper>
                   {failureStore.failure.photos.map(({ uri }, i) => (
@@ -123,7 +155,9 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                   touchableProps={{
                     style: {
                       minHeight: 64,
-                      backgroundColor: theme.colors.danger,
+                      backgroundColor: !error
+                        ? theme.colors.danger
+                        : theme.colors.background,
                     },
                   }}
                 >

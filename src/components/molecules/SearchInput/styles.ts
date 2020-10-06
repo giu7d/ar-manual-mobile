@@ -13,6 +13,7 @@ export const SearchWrapper = styled.View<ISearchWrapperProps>`
   flex-direction: row;
   padding: 0px 0px 0px 24px;
   border-radius: 14px;
+  border: none;
   background-color: ${({ theme }) => theme.colors.foreground};
 `;
 

@@ -49,14 +49,16 @@ export const HeaderWrapper = styled.View<IHeaderWrapperProps>`
 export const TitleWrapper = styled.Text<ITitleWrapperProps>`
   display: flex;
   flex-direction: row;
+  align-content: space-between;
   padding: 0 14px;
   width: 100%;
 `;
 
 export const Title = styled.Text<ITitleProps>`
+  padding: 0 24px;
   font-size: 24px;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: capitalize;
   color: ${({ theme }) => theme.colors.text};
 `;
 

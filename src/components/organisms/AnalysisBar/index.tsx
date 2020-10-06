@@ -35,8 +35,9 @@ export const AnalysisBar: React.FC<IAnalysisBarProps> = ({
       <ScrollWrapper>
         <ScrollView>
           <TitleWrapper>
-            <Icon name="layers" size={24} />
-            <Title>Instruções</Title>
+            <Title>
+              <Icon name="layers" size={24} /> Instruções
+            </Title>
           </TitleWrapper>
           {children}
         </ScrollView>

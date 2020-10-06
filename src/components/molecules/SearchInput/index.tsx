@@ -13,20 +13,13 @@ export const SearchInput: React.FC<ISearchInputProps> = (props) => {
   return (
     <SearchWrapper
       style={{
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 1.22,
-
-        elevation: 1,
+        elevation: 2,
       }}
     >
       <SearchIcon name="search" size={24} />
       <Input
         style={{
+          height: 54,
           minWidth: "50%",
           backgroundColor: theme.colors.foreground,
           borderColor: theme.colors.foreground,

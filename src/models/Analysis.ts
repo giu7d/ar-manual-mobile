@@ -1,4 +1,3 @@
-import { CAOItem } from "./CAOItem";
 import { Instruction } from "./Instruction";
 
 export interface AnalysisFailure {
@@ -6,7 +5,7 @@ export interface AnalysisFailure {
   description: string;
   src: string[];
   createdAt: Date;
-  caoItem: CAOItem;
+  caoItemId: string;
 }
 
 export class Analysis {

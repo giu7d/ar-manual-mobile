@@ -80,7 +80,20 @@ export class AnalysisStore {
 
   @action
   finishAnalysis = async () => {
-    console.log("> Analysis Finished");
+    console.log("> Analysis Finished", this.analysis);
+    this.clear();
+  };
+
+  @action
+  clear = async () => {
+    this.id = "";
+    this.testbenchSerialNumber = "";
+    this.componentSerialNumber = "";
+    this.instructions = [];
+    this.selectedInstructionId = undefined;
+    this.error = undefined;
+    this.cao = undefined;
+    this.analysis = [];
   };
 
   @computed
