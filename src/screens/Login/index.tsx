@@ -10,8 +10,9 @@ import { useStores } from "../../hooks/useStores";
 import { observer } from "mobx-react";
 import { Warning } from "../../components/molecules/Warning";
 import { validate } from "./LoginFormValidation";
+import Constants from "expo-constants";
 
-const { REACT_NATIVE_USERNAME, REACT_NATIVE_PASSWORD } = process.env;
+const { username, password } = Constants.manifest.extra;
 
 interface ILoginProps {}
 
@@ -20,8 +21,8 @@ export const Login: React.FC<ILoginProps> = observer(() => {
   const { userStore } = useStores();
   const [error, setError] = useState<string>();
   const [form, setForm] = useState({
-    email: REACT_NATIVE_USERNAME || "",
-    password: REACT_NATIVE_PASSWORD || "",
+    email: username || "",
+    password: password || "",
   });
 
   useEffect(() => {
