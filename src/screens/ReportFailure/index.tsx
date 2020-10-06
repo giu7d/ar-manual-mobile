@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useTheme } from "styled-components";
 
 import { Instruction } from "../../models/Instruction";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
@@ -16,13 +17,12 @@ import { FormInput } from "../../components/molecules/FormInput";
 import { Button } from "../../components/molecules/Button";
 import { ScrollView } from "react-native-gesture-handler";
 import { ITheme } from "../../theme";
-import { useTheme } from "styled-components";
 import { useStores } from "../../hooks/useStores";
 import { Thumbnail } from "../../components/molecules/Thumbnail";
 import { DropdownInput } from "../../components/molecules/DropdownInput";
 import { CAOItem } from "../../models/CAOItem";
-
 import { validate } from "./ReportFailureFormValidation";
+import { Warning } from "../../components/molecules/Warning";
 
 export interface IReportFailureProps {
   defaultCAO?: CAOItem;
@@ -96,6 +96,7 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
                 <Subtitle>
                   Preencha os campos a baixo para reportar a falha.
                 </Subtitle>
+                {error && <Warning title="Atenção!" description={error} />}
                 {analysisStore.cao && (
                   <DropdownInput
                     placeholder="Selecione a falha encontrada"

@@ -5,6 +5,10 @@ export const validation = {
     presence: {
       message: "^Por favor, informe a falha identificada!",
     },
+    length: {
+      minimum: 1,
+      message: "^Por favor, informe a falha identificada!",
+    },
   },
   description: {
     length: {
