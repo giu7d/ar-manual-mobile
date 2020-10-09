@@ -56,8 +56,8 @@ export const TitleWrapper = styled.Text<ITitleWrapperProps>`
 
 export const Title = styled.Text<ITitleProps>`
   padding: 0 24px;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: bold;
   text-transform: capitalize;
   color: ${({ theme }) => theme.colors.text};
 `;

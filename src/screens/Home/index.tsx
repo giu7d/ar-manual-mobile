@@ -5,7 +5,7 @@ import { Feather as Icon } from "@expo/vector-icons";
 
 import { AppBar } from "../../components/organisms/AppBar";
 import { WorkbenchCard } from "../../components/organisms/WorkbenchCard";
-import { Wrapper, Header, Title, Content, Col } from "./styles";
+import { Wrapper, Header, Title, Content } from "./styles";
 import { GlobalStyle as GlobalWrapper } from "../../styles";
 import { useStores } from "../../hooks/useStores";
 
@@ -28,9 +28,15 @@ export const Home: React.FC<Props> = observer((props) => {
     navigation.navigate("Analysis", { id });
   };
 
+  const handleQRCodeScan = () => {
+    navigation.navigate("TestBenchQRCodeCamera");
+  };
+
+
+
   return (
     <GlobalWrapper>
-      <AppBar initial="G" handleLogout={handleLogout} />
+      <AppBar initial="G" handleLogout={handleLogout} handleQRCodeScan={handleQRCodeScan} />
       <Wrapper>
         <Header>
           <Icon name="book" size={38} />

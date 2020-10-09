@@ -7,6 +7,7 @@ import { Login } from "./screens/Login";
 import { Analysis } from "./screens/Analysis";
 import { ReportFailure } from "./screens/ReportFailure";
 import { ReportFailureCamera } from "./screens/ReportFailureCamera";
+import { TestBenchQRCodeCamera } from "./screens/TestBenchQRCodeCamera";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export const Routes = () => {
           name="ReportFailureCamera"
           component={ReportFailureCamera}
         />
+        <Stack.Screen name="TestBenchQRCodeCamera" component={TestBenchQRCodeCamera} />
       </Stack.Navigator>
     </NavigationContainer>
   );

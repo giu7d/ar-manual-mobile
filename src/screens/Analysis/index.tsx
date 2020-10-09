@@ -31,7 +31,7 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   };
 
   const handleGoBack = () => {
-    navigation.goBack();
+    navigation.navigate("Home");
   };
 
   const handleFinished = async () => {
