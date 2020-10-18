@@ -1,6 +1,8 @@
 import { observable, action } from "mobx";
-import { API } from "../services/mock";
+import { API } from "../services/api";
 import { User } from "../models/User";
+import jwt from "jwt-decode";
+import { AccountCoded, adaptUser } from "../adapters/AccountAdapter";
 
 export class UserStore {
   @observable
@@ -17,10 +19,19 @@ export class UserStore {
   constructor() {}
 
   @action
-  fetch = (email: string, password: string) => {
+  fetch = async (email: string, password: string) => {
     try {
-      this.user = API.authenticate();
+      const { data } = await API.post("/accounts/auth", { email, password });
+
+      const decodedAccount = jwt(data.token) as {
+        data: AccountCoded;
+      };
+
+      this.user = adaptUser(decodedAccount.data, data.token);
+
+      API.defaults.headers.Authorization = `Bearer ${data.token}`;
     } catch (error) {
+      console.log(error);
       this.error = error.message;
     }
   };

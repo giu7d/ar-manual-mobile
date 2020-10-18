@@ -25,6 +25,7 @@ export default {
     extra: {
       username: process.env.DEV_USERNAME,
       password: process.env.DEV_PASSWORD,
+      apiURL: process.env.API_URL,
     },
   },
 };

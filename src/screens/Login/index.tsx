@@ -43,10 +43,10 @@ export const Login: React.FC<ILoginProps> = observer(() => {
     setForm((state) => ({ ...state, [fieldName]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     handleValidation();
-    if (!error) {
-      userStore.fetch(form.email, form.password);
+    await userStore.fetch(form.email, form.password);
+    if (!error && !userStore.error) {
       navigation.navigate("Home");
     }
   };

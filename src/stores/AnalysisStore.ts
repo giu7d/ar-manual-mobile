@@ -1,8 +1,9 @@
 import { observable, action, computed } from "mobx";
-import { API } from "../services/mock";
+import { API } from "../services/api";
 import { Instruction } from "../models/Instruction";
 import { CAO } from "../models/CAO";
 import { Analysis, AnalysisFailure } from "../models/Analysis";
+import { adaptTestbench } from "../adapters/TestbenchAdapter";
 
 export class AnalysisStore {
   @observable
@@ -40,14 +41,9 @@ export class AnalysisStore {
   @action
   fetch = async (id: string) => {
     try {
-      console.log(`> Fetch: ${id}`);
-      const data = API.testbenchesById();
-
-      Object.assign(this, data);
-
-      this.selectedInstructionId = data.instructions.find(
-        ({ stepNumber }) => stepNumber === 0
-      )?.id;
+      const { data } = await API.get(`/testbenches/${id}`);
+      const adaptedState = adaptTestbench(data);
+      Object.assign(this, adaptedState);
       this.startedAt = new Date();
     } catch (error) {
       console.log(error);
@@ -87,37 +83,43 @@ export class AnalysisStore {
 
   @action
   finishAnalysis = async () => {
-    this.finishedAt = new Date();
-    const timeDiferenceDataNumber =
-      this.finishedAt?.getTime() - this.startedAt?.getTime();
+    try {
+      const failLength = this.analysis.filter(({ status }) => status === "fail")
+        .length;
 
-    const timeDiference = new Date(timeDiferenceDataNumber).toLocaleTimeString(
-      "en-GB",
-      {
-        timeZone: "UTC",
-      }
-    );
-
-    console.log(`
-> REPORT
-  general:
-    startedAt: ${this.startedAt?.toLocaleString("en-GB", {
-      timeZone: "UTC",
-    })}
-    finishedAt: ${this.finishedAt?.toLocaleString("en-GB", {
-      timeZone: "UTC",
-    })}
-    timeDiference: ${timeDiference}
-  instructions: 
-    qtd: ${this.instructions.length}
-  analysis:
-    qtd: ${this.analysis.length}
-    successful: ${
-      this.analysis.filter(({ status }) => status === "success").length
+      const { data } = await API.post(
+        "/analysis",
+        {
+          status: failLength === 0 ? "approved" : "approved",
+          startedAt: this.startedAt,
+          finishedAt: new Date(),
+          steps: this.analysis.map(
+            ({ instruction, status, completeAt, failure }) => ({
+              instructionId: instruction.id,
+              status,
+              startedAt: new Date(),
+              finishedAt: completeAt,
+              failure: failure
+                ? {
+                    description: failure.description,
+                    src: failure.src,
+                    caoItemId: failure.caoItemId,
+                  }
+                : [],
+            })
+          ),
+        },
+        {
+          headers: {
+            testbenchid: this.id,
+          },
+        }
+      );
+      console.log(data);
+      this.clear();
+    } catch (error) {
+      console.log(error);
     }
-    fail: ${this.analysis.filter(({ status }) => status === "fail").length}
-    `);
-    this.clear();
   };
 
   @action
