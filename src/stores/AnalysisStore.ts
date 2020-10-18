@@ -44,9 +44,13 @@ export class AnalysisStore {
       const { data } = await API.get(`/testbenches/${id}`);
       const adaptedState = adaptTestbench(data);
       Object.assign(this, adaptedState);
+
+      this.selectedInstructionId = adaptedState.instructions.find(
+        (instruction) => instruction.stepNumber === 1
+      )?.id;
       this.startedAt = new Date();
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       this.error = error.message;
     }
   };
@@ -118,7 +122,7 @@ export class AnalysisStore {
       console.log(data);
       this.clear();
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 

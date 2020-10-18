@@ -31,7 +31,7 @@ export class UserStore {
 
       API.defaults.headers.Authorization = `Bearer ${data.token}`;
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       this.error = error.message;
     }
   };

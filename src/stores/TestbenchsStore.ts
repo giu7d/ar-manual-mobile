@@ -19,7 +19,7 @@ export class TestbenchsStore {
 
       this.testbenchs = adaptTestbenchs(data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       this.error = error.message;
     }
   };

@@ -92,8 +92,5 @@ export function adaptTestbench(data: IndexedTestbench) {
           })
       )
       .sort((present, next) => present.stepNumber - next.stepNumber),
-    selectedInstructionId: data.instructions.filter(
-      (instruction) => instruction.step === 1
-    ),
   };
 }
