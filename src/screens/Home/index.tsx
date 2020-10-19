@@ -14,7 +14,7 @@ export interface Props {}
 export const Home: React.FC<Props> = observer((props) => {
   const navigation = useNavigation();
 
-  const { testbenchsStore } = useStores();
+  const { testbenchsStore, userStore } = useStores();
 
   useEffect(() => {
     testbenchsStore.fetch();
@@ -32,11 +32,13 @@ export const Home: React.FC<Props> = observer((props) => {
     navigation.navigate("TestBenchQRCodeCamera");
   };
 
-
-
   return (
     <GlobalWrapper>
-      <AppBar initial="G" handleLogout={handleLogout} handleQRCodeScan={handleQRCodeScan} />
+      <AppBar
+        initial={userStore.user.initial}
+        handleLogout={handleLogout}
+        handleQRCodeScan={handleQRCodeScan}
+      />
       <Wrapper>
         <Header>
           <Icon name="book" size={38} />

@@ -14,12 +14,14 @@ import {
 } from "./styles";
 
 export interface IAnalysisBarProps {
+  initial: string;
   children: Array<JSX.Element> | JSX.Element;
   handleLogout?: VoidFunction;
 }
 
 export const AnalysisBar: React.FC<IAnalysisBarProps> = ({
   children,
+  initial,
   handleLogout = () => {},
 }) => {
   return (
@@ -29,7 +31,7 @@ export const AnalysisBar: React.FC<IAnalysisBarProps> = ({
           <IconButton>
             <Icon name="bell" size={24} />
           </IconButton>
-          <Avatar touchableProps={{ onPress: handleLogout }}>PH</Avatar>
+          <Avatar touchableProps={{ onPress: handleLogout }}>{initial}</Avatar>
         </HeaderActionsWrapper>
       </HeaderWrapper>
       <ScrollWrapper>

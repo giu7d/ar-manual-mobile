@@ -12,7 +12,7 @@ export function adaptUser(props: AccountCoded, token: string) {
   return new User({
     email: props.email,
     name: `${props.firstName} ${props.lastName}`,
-    initial: `${props.firstName[0]}${props.lastName[0]}`.toLowerCase(),
+    initial: props.firstName[0].toUpperCase(),
     token,
   });
 }

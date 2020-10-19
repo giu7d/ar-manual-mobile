@@ -20,7 +20,7 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   const navigation = useNavigation();
   const route = useRoute() as { params: { id: string } };
   const theme = useTheme() as ITheme;
-  const { analysisStore } = useStores();
+  const { analysisStore, userStore } = useStores();
 
   useEffect(() => {
     analysisStore.fetch(route.params.id);
@@ -70,7 +70,10 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
             />
           </>
         </AnalysisCanvas>
-        <AnalysisBar handleLogout={handleLogout}>
+        <AnalysisBar
+          initial={userStore.user.initial}
+          handleLogout={handleLogout}
+        >
           <>
             {analysisStore.instructions.map((instruction) => (
               <AnalysisInstructionCard
@@ -102,7 +105,9 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
                     navigation.navigate("ReportFailure", { instruction });
                   } else {
                     analysisStore.setAnalysis(instruction, status);
-                    analysisStore.selectInstruction(instruction.nextStep);
+                    instruction.nextStep
+                      ? analysisStore.selectInstruction(instruction.nextStep)
+                      : null;
                   }
                 }}
               />
