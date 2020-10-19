@@ -11,19 +11,27 @@ import { observer } from "mobx-react";
 import { Warning } from "../../components/molecules/Warning";
 import { validate } from "./LoginFormValidation";
 import Constants from "expo-constants";
+import { useTheme } from "styled-components";
+import { ITheme } from "../../theme";
 
 const { username, password } = Constants.manifest.extra;
 
 interface ILoginProps {}
 
 export const Login: React.FC<ILoginProps> = observer(() => {
-  const navigation = useNavigation();
   const { userStore } = useStores();
+  const theme = useTheme() as ITheme;
   const [error, setError] = useState<string>();
   const [form, setForm] = useState({
     email: username || "",
     password: password || "",
   });
+
+  useEffect(() => {
+    if (userStore.error) {
+      setError(userStore.error);
+    }
+  }, [userStore.error]);
 
   useEffect(() => {
     handleValidation();
@@ -46,9 +54,6 @@ export const Login: React.FC<ILoginProps> = observer(() => {
   const handleSubmit = async () => {
     handleValidation();
     await userStore.fetch(form.email, form.password);
-    if (!error && !userStore.error) {
-      navigation.navigate("Home");
-    }
   };
 
   return (
@@ -91,7 +96,16 @@ export const Login: React.FC<ILoginProps> = observer(() => {
             />
             <Button
               onPress={handleSubmit}
-              touchableProps={{ style: { minHeight: 64 } }}
+              touchableProps={{
+                style: {
+                  minHeight: 64,
+                  backgroundColor:
+                    userStore.status === "pending"
+                      ? theme.colors.background
+                      : theme.colors.primary,
+                },
+                disabled: userStore.status === "pending",
+              }}
             >
               Entrar
             </Button>

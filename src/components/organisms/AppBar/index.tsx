@@ -16,7 +16,7 @@ export interface IAppBarProps {
 export const AppBar: React.FC<IAppBarProps> = ({
   initial,
   handleLogout = () => {},
-  handleQRCodeScan= () => {}
+  handleQRCodeScan = () => {},
 }) => {
   const [notificationBar, setNotificationBar] = useState(false);
 
@@ -29,9 +29,9 @@ export const AppBar: React.FC<IAppBarProps> = ({
           <IconButton onPress={handleQRCodeScan}>
             <IconAnt name="qrcode" size={38} />
           </IconButton>
-          <IconButton  style={{marginHorizontal: 24}} onPress={() => setNotificationBar((state) => !state)}>
+          {/* <IconButton  style={{marginHorizontal: 24}} onPress={() => setNotificationBar((state) => !state)}>
             <Icon name="bell" size={24} />
-          </IconButton>
+          </IconButton> */}
           <Avatar touchableProps={{ onPress: handleLogout }}>{initial}</Avatar>
         </ActionsWrapper>
       </AppBarWrapper>

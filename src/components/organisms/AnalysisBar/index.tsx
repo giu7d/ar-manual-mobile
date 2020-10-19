@@ -28,9 +28,9 @@ export const AnalysisBar: React.FC<IAnalysisBarProps> = ({
     <Wrapper>
       <HeaderWrapper>
         <HeaderActionsWrapper>
-          <IconButton>
+          {/* <IconButton>
             <Icon name="bell" size={24} />
-          </IconButton>
+          </IconButton> */}
           <Avatar touchableProps={{ onPress: handleLogout }}>{initial}</Avatar>
         </HeaderActionsWrapper>
       </HeaderWrapper>

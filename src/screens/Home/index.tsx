@@ -21,7 +21,7 @@ export const Home: React.FC<Props> = observer((props) => {
   }, []);
 
   const handleLogout = () => {
-    navigation.navigate("Login");
+    userStore.logout();
   };
 
   const handleAnalysis = (id: string) => {

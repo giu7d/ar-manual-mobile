@@ -1,10 +1,14 @@
+import jwt from "jwt-decode";
 import { observable, action } from "mobx";
+
 import { API } from "../services/api";
 import { User } from "../models/User";
-import jwt from "jwt-decode";
 import { AccountCoded, adaptUser } from "../adapters/AccountAdapter";
 
 export class UserStore {
+  @observable
+  status: "pending" | "done" | "error" = "done";
+
   @observable
   user: User = {
     initial: "",
@@ -20,6 +24,7 @@ export class UserStore {
 
   @action
   fetch = async (email: string, password: string) => {
+    this.status = "pending";
     try {
       const { data } = await API.post("/accounts/auth", { email, password });
 
@@ -30,9 +35,21 @@ export class UserStore {
       this.user = adaptUser(decodedAccount.data, data.token);
 
       API.defaults.headers.Authorization = `Bearer ${data.token}`;
+      this.status = "done";
     } catch (error) {
+      this.status = "error";
       console.log(error.message);
       this.error = error.message;
     }
+  };
+
+  @action
+  logout = () => {
+    this.user = {
+      initial: "",
+      name: "",
+      email: "",
+      token: "",
+    };
   };
 }

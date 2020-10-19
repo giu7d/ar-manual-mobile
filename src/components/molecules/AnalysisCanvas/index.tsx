@@ -27,14 +27,14 @@ export const AnalysisCanvas: React.FC<IAnalysisCanvasProps> = ({
         <ExtendedIconButton onPress={handleGoBack}>
           <Icon name="chevron-left" size={24} />
         </ExtendedIconButton>
-        <ActionsWrapper>
+        {/* <ActionsWrapper>
           <ExtendedIconButton onPress={handleAR}>
             <Icon name="box" size={24} />
           </ExtendedIconButton>
           <ExtendedIconButton onPress={handleOperatorManual}>
             <Icon name="book" size={24} />
           </ExtendedIconButton>
-        </ActionsWrapper>
+        </ActionsWrapper> */}
       </HeaderWrapper>
       {children}
     </Wrapper>

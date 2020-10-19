@@ -27,7 +27,7 @@ export const Analysis: React.FC<IAnalysisProps> = observer((props) => {
   }, []);
 
   const handleLogout = () => {
-    navigation.navigate("Login");
+    userStore.logout();
   };
 
   const handleGoBack = () => {
