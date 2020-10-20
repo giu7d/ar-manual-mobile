@@ -8,9 +8,9 @@ import {
   ActionsWrapper,
 } from "./styles";
 import { Actions } from "./Actions";
-import { Warning, IWarningProps } from "../../molecules/Warning";
+import { Warning, IWarningProps } from "../../../molecules/Warning";
 
-export interface IAnalysisInstructionCardProps {
+interface IProps {
   title: string;
   description: string;
   warning?: Array<IWarningProps>;
@@ -20,7 +20,7 @@ export interface IAnalysisInstructionCardProps {
   onAnalysisDone?: (status: "pending" | "success" | "fail") => void;
 }
 
-export const AnalysisInstructionCard: React.FC<IAnalysisInstructionCardProps> = ({
+export const InstructionCard: React.FC<IProps> = ({
   title,
   description,
   warning = [],

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { ITheme } from "../../../theme";
+import { ITheme } from "../../../../theme";
 import { rgba } from "polished";
 
 interface IWrapperProps {

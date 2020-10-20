@@ -91,34 +91,33 @@ export class AnalysisStore {
       const failLength = this.analysis.filter(({ status }) => status === "fail")
         .length;
 
-      const { data } = await API.post(
-        "/analysis",
-        {
-          status: failLength === 0 ? "approved" : "approved",
-          startedAt: this.startedAt,
-          finishedAt: new Date(),
-          steps: this.analysis.map(
-            ({ instruction, status, completeAt, failure }) => ({
-              instructionId: instruction.id,
-              status,
-              startedAt: new Date(),
-              finishedAt: completeAt,
-              failure: failure
-                ? {
-                    description: failure.description,
-                    src: failure.src,
-                    caoItemId: failure.caoItemId,
-                  }
-                : [],
-            })
-          ),
+      const payload = {
+        status: failLength === 0 ? "approved" : "approved",
+        startedAt: this.startedAt,
+        finishedAt: new Date(),
+        steps: this.analysis.map(
+          ({ instruction, status, completeAt, failure }) => ({
+            instructionId: instruction.id,
+            status,
+            startedAt: new Date(),
+            finishedAt: completeAt,
+            failure: failure
+              ? {
+                  description: failure.description,
+                  src: failure.src,
+                  caoItemId: failure.caoItemId,
+                }
+              : [],
+          })
+        ),
+      };
+      console.log(payload);
+
+      const { data } = await API.post("/analysis", payload, {
+        headers: {
+          testbenchid: this.id,
         },
-        {
-          headers: {
-            testbenchid: this.id,
-          },
-        }
-      );
+      });
       console.log(data);
       this.clear();
     } catch (error) {

@@ -38,7 +38,7 @@ export class UserStore {
       this.status = "done";
     } catch (error) {
       this.status = "error";
-      console.log(error.message);
+      console.log(error);
       this.error = error.message;
     }
   };

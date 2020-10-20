@@ -2,9 +2,9 @@ import React from "react";
 import { Feather as Icon } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 
-import { ITheme } from "../../../theme";
-import { IconButton } from "../../atoms/IconButton";
-import { Button } from "../../molecules/Button";
+import { ITheme } from "../../../../theme";
+import { IconButton } from "../../../atoms/IconButton";
+import { Button } from "../../../molecules/Button";
 
 interface IActionsProps {
   status?: "pending" | "success" | "fail";
