@@ -7,8 +7,15 @@ interface IWrapperProps {
 
 export const Wrapper = styled.View<IWrapperProps>`
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+`;
+
+export const HorizontalWrapper = styled.View<IWrapperProps>`
+  display: flex;
   flex-direction: row;
-  padding: 24px 14px;
+  padding: 14px 24px;
   width: 100%;
   height: auto;
   align-items: center;

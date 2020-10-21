@@ -14,7 +14,6 @@ export const Wrapper = styled.View<IWrapperProps>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 0 24px;
 `;
 
 export const DoneText = styled.Text<ITextProps>`
