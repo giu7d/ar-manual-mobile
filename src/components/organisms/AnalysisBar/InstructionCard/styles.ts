@@ -34,6 +34,9 @@ export const Wrapper = styled.TouchableOpacity<IWrapperProps>`
 `;
 
 export const ContentWrapper = styled.View<IContentWrapperProps>`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 14px;
   padding: 14px;
 `;

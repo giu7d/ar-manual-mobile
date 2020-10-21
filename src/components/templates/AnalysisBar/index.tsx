@@ -31,13 +31,22 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
     instruction: Instruction,
     status: "success" | "fail" | "pending"
   ) => {
+    console.log(status);
+
     if (status === "fail") {
       navigation.navigate("ReportFailure", { instruction });
-    } else {
+      return;
+    }
+
+    if (status === "success") {
       analysisStore.setAnalysis(instruction, status);
       instruction.nextStep &&
         analysisStore.selectInstruction(instruction.nextStep);
+      return;
     }
+
+    analysisStore.setAnalysis(instruction, status);
+    return;
   };
 
   const handleSelected = (instruction: Instruction, state: boolean) => {
@@ -72,8 +81,7 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
               setSelected={(state) => handleSelected(instruction, state)}
               status={
                 analysisStore.analysis.find(
-                  ({ instruction }) =>
-                    instruction.id === analysisStore.selectedInstructionId
+                  (item) => item.instruction.id === instruction.id
                 )?.status
               }
               onAnalysisDone={(status) =>
