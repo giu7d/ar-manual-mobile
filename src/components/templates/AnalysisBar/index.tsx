@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { ScrollView, View } from "react-native";
 import { observer } from "mobx-react";
-import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 
 import { Header } from "../../organisms/AnalysisBar/Header";
@@ -15,6 +15,10 @@ import { Instruction } from "../../../models/Instruction";
 interface IProps {}
 
 export const AnalysisBar: React.FC<IProps> = observer((props) => {
+  const scrollRef = useRef<ScrollView>(null);
+  const [cardYPosition, setCardYPosition] = useState<
+    Array<{ id: string; y: number }>
+  >([]);
   const navigation = useNavigation();
   const { analysisStore, userStore } = useStores();
 
@@ -33,12 +37,14 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
   ) => {
     if (status === "fail") {
       navigation.navigate("ReportFailure", { instruction });
+      handleScrollToNextItem(instruction.nextStep);
       return;
     }
 
     if (status === "success") {
       analysisStore.setAnalysis(instruction, status);
       analysisStore.selectInstruction(instruction.nextStep || undefined);
+      handleScrollToNextItem(instruction.nextStep);
       return;
     }
 
@@ -52,6 +58,19 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
     }
   };
 
+  const handleScrollToNextItem = (nextItemId?: string) => {
+    if (scrollRef.current) {
+      if (nextItemId) {
+        const card = cardYPosition.find(({ id }) => id === nextItemId);
+        if (card) {
+          scrollRef.current.scrollTo({ y: card.y - 100, animated: true });
+        }
+      } else {
+        scrollRef.current.scrollToEnd();
+      }
+    }
+  };
+
   return (
     <Wrapper>
       <Header
@@ -61,30 +80,44 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
         total={analysisStore.instructions.length}
       />
       <ScrollWrapper>
-        <ScrollView>
+        <ScrollView ref={scrollRef}>
           <Typography icon="layers">Instructions</Typography>
           {analysisStore.instructions.map((instruction) => (
-            <InstructionCard
+            <View
               key={instruction.id}
-              title={`#${instruction.stepNumber}`}
-              description={instruction.description}
-              warning={[
-                ...instruction.warning.map(({ description }) => ({
-                  title: "Atenção",
-                  description,
-                })),
-              ]}
-              selected={analysisStore.selectedInstructionId === instruction.id}
-              setSelected={(state) => handleSelected(instruction, state)}
-              status={
-                analysisStore.analysis.find(
-                  (item) => item.instruction.id === instruction.id
-                )?.status
+              onLayout={({ nativeEvent }) =>
+                setCardYPosition((state) => [
+                  ...state,
+                  {
+                    id: instruction.id,
+                    y: nativeEvent.layout.y,
+                  },
+                ])
               }
-              onAnalysisDone={(status) =>
-                handleAnalysisDone(instruction, status)
-              }
-            />
+            >
+              <InstructionCard
+                title={`#${instruction.stepNumber}`}
+                description={instruction.description}
+                warning={[
+                  ...instruction.warning.map(({ description }) => ({
+                    title: "Atenção",
+                    description,
+                  })),
+                ]}
+                selected={
+                  analysisStore.selectedInstructionId === instruction.id
+                }
+                setSelected={(state) => handleSelected(instruction, state)}
+                status={
+                  analysisStore.analysis.find(
+                    (item) => item.instruction.id === instruction.id
+                  )?.status
+                }
+                onAnalysisDone={(status) =>
+                  handleAnalysisDone(instruction, status)
+                }
+              />
+            </View>
           ))}
           <FinalAction
             onFinish={handleFinish}
