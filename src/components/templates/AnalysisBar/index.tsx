@@ -31,8 +31,6 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
     instruction: Instruction,
     status: "success" | "fail" | "pending"
   ) => {
-    console.log(status);
-
     if (status === "fail") {
       navigation.navigate("ReportFailure", { instruction });
       return;
@@ -40,8 +38,7 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
 
     if (status === "success") {
       analysisStore.setAnalysis(instruction, status);
-      instruction.nextStep &&
-        analysisStore.selectInstruction(instruction.nextStep);
+      analysisStore.selectInstruction(instruction.nextStep || undefined);
       return;
     }
 

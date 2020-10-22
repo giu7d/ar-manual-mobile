@@ -56,8 +56,12 @@ export class AnalysisStore {
   };
 
   @action
-  selectInstruction = (id: string) => {
-    this.selectedInstructionId = id;
+  selectInstruction = (id: string | undefined) => {
+    if (id) {
+      this.selectedInstructionId = id;
+    } else {
+      this.selectedInstructionId = undefined;
+    }
   };
 
   @action
