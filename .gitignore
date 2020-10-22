@@ -11,4 +11,4 @@ web-build/
 yarn.lock
 .DS_Store
 .vscode
-debug.log
+*.log
