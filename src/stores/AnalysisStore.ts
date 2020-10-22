@@ -96,7 +96,7 @@ export class AnalysisStore {
         .length;
 
       const payload = {
-        status: failLength === 0 ? "approved" : "approved",
+        status: failLength === 0 ? "approved" : "failure",
         startedAt: this.startedAt,
         finishedAt: new Date(),
         steps: this.analysis.map(
@@ -111,20 +111,20 @@ export class AnalysisStore {
                   src: failure.src,
                   caoItemId: failure.caoItemId,
                 }
-              : [],
+              : undefined,
           })
         ),
       };
-      console.log(payload);
 
-      const { data } = await API.post("/analysis", payload, {
+      await API.post("/analysis", payload, {
         headers: {
           testbenchid: this.id,
         },
       });
-      console.log(data);
+      console.log("> Analysis Done!");
       this.clear();
     } catch (error) {
+      console.log("> Analysis Error!");
       console.log(error.message);
     }
   };
