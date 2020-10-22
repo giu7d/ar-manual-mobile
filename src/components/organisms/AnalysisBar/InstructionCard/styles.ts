@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
-import { ITheme } from "../../../../theme";
 import { rgba } from "polished";
+import { ITheme } from "../../../../theme";
 
 interface IWrapperProps {
   theme: ITheme;
@@ -16,6 +16,7 @@ interface ITitleProps {
 
 interface IDescriptionProps {
   theme: ITheme;
+  isHidden?: boolean;
 }
 
 interface IActionsWrapperProps {
@@ -50,8 +51,11 @@ export const Title = styled.Text<ITitleProps>`
   opacity: 0.5;
 `;
 
-export const Description = styled.Text<IDescriptionProps>`
+export const Description = styled.ScrollView<IDescriptionProps>`
   font-size: 18px;
+  width: 100%;
+  height: ${({ isHidden = false }) => (isHidden ? "80px" : "auto")};
+  overflow: hidden;
   color: ${({ theme }) => theme.colors.text};
 `;
 

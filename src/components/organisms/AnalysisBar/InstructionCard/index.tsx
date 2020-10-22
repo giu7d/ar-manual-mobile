@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import { View } from "react-native";
+import HTML from "react-native-render-html";
+import { useTheme } from "styled-components";
 import { Feather as Icon } from "@expo/vector-icons";
 
+import { Warning, IWarningProps } from "../../../molecules/Warning";
+import { ITheme } from "../../../../theme";
+
+import { Actions } from "./Actions";
 import {
   Wrapper,
   ContentWrapper,
@@ -8,11 +15,6 @@ import {
   Description,
   ActionsWrapper,
 } from "./styles";
-import { Actions } from "./Actions";
-import { Warning, IWarningProps } from "../../../molecules/Warning";
-import { View } from "react-native";
-import { useTheme } from "styled-components";
-import { ITheme } from "../../../../theme";
 
 interface IProps {
   title: string;
@@ -44,7 +46,9 @@ export const InstructionCard: React.FC<IProps> = ({
       <ContentWrapper>
         <View>
           <Title>{title}</Title>
-          <Description>{description}</Description>
+          <Description isHidden={!selected}>
+            <HTML html={description} baseFontStyle={{ fontSize: 18 }} />
+          </Description>
         </View>
         <View>
           {status === "fail" && (
