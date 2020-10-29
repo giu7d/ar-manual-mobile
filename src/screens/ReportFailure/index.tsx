@@ -64,7 +64,7 @@ export const ReportFailure: React.FC<IReportFailureProps> = observer(
     const handleFinish = async () => {
       if (await handleValidation()) {
         const { instruction } = route.params;
-        analysisStore.setAnalysis(instruction, "fail", {
+        analysisStore.setAnalysis(instruction, "failure", {
           id: new Date().toISOString(),
           caoItemId: form.cao.id,
           description: form.description,

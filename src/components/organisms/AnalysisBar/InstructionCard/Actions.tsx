@@ -7,8 +7,8 @@ import { IconButton } from "../../../atoms/IconButton";
 import { Button } from "../../../molecules/Button";
 
 interface IActionsProps {
-  status?: "pending" | "success" | "fail";
-  handleStatusChange?: (newStatus: "pending" | "success" | "fail") => void;
+  status?: "pending" | "success" | "failure";
+  handleStatusChange?: (newStatus: "pending" | "success" | "failure") => void;
 }
 
 export const Actions: React.FC<IActionsProps> = ({
@@ -41,7 +41,7 @@ export const Actions: React.FC<IActionsProps> = ({
     );
   }
 
-  if (status === "fail") {
+  if (status === "failure") {
     return (
       <>
         <Button
@@ -84,7 +84,7 @@ export const Actions: React.FC<IActionsProps> = ({
         Aprovar
       </Button>
       <IconButton
-        onPress={() => handleStatusChange("fail")}
+        onPress={() => handleStatusChange("failure")}
         style={{ backgroundColor: theme.colors.foreground }}
       >
         <Icon name="alert-triangle" size={24} color={theme.colors.danger} />

@@ -11,7 +11,7 @@ export interface AnalysisFailure {
 export class Analysis {
   public id!: string;
   public instruction!: Instruction;
-  public status!: "success" | "fail";
+  public status!: "success" | "failure";
   public completeAt!: Date;
   public failure?: AnalysisFailure;
 

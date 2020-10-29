@@ -67,7 +67,7 @@ export class AnalysisStore {
   @action
   setAnalysis = (
     { id, ...instruction }: Instruction,
-    status: "success" | "fail" | "pending",
+    status: "success" | "failure" | "pending",
     failure: AnalysisFailure | undefined = undefined
   ) => {
     if (status !== "pending") {
@@ -92,8 +92,9 @@ export class AnalysisStore {
   @action
   finishAnalysis = async () => {
     try {
-      const failLength = this.analysis.filter(({ status }) => status === "fail")
-        .length;
+      const failLength = this.analysis.filter(
+        ({ status }) => status === "failure"
+      ).length;
 
       const payload = {
         status: failLength === 0 ? "approved" : "failure",
@@ -107,9 +108,9 @@ export class AnalysisStore {
             finishedAt: completeAt,
             failure: failure
               ? {
-                  description: failure.description,
                   src: failure.src,
                   caoItemId: failure.caoItemId,
+                  description: failure.description || undefined,
                 }
               : undefined,
           })
@@ -122,10 +123,11 @@ export class AnalysisStore {
         },
       });
       console.log("> Analysis Done!");
-      this.clear();
     } catch (error) {
       console.log("> Analysis Error!");
       console.log(error.message);
+    } finally {
+      this.clear();
     }
   };
 

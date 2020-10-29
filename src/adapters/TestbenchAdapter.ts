@@ -7,6 +7,7 @@ export interface TestbenchItem {
   id: string;
   testBenchSerialNumber: string;
   componentSerialNumber: string;
+  thumbnailSrc: string;
   isActive: boolean;
 }
 
@@ -51,12 +52,12 @@ export interface IndexedTestbench {
 
 export function adaptTestbenchs(data: TestbenchItem[]) {
   return data.map(
-    ({ id, componentSerialNumber, testBenchSerialNumber }) =>
+    ({ id, componentSerialNumber, testBenchSerialNumber, thumbnailSrc }) =>
       new Testbench({
         id,
         componentSerialNumber,
+        thumbnailSrc,
         testbenchSerialNumber: testBenchSerialNumber,
-        thumbnailSrc: "https://via.placeholder.com/250x250",
       })
   );
 }

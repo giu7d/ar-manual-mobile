@@ -22,8 +22,8 @@ interface IProps {
   warning?: Array<IWarningProps>;
   selected?: boolean;
   setSelected?: (state: boolean) => void;
-  status?: "pending" | "success" | "fail";
-  onAnalysisDone?: (status: "pending" | "success" | "fail") => void;
+  status?: "pending" | "success" | "failure";
+  onAnalysisDone?: (status: "pending" | "success" | "failure") => void;
 }
 
 export const InstructionCard: React.FC<IProps> = ({
@@ -37,7 +37,7 @@ export const InstructionCard: React.FC<IProps> = ({
 }) => {
   const theme = useTheme() as ITheme;
 
-  const handleAnalysis = (newStatus: "pending" | "success" | "fail") => {
+  const handleAnalysis = (newStatus: "pending" | "success" | "failure") => {
     onAnalysisDone(newStatus);
   };
 
@@ -51,7 +51,7 @@ export const InstructionCard: React.FC<IProps> = ({
           </Description>
         </View>
         <View>
-          {status === "fail" && (
+          {status === "failure" && (
             <Icon name="alert-triangle" color={theme.colors.danger} size={24} />
           )}
           {status === "success" && (

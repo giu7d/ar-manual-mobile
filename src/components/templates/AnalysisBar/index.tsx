@@ -33,9 +33,9 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
 
   const handleAnalysisDone = (
     instruction: Instruction,
-    status: "success" | "fail" | "pending"
+    status: "success" | "failure" | "pending"
   ) => {
-    if (status === "fail") {
+    if (status === "failure") {
       navigation.navigate("ReportFailure", { instruction });
       handleScrollToNextItem(instruction.nextStep);
       return;
