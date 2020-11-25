@@ -1,15 +1,6 @@
 import styled from "styled-components/native";
-import { ITheme } from "../../../theme";
 
-interface IAppBarWrapperProps {
-  theme: ITheme;
-}
-
-interface IActionsWrapperProps {
-  theme: ITheme;
-}
-
-export const AppBarWrapper = styled.View<IAppBarWrapperProps>`
+export const AppBarWrapper = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -19,10 +10,10 @@ export const AppBarWrapper = styled.View<IAppBarWrapperProps>`
   height: auto;
 `;
 
-export const ActionsWrapper = styled.View<IActionsWrapperProps>`
+export const ActionsWrapper = styled.View`
   align-self: center;
   align-items: center;
   justify-content: flex-end;
   flex-direction: row;
-  width: 15%;
+  flex: 1;
 `;

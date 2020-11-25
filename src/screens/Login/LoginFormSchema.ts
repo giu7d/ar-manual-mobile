@@ -1,6 +1,9 @@
-import validatejs from "validate.js";
+export interface ILoginFormSchema {
+  email: string;
+  password: string;
+}
 
-export const validation = {
+export const LoginFormSchema = {
   email: {
     presence: {
       message: "^Por favor, informe um endereço de email!",
@@ -19,7 +22,3 @@ export const validation = {
     },
   },
 };
-
-export function validate(form: { email: string; password: string }) {
-  return validatejs(form, validation, { format: "flat" });
-}

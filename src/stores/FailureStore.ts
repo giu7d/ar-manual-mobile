@@ -1,11 +1,13 @@
 import { CameraCapturedPicture } from "expo-camera";
 import { action, computed, observable } from "mobx";
+import { API } from "../services/api";
 
 interface Failure {
   caoId?: string;
   description: string;
   createdAt?: Date;
   photos: CameraCapturedPicture[];
+  uploadedPhotosURLs: string[];
 }
 
 export class FailureStore {
@@ -15,6 +17,7 @@ export class FailureStore {
     createdAt: undefined,
     description: "",
     photos: [],
+    uploadedPhotosURLs: [],
   };
 
   constructor() {}
@@ -37,17 +40,33 @@ export class FailureStore {
   };
 
   @action
+  uploadFiles = async () => {
+    try {
+      const files = this.failure.photos.map(({ base64 }) => base64);
+
+      const {
+        data,
+      }: { data: { url: string }[] } = await API.post(
+        "/upload/base64/failures",
+        { files }
+      );
+
+      this.failure.uploadedPhotosURLs = data.map(({ url }) => url);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("UPLOAD END");
+    }
+  };
+
+  @action
   clear = () => {
     this.failure = {
       caoId: undefined,
       createdAt: undefined,
       description: "",
       photos: [],
+      uploadedPhotosURLs: [],
     };
   };
-
-  @computed
-  get photosURI() {
-    return this.failure.photos.map(({ uri }) => uri);
-  }
 }

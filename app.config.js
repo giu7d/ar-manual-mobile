@@ -2,8 +2,9 @@ import "dotenv/config";
 
 export default {
   expo: {
-    name: "mobile",
-    slug: "mobile",
+    name: "ar-manual",
+    slug: "ar-manual",
+    entryPoint: "./src/index.tsx",
     version: "1.0.0",
     orientation: "landscape",
     icon: "./assets/icon.png",
@@ -19,13 +20,17 @@ export default {
     ios: {
       supportsTablet: true,
     },
+    android: {
+      package: "com.msc.manual",
+      versionCode: 1,
+    },
     web: {
       favicon: "./assets/favicon.png",
     },
     extra: {
-      username: process.env.DEV_USERNAME,
-      password: process.env.DEV_PASSWORD,
-      apiURL: process.env.API_URL,
+      LOGIN_USERNAME: process.env.LOGIN_USERNAME,
+      LOGIN_PASSWORD: process.env.LOGIN_PASSWORD,
+      API_URL: process.env.API_URL,
     },
   },
 };

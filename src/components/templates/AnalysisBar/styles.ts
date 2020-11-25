@@ -1,19 +1,6 @@
 import styled from "styled-components/native";
-import { ITheme } from "../../../theme";
 
-interface IWrapperProps {
-  theme: ITheme;
-}
-
-interface IScrollWrapperProps {
-  theme: ITheme;
-}
-
-interface IActionsWrapperProps {
-  theme: ITheme;
-}
-
-export const Wrapper = styled.View<IWrapperProps>`
+export const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
   width: 30%;
@@ -21,14 +8,14 @@ export const Wrapper = styled.View<IWrapperProps>`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const ScrollWrapper = styled.View<IScrollWrapperProps>`
+export const ScrollWrapper = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
 `;
 
-export const ActionsWrapper = styled.View<IActionsWrapperProps>`
+export const ActionsWrapper = styled.View`
   display: flex;
   width: 100%;
   padding: 14px;

@@ -12,9 +12,7 @@ import { useStores } from "../../../hooks/useStores";
 import { Wrapper, ScrollWrapper } from "./styles";
 import { Instruction } from "../../../models/Instruction";
 
-interface IProps {}
-
-export const AnalysisBar: React.FC<IProps> = observer((props) => {
+export const AnalysisBar: React.FC = observer(() => {
   const scrollRef = useRef<ScrollView>(null);
   const [cardYPosition, setCardYPosition] = useState<
     Array<{ id: string; y: number }>
@@ -36,7 +34,7 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
     status: "success" | "failure" | "pending"
   ) => {
     if (status === "failure") {
-      navigation.navigate("ReportFailure", { instruction });
+      navigation.navigate("FailureModal", { instruction });
       handleScrollToNextItem(instruction.nextStep);
       return;
     }

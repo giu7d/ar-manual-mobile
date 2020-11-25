@@ -1,3 +1,4 @@
+import { CameraCapturedPicture } from "expo-camera";
 import validatejs from "validate.js";
 
 export const validation = {
@@ -31,7 +32,7 @@ export const validation = {
 export async function validate(form: {
   caoId: string;
   description: string;
-  photos: string[];
+  photos: CameraCapturedPicture[];
 }) {
   try {
     await validatejs.async(form, validation);
