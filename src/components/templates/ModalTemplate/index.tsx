@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { observer } from "mobx-react";
 
-import { HeaderAppBar } from "../../organisms/HeaderAppBar";
+import { HeaderAppBar } from "../../fragments/HeaderAppBar";
 import { useStores } from "../../../hooks/useStores";
 import { GlobalStyle } from "../../../styles/global";
 import { Wrapper, FormWrapper, Title, Subtitle } from "./styles";

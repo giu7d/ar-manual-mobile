@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { Feather as Icon } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-import { AppBar } from "../../organisms/AppBar";
+import { AppBar } from "../../fragments/AppBar";
 import { useStores } from "../../../hooks/useStores";
 import { GlobalStyle } from "../../../styles/global";
 import { Wrapper, Header, Title, Content } from "./styles";

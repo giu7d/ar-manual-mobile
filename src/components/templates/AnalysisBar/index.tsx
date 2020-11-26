@@ -3,9 +3,9 @@ import { ScrollView, View } from "react-native";
 import { observer } from "mobx-react";
 import { useNavigation } from "@react-navigation/native";
 
-import { Header } from "../../organisms/AnalysisBar/Header";
-import { InstructionCard } from "../../organisms/AnalysisBar/InstructionCard";
-import { FinalAction } from "../../organisms/AnalysisBar/FinalAction";
+import { Header } from "../../fragments/AnalysisBar/Header";
+import { InstructionCard } from "../../fragments/AnalysisBar/InstructionCard";
+import { FinalAction } from "../../fragments/FinalAction";
 import { Typography } from "../../molecules/Typography";
 import { useStores } from "../../../hooks/useStores";
 

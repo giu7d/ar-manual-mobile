@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useNavigation } from "@react-navigation/native";
 
-import { WorkbenchCard } from "../components/organisms/WorkbenchCard";
+import { WorkbenchCard } from "../components/fragments/WorkbenchCard";
 import { HomeTemplate } from "../components/templates/HomeTemplate";
 import { useStores } from "../hooks/useStores";
 

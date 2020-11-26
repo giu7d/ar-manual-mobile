@@ -3,8 +3,8 @@ import { Image } from "react-native";
 import { observer } from "mobx-react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { AnalysisInformation } from "../components/molecules/AnalysisInformation";
-import { AnalysisCanvas } from "../components/molecules/AnalysisCanvas";
+import { AnalysisInformation } from "../components/fragments/AnalysisInformation";
+import { AnalysisCanvas } from "../components/fragments/AnalysisCanvas";
 import { AnalysisTemplate } from "../components/templates/AnalysisTemplate";
 import { useStores } from "../hooks/useStores";
 
