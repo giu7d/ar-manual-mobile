@@ -4,7 +4,6 @@ import { Account } from "../models/Account";
 
 export const ApplicationStore = () =>
   makeAutoObservable({
-    // Account
     account: null as Account | null,
     setAccount(token: string) {
       const { data } = jwt(token);
