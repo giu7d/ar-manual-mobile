@@ -24,7 +24,7 @@ export const Analysis: React.FC = observer(() => {
   return (
     <AnalysisTemplate>
       <AnalysisCanvas testBenchId={route.params.id} />
-      <AnalysisBar />
+      <AnalysisBar testBenchId={route.params.id} />
     </AnalysisTemplate>
   );
 });

@@ -1,16 +1,18 @@
-import React, { ReactNodeArray, useRef, useState } from "react";
-import { LayoutChangeEvent, ScrollView } from "react-native";
+import React, { useRef, useState } from "react";
+import { LayoutRectangle, ScrollView } from "react-native";
 
-interface ItemPosition extends LayoutChangeEvent {
+const ITEM_GAP = 104;
+
+interface ItemPosition extends LayoutRectangle {
   id: string;
 }
 
 interface Props {
   renderItems: (
-    onLayout: (id: string, e: LayoutChangeEvent) => void,
-    toNext: (id: string) => void,
+    onLayout: (layout: LayoutRectangle, id: string) => void,
+    toNext: (id?: string) => void,
     toEnd: () => void
-  ) => ReactNodeArray;
+  ) => JSX.Element | JSX.Element[];
 }
 
 const ProgressiveScroll: React.FC<Props> = (props) => {
@@ -18,27 +20,29 @@ const ProgressiveScroll: React.FC<Props> = (props) => {
 
   const [itemsPosition, setItemsPosition] = useState<ItemPosition[]>([]);
 
-  const onLayout = (id: string, e: LayoutChangeEvent) => {
+  const onLayout = (layout: LayoutRectangle, id: string) => {
     setItemsPosition((state) => [
       ...state,
       {
-        ...e,
+        ...layout,
         id,
       },
     ]);
   };
 
-  const toNext = (id: string) => {
+  const toNext = (id?: string) => {
+    console.log(id);
     if (scrollRef.current) {
       const item = itemsPosition.find((item) => item.id === id);
 
-      if (!item) {
-        throw new Error("toNext: no item id found!");
+      if (item) {
+        scrollRef.current.scrollTo({
+          y: item.y - item.height - ITEM_GAP,
+          animated: true,
+        });
+      } else {
+        toEnd();
       }
-
-      const { y, height } = item.nativeEvent.layout;
-
-      scrollRef.current.scrollTo({ y: y - height, animated: true });
     }
   };
 
@@ -50,7 +54,6 @@ const ProgressiveScroll: React.FC<Props> = (props) => {
 
   return (
     <ScrollView ref={scrollRef}>
-      {props.children}
       {props.renderItems(onLayout, toNext, toEnd)}
     </ScrollView>
   );

@@ -1,63 +1,24 @@
-import React, { useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import React from "react";
 import { observer } from "mobx-react";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { Header } from "../../fragments/AnalysisBar/Header";
-import { InstructionCard } from "../../fragments/AnalysisBar/InstructionCard";
 import { FinalAction } from "../../fragments/FinalAction";
 import { Typography } from "../../fragments/Typography";
-// import ProgressiveScroll from "../../fragments/ProgressiveScroll";
 import { useStores } from "../../../hooks/useStores";
 import { useTestBench } from "../../../hooks/useTestbench";
-import { Analysis } from "../../../models/Analysis";
-import { Instruction } from "../../../models/TestBenchIndexed";
 import { Wrapper, ScrollWrapper } from "./styles";
-import uuid from "react-native-uuid";
+import { AnalysisInstructions } from "../AnalysisInstructions";
+import ProgressiveScroll from "../ProgressiveScroll";
 
-export const AnalysisBar: React.FC = observer(() => {
-  const route = useRoute() as { params: { id: string } };
+interface IProps {
+  testBenchId: string;
+}
+
+export const AnalysisBar: React.FC<IProps> = observer((props) => {
   const navigation = useNavigation();
-  const { testBench, isError, isLoading } = useTestBench(route.params.id);
+  const { testBench, isError, isLoading } = useTestBench(props.testBenchId);
   const { analysisStore, applicationStore } = useStores();
-
-  const toNextInstruction = (nextInstructionId?: string) => {
-    const nextInstruction =
-      testBench.instructions.find(({ id }) => id === nextInstructionId) || null;
-    analysisStore.setSelectedInstruction(nextInstruction);
-  };
-
-  const handleSelected = (instruction: Instruction, state: boolean) => {
-    if (state) {
-      analysisStore.setSelectedInstruction(instruction);
-    }
-  };
-
-  const handleAnalysisDone = (
-    instruction: Instruction,
-    status: "success" | "failure" | "pending"
-  ) => {
-    if (status === "success") {
-      const analysis = new Analysis({
-        id: uuid.v4(),
-        instructionId: instruction.id,
-        startedAt: analysisStore.selectedInstructionAt,
-        finishedAt: new Date(),
-        status,
-      });
-
-      analysisStore.addAnalysis(analysis);
-      toNextInstruction(instruction.nextInstructionId);
-    }
-
-    if (status === "failure") {
-      navigation.navigate("FailureModal", { id: testBench.id });
-    }
-
-    if (status === "pending") {
-      analysisStore.removeAnalysis(instruction.id);
-    }
-  };
 
   const handleFinish = () => {
     analysisStore.finishAnalysis();
@@ -92,43 +53,25 @@ export const AnalysisBar: React.FC = observer(() => {
         />
       )}
       <ScrollWrapper>
-        <ScrollView>
-          <Typography icon="layers">Instructions</Typography>
-          {testBench.instructions
-            .sort((a, b) => a.step - b.step)
-            .map((instruction) => (
-              <View key={instruction.id} onLayout={(event) => console.log("")}>
-                <InstructionCard
-                  title={`#${instruction.step}`}
-                  description={instruction.description}
-                  warning={[
-                    ...instruction.warnings.map(({ description }) => ({
-                      title: "Atenção",
-                      description,
-                    })),
-                  ]}
-                  selected={
-                    analysisStore.selectedInstruction?.id === instruction.id
-                  }
-                  setSelected={(state) => handleSelected(instruction, state)}
-                  status={
-                    analysisStore.analysis.find(
-                      (item) => item.instructionId === instruction.id
-                    )?.status
-                  }
-                  onAnalysisDone={(status) =>
-                    handleAnalysisDone(instruction, status)
-                  }
-                />
-              </View>
-            ))}
-          <FinalAction
-            onFinish={handleFinish}
-            disabled={
-              analysisStore.analysis.length !== testBench.instructions.length
-            }
-          />
-        </ScrollView>
+        <ProgressiveScroll
+          renderItems={(onLayout, toNext) => (
+            <>
+              <Typography icon="layers">Instructions</Typography>
+              <AnalysisInstructions
+                testBenchId={props.testBenchId}
+                onLayout={onLayout}
+                toNext={toNext}
+              />
+              <FinalAction
+                onFinish={handleFinish}
+                disabled={
+                  analysisStore.analysis.length !==
+                  testBench.instructions.length
+                }
+              />
+            </>
+          )}
+        />
       </ScrollWrapper>
     </Wrapper>
   );
