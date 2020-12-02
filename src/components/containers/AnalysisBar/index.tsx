@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView } from "react-native";
 import { observer } from "mobx-react";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -52,7 +52,6 @@ export const AnalysisBar: React.FC = observer(() => {
 
     if (status === "failure") {
       navigation.navigate("FailureModal", { id: testBench.id });
-      toNextInstruction(instruction.nextInstructionId);
     }
 
     if (status === "pending") {
@@ -123,39 +122,6 @@ export const AnalysisBar: React.FC = observer(() => {
                 />
               </View>
             ))}
-          {/* <ProgressiveScroll
-          renderItems={(onLayout, onNext) =>
-            testBench.instructions.map((instruction) => (
-              <View
-                key={instruction.id}
-                onLayout={(event) => onLayout(instruction.id, event)}
-              >
-                <InstructionCard
-                  title={`#${instruction.step}`}
-                  description={instruction.description}
-                  warning={[
-                    ...instruction.warnings.map(({ description }) => ({
-                      title: "Atenção",
-                      description,
-                    })),
-                  ]}
-                  selected={selectedInstructionId === instruction.id}
-                  setSelected={(state) => handleSelected(instruction, state)}
-                  status={
-                    analysisStore.analysis.find(
-                      (item) => item.instructionId === instruction.id
-                    )?.status
-                  }
-                  onAnalysisDone={(status) =>
-                    handleAnalysisDone(instruction, status, onNext)
-                  }
-                />
-              </View>
-            ))
-          }
-        >
-          <Typography icon="layers">Instructions</Typography>
-        </ProgressiveScroll> */}
           <FinalAction
             onFinish={handleFinish}
             disabled={

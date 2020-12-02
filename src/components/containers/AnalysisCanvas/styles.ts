@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { rgba } from "polished";
 
-import { IconButton } from "../IconButton";
+import { IconButton } from "../../fragments/IconButton";
 
 export const Wrapper = styled.View`
   display: flex;
@@ -25,16 +25,7 @@ export const HeaderWrapper = styled.View`
   justify-content: space-between;
 `;
 
-export const ActionsWrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-  flex: 1 1;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-export const ExtendedIconButton = styled(IconButton)`
+export const CanvasIconButton = styled(IconButton)`
   margin: 0 8px;
   background-color: ${({ theme }) => rgba(theme.colors.foreground, 0.4)};
   color: ${({ theme }) => theme.colors.text};
