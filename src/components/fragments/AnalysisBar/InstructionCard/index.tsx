@@ -10,6 +10,7 @@ import { Actions } from "./Actions";
 import {
   Wrapper,
   ContentWrapper,
+  ContentHeaderWrapper,
   Title,
   Description,
   ActionsWrapper,
@@ -43,20 +44,24 @@ export const InstructionCard: React.FC<IProps> = ({
   return (
     <Wrapper onPress={() => setSelected(true)}>
       <ContentWrapper>
-        <View>
+        <ContentHeaderWrapper>
           <Title>{title}</Title>
-          <Description isHidden={!selected}>
-            <HTML html={description} baseFontStyle={{ fontSize: 18 }} />
-          </Description>
-        </View>
-        <View>
-          {status === "failure" && (
-            <Icon name="alert-triangle" color={theme.colors.danger} size={24} />
-          )}
-          {status === "success" && (
-            <Icon name="check" color={theme.colors.primary} size={24} />
-          )}
-        </View>
+          <View>
+            {status === "failure" && (
+              <Icon
+                name="alert-triangle"
+                color={theme.colors.danger}
+                size={24}
+              />
+            )}
+            {status === "success" && (
+              <Icon name="check" color={theme.colors.primary} size={24} />
+            )}
+          </View>
+        </ContentHeaderWrapper>
+        <Description isHidden={!selected}>
+          <HTML html={description} baseFontStyle={{ fontSize: 18 }} />
+        </Description>
       </ContentWrapper>
       {selected &&
         warning &&

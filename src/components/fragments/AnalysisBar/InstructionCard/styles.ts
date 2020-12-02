@@ -18,10 +18,15 @@ export const Wrapper = styled.TouchableOpacity`
 
 export const ContentWrapper = styled.View`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   margin: 14px;
   padding: 14px;
+`;
+
+export const ContentHeaderWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const Title = styled.Text`
