@@ -11,13 +11,13 @@ import { Wrapper, Header, Title, Content } from "./styles";
 export const HomeTemplate: React.FC = observer((props) => {
   const navigation = useNavigation();
 
-  const { userStore } = useStores();
+  const { applicationStore } = useStores();
 
   return (
     <GlobalStyle>
       <AppBar
-        initial={userStore.user.initial}
-        handleLogout={() => userStore.logout()}
+        initial={applicationStore.account?.initial || ""}
+        handleLogout={() => applicationStore.clear()}
         handleQRCodeScan={() => navigation.navigate("QRCodeCamera")}
       >
         <Header>

@@ -51,6 +51,7 @@ export const DropdownInput: React.FC<IDropdownInputProps> = ({
         }}
         dropDownStyle={{
           backgroundColor: "#fafafa",
+          elevation: 3,
         }}
         dropDownMaxHeight={450}
       />

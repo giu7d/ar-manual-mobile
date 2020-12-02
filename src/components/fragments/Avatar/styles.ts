@@ -14,4 +14,5 @@ export const AvatarText = styled.Text`
   font-size: 18px;
   font-weight: bold;
   opacity: 0.5;
+  text-transform: uppercase;
 `;

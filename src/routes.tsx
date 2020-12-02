@@ -21,33 +21,21 @@ const PublicRoutes = () => (
   </NavigationContainer>
 );
 
-const MainRoutes = () => {
-  return (
-    <Navigator.Navigator headerMode="none" initialRouteName="Login">
-      <Navigator.Screen name="Home" component={Home} />
-      <Navigator.Screen name="Analysis" component={Analysis} />
-      <Navigator.Screen name="FailureCamera" component={FailureCamera} />
-      <Navigator.Screen name="QRCodeCamera" component={QRCodeCamera} />
-    </Navigator.Navigator>
-  );
-};
-
 export const Routes = observer(() => {
-  const { userStore } = useStores();
+  const { applicationStore } = useStores();
 
-  if (!userStore.user.token) {
+  if (!applicationStore.account) {
     return <PublicRoutes />;
   }
 
   return (
     <NavigationContainer>
-      <Navigator.Navigator headerMode="none">
-        <Navigator.Screen
-          name="Main"
-          component={MainRoutes}
-          options={{ headerShown: false }}
-        />
+      <Navigator.Navigator headerMode="none" initialRouteName="Home">
+        <Navigator.Screen name="Home" component={Home} />
+        <Navigator.Screen name="Analysis" component={Analysis} />
         <Navigator.Screen name="FailureModal" component={ReportFailure} />
+        <Navigator.Screen name="FailureCamera" component={FailureCamera} />
+        <Navigator.Screen name="QRCodeCamera" component={QRCodeCamera} />
       </Navigator.Navigator>
     </NavigationContainer>
   );

@@ -8,8 +8,8 @@ import { Feather as Icon } from "@expo/vector-icons";
 import { CameraTemplate } from "../components/templates/CameraTemplate";
 import { useStores } from "../hooks/useStores";
 import { observer } from "mobx-react";
-import { CameraButton } from "../components/molecules/CameraButton";
-import { CameraSwitchSideButton } from "../components/molecules/CameraSwitchSideButton";
+import { CameraButton } from "../components/fragments/CameraButton";
+import { CameraSwitchSideButton } from "../components/fragments/CameraSwitchSideButton";
 
 export const FailureCamera: React.FC = observer(() => {
   const cameraRef = useRef<Camera>(null);

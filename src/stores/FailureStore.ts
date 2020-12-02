@@ -1,34 +1,18 @@
 import { CameraCapturedPicture } from "expo-camera";
 import { makeAutoObservable } from "mobx";
-import { Failure } from "../models/Failure";
 
 export const FailureStore = () =>
   makeAutoObservable({
-    failure: new Failure({
-      id: "",
-      caoItemId: "",
-      description: "",
-      photos: [],
-      createdAt: new Date(),
-    }),
-    addFailure(caoItemId: string, description: string) {
-      this.failure.caoItemId = caoItemId;
-      this.failure.description = description;
-      this.failure.createdAt = new Date();
-    },
+    photos: [] as CameraCapturedPicture[],
     addPhoto(photo: CameraCapturedPicture) {
-      this.failure.photos.push(photo);
+      this.photos = [...this.photos, photo];
     },
     removePhoto(index: number) {
-      this.failure.photos.splice(index, 1);
+      const photos = [...this.photos];
+      photos.splice(index, 1);
+      this.photos = [...photos];
     },
     clear() {
-      this.failure = new Failure({
-        id: "",
-        caoItemId: "",
-        description: "",
-        photos: [],
-        createdAt: new Date(),
-      });
+      this.photos = [] as CameraCapturedPicture[];
     },
   });

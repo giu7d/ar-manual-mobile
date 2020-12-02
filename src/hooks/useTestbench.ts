@@ -7,7 +7,7 @@ export const useTestBench = (id: string) => {
   const { data, error } = useSWR(`/testbenches/${id}`, fetcher);
 
   return {
-    testBenches: data as TestBenchIndexed,
+    testBench: data as TestBenchIndexed,
     isLoading: !error && !data,
     isError: error,
   };

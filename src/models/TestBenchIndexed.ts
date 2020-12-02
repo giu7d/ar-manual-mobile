@@ -1,15 +1,16 @@
+export interface CAOItem {
+  id: string;
+  description: string;
+  frequency: string;
+  series: string;
+  reforce: string;
+  method: string;
+  conformity: string;
+}
 export interface CAO {
   id: string;
   description: string;
-  items: {
-    id: string;
-    description: string;
-    frequency: string;
-    series: string;
-    reforce: string;
-    method: string;
-    conformity: string;
-  }[];
+  items: CAOItem[];
 }
 
 export interface Instruction {
