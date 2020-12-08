@@ -8,6 +8,7 @@ import { useTestBench } from "../../../hooks/useTestbench";
 import { useStores } from "../../../hooks/useStores";
 import { AnalysisInformation } from "../../fragments/AnalysisInformation";
 import { Wrapper, HeaderWrapper, CanvasIconButton } from "./styles";
+import { ThreeCanvas } from "./ThreeCanvas";
 
 interface IProps {
   testBenchId: string;
@@ -15,7 +16,7 @@ interface IProps {
 
 export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
   const { testBench, isLoading, isError } = useTestBench(testBenchId);
-  const { analysisStore } = useStores();
+  const { analysisStore, applicationStore } = useStores();
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -35,18 +36,32 @@ export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
         <CanvasIconButton onPress={handleGoBack}>
           <Icon name="chevron-left" size={24} />
         </CanvasIconButton>
+
+        <CanvasIconButton
+          onPress={() =>
+            applicationStore.setCanvasMode(
+              applicationStore.canvasMode === "photo" ? "3d" : "photo"
+            )
+          }
+        >
+          <Icon name="chevron-left" size={24} />
+        </CanvasIconButton>
       </HeaderWrapper>
-      {analysisStore.selectedInstruction && (
-        <Image
-          source={{ uri: analysisStore.selectedInstruction.sources[0].src }}
-          style={{
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          resizeMode="contain"
-        />
+      {applicationStore.canvasMode === "photo" ? (
+        analysisStore.selectedInstruction && (
+          <Image
+            source={{ uri: analysisStore.selectedInstruction.sources[0].src }}
+            style={{
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            resizeMode="contain"
+          />
+        )
+      ) : (
+        <ThreeCanvas />
       )}
       <AnalysisInformation
         items={[
