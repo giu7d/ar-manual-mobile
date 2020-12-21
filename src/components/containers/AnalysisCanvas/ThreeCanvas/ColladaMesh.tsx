@@ -33,7 +33,7 @@ export const ColladaMesh: React.FC = () => {
     const initTime = new Date();
 
     const asset = Asset.fromModule(
-      require("../../../../../assets/3d/Demo.dae")
+      require("../../../../../assets/3d/Component-C24105974.dae")
     );
 
     await asset.downloadAsync();
@@ -44,7 +44,7 @@ export const ColladaMesh: React.FC = () => {
     }
 
     const loader = new ColladaLoader();
-    const model = await loader.loadAsync(asset.uri);
+    const model: Collada = await loader.loadAsync(asset.uri);
 
     setMesh(model);
     setMixer(new THREE.AnimationMixer(model.scene));
@@ -55,31 +55,15 @@ export const ColladaMesh: React.FC = () => {
     console.log(`
     =============
     Asset loaded!
-
-    it takes ${endTime.getTime() - initTime.getTime()} ms to load.
+    It takes ${endTime.getTime() - initTime.getTime()} ms to load.
     =============
     `);
   };
 
   return mesh ? (
-    <primitive
-      object={mesh.scene}
-      children-0-material={
-        new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff })
-      }
-      children-1-material={
-        new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff })
-      }
-      children-2-material={
-        new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff })
-      }
-      children-3-material={
-        new THREE.MeshBasicMaterial({ wireframe: true, color: 0x00ff00 })
-      }
-      children-4-material={
-        new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff })
-      }
-    />
+    <mesh>
+      <primitive object={mesh.scene} />
+    </mesh>
   ) : (
     <></>
   );

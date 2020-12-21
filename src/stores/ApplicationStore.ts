@@ -4,7 +4,7 @@ import { Account } from "../models/Account";
 
 export const ApplicationStore = () =>
   makeAutoObservable({
-    canvasMode: "photo" as "photo" | "3d",
+    canvasMode: "3d" as "photo" | "3d",
     account: null as Account | null,
     setAccount(token: string) {
       const { data } = jwt(token);
