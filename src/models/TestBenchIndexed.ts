@@ -16,6 +16,7 @@ export interface CAO {
 export interface Instruction {
   id: string;
   testBenchId: string;
+  title: string;
   description: string;
   step: number;
   nextInstructionId?: string;

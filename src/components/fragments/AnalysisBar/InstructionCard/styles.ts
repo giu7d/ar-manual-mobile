@@ -30,6 +30,13 @@ export const ContentHeaderWrapper = styled.View`
 `;
 
 export const Title = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Step = styled.Text`
   margin-bottom: 8px;
   font-size: 16px;
   font-weight: bold;

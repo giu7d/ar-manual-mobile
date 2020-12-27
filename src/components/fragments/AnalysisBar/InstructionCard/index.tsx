@@ -11,12 +11,14 @@ import {
   Wrapper,
   ContentWrapper,
   ContentHeaderWrapper,
+  Step,
   Title,
   Description,
   ActionsWrapper,
 } from "./styles";
 
 interface IProps {
+  step: number;
   title: string;
   description: string;
   warning?: Array<IWarningProps>;
@@ -28,6 +30,7 @@ interface IProps {
 
 export const InstructionCard: React.FC<IProps> = ({
   title,
+  step,
   description,
   warning = [],
   selected = false,
@@ -45,7 +48,7 @@ export const InstructionCard: React.FC<IProps> = ({
     <Wrapper onPress={() => setSelected(true)}>
       <ContentWrapper>
         <ContentHeaderWrapper>
-          <Title>{title}</Title>
+          <Step>#{step}</Step>
           <View>
             {status === "failure" && (
               <Icon
@@ -59,9 +62,12 @@ export const InstructionCard: React.FC<IProps> = ({
             )}
           </View>
         </ContentHeaderWrapper>
-        <Description isHidden={!selected}>
-          <HTML html={description} baseFontStyle={{ fontSize: 18 }} />
-        </Description>
+        <Title>{title}</Title>
+        {selected && (
+          <Description>
+            <HTML html={description} baseFontStyle={{ fontSize: 18 }} />
+          </Description>
+        )}
       </ContentWrapper>
       {selected &&
         warning &&

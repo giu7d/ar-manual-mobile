@@ -18,12 +18,13 @@ export const WebViewCanvas: React.FC<Props> = ({
     <WebView
       style={{ flex: 1, flexGrow: 1 }}
       source={{ uri: `${RENDER_URL}/render/${folder}/${file}` }}
-      cacheMode="LOAD_CACHE_ELSE_NETWORK"
-      cacheEnabled
-      javaScriptEnabled
-      domStorageEnabled
-      thirdPartyCookiesEnabled
-      sharedCookiesEnabled
+      renderToHardwareTextureAndroid
+      // cacheMode="LOAD_CACHE_ELSE_NETWORK"
+      // cacheEnabled
+      // javaScriptEnabled
+      // domStorageEnabled
+      // thirdPartyCookiesEnabled
+      // sharedCookiesEnabled
     />
   );
 };

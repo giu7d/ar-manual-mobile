@@ -93,7 +93,8 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
                 }
               >
                 <InstructionCard
-                  title={`#${instruction.step}`}
+                  step={instruction.step}
+                  title={instruction.title}
                   description={instruction.description}
                   warning={warnings}
                   selected={isSelected}
