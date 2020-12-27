@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { LayoutRectangle, ScrollView } from "react-native";
 
-const ITEM_GAP = 104;
+const ITEM_GAP = 250;
 
 interface ItemPosition extends LayoutRectangle {
   id: string;
