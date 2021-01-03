@@ -18,7 +18,7 @@ export const useInstructions = (testbenchId: string) => {
   return {
     instructions: isReady ? testBench.instructions : [],
     selectedInstruction: analysisStore.selectedInstruction,
-    selectedInstructionAt: analysisStore.selectedInstruction,
+    selectedInstructionAt: analysisStore.selectedInstructionAt,
     goToInstruction,
     isLoading,
     isError,
