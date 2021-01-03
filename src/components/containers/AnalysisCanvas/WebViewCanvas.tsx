@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
 import Constants from "expo-constants";
 import WebView from "react-native-webview";
+import { Typography } from "../../fragments/Typography";
 
 const { RENDER_URL } = Constants.manifest.extra;
 
@@ -12,9 +12,11 @@ interface Props {
 
 export const WebViewCanvas: React.FC<Props> = ({
   folder = "instructions",
-  file = "abef9d6a-2497-4a37-895f-c6fa3ff16087.glb",
+  file,
 }) => {
-  console.log(`${RENDER_URL}/render/${folder}/${file}`);
+  if (!file) {
+    return <Typography>No 3D file found! </Typography>;
+  }
 
   return (
     <WebView

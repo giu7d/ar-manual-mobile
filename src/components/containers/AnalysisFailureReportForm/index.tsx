@@ -8,12 +8,13 @@ import { Warning } from "../../fragments/Warning";
 import { FormInput } from "../../fragments/FormInput";
 import { ImageHorizontalThumbnails } from "../../fragments/ImageHorizontalThumbnails";
 import { useTestBench } from "../../../hooks/useTestbench";
-import { useStores } from "../../../hooks/useStores";
 import { Analysis } from "../../../models/Analysis";
 import { FinishButton } from "../../fragments/FinishButton";
 import { TakePhotoButton } from "../../fragments/TakePhotoButton";
 import { FailureDropdown } from "../../fragments/FailureDropdown";
 import { useAnalysis } from "../../../hooks/useAnalysis";
+import { useInstructions } from "../../../hooks/useInstructions";
+import { usePhotos } from "../../../hooks/usePhotos";
 
 interface IForm {
   cao: { description: string; id: string };
@@ -31,54 +32,59 @@ interface IProps {
 
 export const AnalysisFailureReportForm: React.FC<IProps> = observer(
   ({ testBenchId }) => {
-    const { testBench } = useTestBench(testBenchId);
+    const navigation = useNavigation();
+
     const [form, setForm] = useState(initialForm);
     const [error, setError] = useState<string>();
-    const { analysisStore, failureStore } = useStores();
+
     const { addAnalysis } = useAnalysis();
-    const navigation = useNavigation();
+    const { testBench } = useTestBench(testBenchId);
+    const { photos, removePhoto, uploadPhotos, clearPhotos } = usePhotos();
+    const {
+      selectedInstruction,
+      selectedInstructionAt,
+      goToInstruction,
+    } = useInstructions(testBenchId);
 
     useEffect(() => {
       handleValidation();
-    }, [form, failureStore.photos]);
-
-    const toNextInstruction = (nextInstructionId?: string) => {
-      analysisStore.setSelectedInstruction(
-        testBench.instructions.find(({ id }) => id === nextInstructionId)
-      );
-    };
+    }, [form, photos]);
 
     const handleValidation = async () => {
       const validationError = await validate({
         caoId: form.cao.id,
         description: form.description,
-        photos: failureStore.photos,
+        photos,
       });
       setError(validationError ? validationError[0] : undefined);
     };
 
     const handleFinish = async () => {
       await handleValidation();
-      if (!error && analysisStore.selectedInstruction) {
+      if (!error && selectedInstruction) {
         const analysis = new Analysis({
           id: uuid.v4(),
-          instructionId: analysisStore.selectedInstruction.id,
+          instructionId: selectedInstruction.id,
           status: "failure",
-          startedAt: analysisStore.selectedInstructionAt,
+          startedAt: selectedInstructionAt,
           finishedAt: new Date(),
           failure: {
             id: uuid.v4(),
             caoItemId: form.cao.id,
             description: form.description,
-            photos: failureStore.photos,
+            photos,
             createdAt: new Date(),
           },
         });
 
         addAnalysis(analysis);
-        toNextInstruction(analysisStore.selectedInstruction.nextInstructionId);
+
+        goToInstruction(selectedInstruction.nextInstructionId);
+
+        await uploadPhotos();
+        clearPhotos();
+
         navigation.goBack();
-        failureStore.clear();
       }
     };
 
@@ -107,10 +113,7 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
               })),
           }}
         />
-        <ImageHorizontalThumbnails
-          photos={failureStore.photos}
-          onClick={(i) => failureStore.removePhoto(i)}
-        />
+        <ImageHorizontalThumbnails photos={photos} onClick={removePhoto} />
         <TakePhotoButton>Abrir Camera</TakePhotoButton>
         <FinishButton error={error} onClick={handleFinish}>
           Reportar Falha

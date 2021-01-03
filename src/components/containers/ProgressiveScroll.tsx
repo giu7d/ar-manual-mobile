@@ -31,7 +31,6 @@ const ProgressiveScroll: React.FC<Props> = (props) => {
   };
 
   const toNext = (id?: string) => {
-    console.log(id);
     if (scrollRef.current) {
       const item = itemsPosition.find((item) => item.id === id);
 

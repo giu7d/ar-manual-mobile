@@ -9,6 +9,8 @@ import { Instruction } from "../../models/TestBenchIndexed";
 import { Analysis } from "../../models/Analysis";
 import { InstructionCard } from "../fragments/AnalysisBar/InstructionCard";
 import { useAnalysis } from "../../hooks/useAnalysis";
+import { useInstructions } from "../../hooks/useInstructions";
+import { Typography } from "../fragments/Typography";
 
 interface IProps {
   testBenchId: string;
@@ -21,7 +23,14 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
     const navigation = useNavigation();
     const { analysisStore } = useStores();
     const { analysis, addAnalysis, removeAnalysis } = useAnalysis();
-    const { testBench, isError, isLoading } = useTestBench(testBenchId);
+    const {
+      instructions,
+      selectedInstruction,
+      selectedInstructionAt,
+      goToInstruction,
+      isError,
+      isLoading,
+    } = useInstructions(testBenchId);
 
     const onSelected = (instruction: Instruction, state: boolean) => {
       if (state) {
@@ -37,26 +46,18 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
         const analysis = new Analysis({
           id: uuid.v4(),
           instructionId: instruction.id,
-          startedAt: analysisStore.selectedInstructionAt,
+          startedAt: selectedInstructionAt,
           finishedAt: new Date(),
           status,
         });
 
         addAnalysis(analysis);
-
-        const nextInstruction =
-          testBench.instructions.find(
-            ({ id }) => id === instruction.nextInstructionId
-          ) || null;
-
-        if (nextInstruction) {
-          analysisStore.setSelectedInstruction(nextInstruction);
-          toNext(nextInstruction.id);
-        }
+        goToInstruction(instruction.nextInstructionId);
+        toNext(instruction.nextInstructionId);
       }
 
       if (status === "failure") {
-        navigation.navigate("FailureModal", { id: testBench.id });
+        navigation.navigate("FailureModal", { id: testBenchId });
       }
 
       if (status === "pending") {
@@ -65,20 +66,19 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
     };
 
     if (isLoading) {
-      return null;
+      return <Typography>Loading</Typography>;
     }
 
     if (isError) {
-      return null;
+      return <Typography>Error</Typography>;
     }
 
     return (
       <>
-        {testBench.instructions
+        {instructions
           .sort((a, b) => a.step - b.step)
           .map((instruction) => {
-            const isSelected =
-              analysisStore.selectedInstruction?.id === instruction.id;
+            const isSelected = selectedInstruction?.id === instruction.id;
 
             const warnings = [
               ...instruction.warnings.map(({ description }) => ({

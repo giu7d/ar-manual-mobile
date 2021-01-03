@@ -11,19 +11,20 @@ import { Wrapper, ScrollWrapper } from "./styles";
 import { AnalysisInstructions } from "../AnalysisInstructions";
 import ProgressiveScroll from "../ProgressiveScroll";
 import { useAnalysis } from "../../../hooks/useAnalysis";
+import { useInstructions } from "../../../hooks/useInstructions";
 
 interface IProps {
   testBenchId: string;
 }
 
-export const AnalysisBar: React.FC<IProps> = observer((props) => {
-  const { testBench, isError, isLoading } = useTestBench(props.testBenchId);
-  const { analysisStore, applicationStore } = useStores();
-  const { finishAnalysis } = useAnalysis();
+export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
   const navigation = useNavigation();
+  const { analysis, finishAnalysis } = useAnalysis();
+  const { analysisStore, applicationStore } = useStores();
+  const { instructions, isLoading, isError } = useInstructions(testBenchId);
 
   const handleFinish = () => {
-    finishAnalysis(props.testBenchId);
+    finishAnalysis(testBenchId);
     analysisStore.clear();
     navigation.navigate("Home");
   };
@@ -50,8 +51,8 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
         <Header
           initial={applicationStore.account.initial}
           handleLogout={() => applicationStore.clear()}
-          done={analysisStore.analysis.length}
-          total={testBench.instructions.length}
+          done={analysis.length}
+          total={instructions.length}
         />
       )}
       <ScrollWrapper>
@@ -60,16 +61,13 @@ export const AnalysisBar: React.FC<IProps> = observer((props) => {
             <>
               <Typography icon="layers">Instructions</Typography>
               <AnalysisInstructions
-                testBenchId={props.testBenchId}
+                testBenchId={testBenchId}
                 onLayout={onLayout}
                 toNext={toNext}
               />
               <FinalAction
                 onFinish={handleFinish}
-                disabled={
-                  analysisStore.analysis.length !==
-                  testBench.instructions.length
-                }
+                disabled={analysis.length !== instructions.length}
               />
             </>
           )}
