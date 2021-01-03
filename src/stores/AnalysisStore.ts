@@ -2,37 +2,32 @@ import { makeAutoObservable } from "mobx";
 import { Analysis } from "../models/Analysis";
 import { Instruction } from "../models/TestBenchIndexed";
 
+interface IAnalysisStore {
+  analysis: Analysis[];
+  setAnalysis(analysis: Analysis[]): void;
+  selectedInstruction?: Instruction;
+  selectedInstructionAt: Date;
+  startedAt: Date;
+  setSelectedInstruction(instruction: Instruction | undefined): void;
+  clear(): void;
+}
+
 export const AnalysisStore = () =>
-  makeAutoObservable({
-    analysis: [] as Analysis[],
-    selectedInstruction: null as Instruction | null,
+  makeAutoObservable<IAnalysisStore>({
+    analysis: [],
+    setAnalysis(analysis) {
+      this.analysis = analysis;
+    },
+    selectedInstruction: undefined,
     selectedInstructionAt: new Date(),
     startedAt: new Date(),
-    finishedAt: null as Date | null,
-    addAnalysis(analysis: Analysis) {
-      this.analysis.push(analysis);
-    },
-    removeAnalysis(instructionId: string) {
-      const index = this.analysis.findIndex(
-        (analysis) => analysis.instructionId === instructionId
-      );
-
-      if (index !== -1) {
-        this.analysis.splice(index, 1);
-      }
-    },
-    finishAnalysis() {
-      this.finishedAt = new Date();
-      console.log("START JOB");
-    },
-    setSelectedInstruction(instruction: Instruction | null) {
+    setSelectedInstruction(instruction) {
       this.selectedInstruction = instruction;
       this.selectedInstructionAt = new Date();
     },
     clear() {
       this.analysis = [];
-      this.selectedInstruction = null;
+      this.selectedInstruction = undefined;
       this.startedAt = new Date();
-      this.finishedAt = null;
     },
   });

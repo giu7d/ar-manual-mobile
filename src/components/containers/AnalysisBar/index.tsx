@@ -10,18 +10,20 @@ import { useTestBench } from "../../../hooks/useTestbench";
 import { Wrapper, ScrollWrapper } from "./styles";
 import { AnalysisInstructions } from "../AnalysisInstructions";
 import ProgressiveScroll from "../ProgressiveScroll";
+import { useAnalysis } from "../../../hooks/useAnalysis";
 
 interface IProps {
   testBenchId: string;
 }
 
 export const AnalysisBar: React.FC<IProps> = observer((props) => {
-  const navigation = useNavigation();
   const { testBench, isError, isLoading } = useTestBench(props.testBenchId);
   const { analysisStore, applicationStore } = useStores();
+  const { finishAnalysis } = useAnalysis();
+  const navigation = useNavigation();
 
   const handleFinish = () => {
-    analysisStore.finishAnalysis();
+    finishAnalysis(props.testBenchId);
     analysisStore.clear();
     navigation.navigate("Home");
   };

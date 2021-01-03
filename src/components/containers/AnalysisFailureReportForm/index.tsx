@@ -13,6 +13,7 @@ import { Analysis } from "../../../models/Analysis";
 import { FinishButton } from "../../fragments/FinishButton";
 import { TakePhotoButton } from "../../fragments/TakePhotoButton";
 import { FailureDropdown } from "../../fragments/FailureDropdown";
+import { useAnalysis } from "../../../hooks/useAnalysis";
 
 interface IForm {
   cao: { description: string; id: string };
@@ -34,6 +35,7 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
     const [form, setForm] = useState(initialForm);
     const [error, setError] = useState<string>();
     const { analysisStore, failureStore } = useStores();
+    const { addAnalysis } = useAnalysis();
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -42,8 +44,7 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
 
     const toNextInstruction = (nextInstructionId?: string) => {
       analysisStore.setSelectedInstruction(
-        testBench.instructions.find(({ id }) => id === nextInstructionId) ||
-          null
+        testBench.instructions.find(({ id }) => id === nextInstructionId)
       );
     };
 
@@ -74,7 +75,7 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
           },
         });
 
-        analysisStore.addAnalysis(analysis);
+        addAnalysis(analysis);
         toNextInstruction(analysisStore.selectedInstruction.nextInstructionId);
         navigation.goBack();
         failureStore.clear();

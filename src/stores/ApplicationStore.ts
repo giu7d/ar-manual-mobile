@@ -2,18 +2,28 @@ import jwt from "jwt-decode";
 import { makeAutoObservable } from "mobx";
 import { Account } from "../models/Account";
 
+type CanvasType = "photo" | "3D";
+
+interface IApplicationStore {
+  account?: Account;
+  setAccount(token: string): void;
+  canvasMode: CanvasType;
+  setCanvasMode(state: CanvasType): void;
+  clear(): void;
+}
+
 export const ApplicationStore = () =>
-  makeAutoObservable({
-    canvasMode: "3d" as "photo" | "3d",
-    account: null as Account | null,
-    setAccount(token: string) {
+  makeAutoObservable<IApplicationStore>({
+    account: undefined,
+    setAccount(token) {
       const { data } = jwt(token);
       this.account = new Account({ ...data });
     },
-    clear() {
-      this.account = null;
-    },
-    setCanvasMode(state: "photo" | "3d") {
+    canvasMode: "photo",
+    setCanvasMode(state) {
       this.canvasMode = state;
+    },
+    clear() {
+      this.account = undefined;
     },
   });

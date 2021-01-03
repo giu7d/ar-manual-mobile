@@ -14,16 +14,18 @@ export const WebViewCanvas: React.FC<Props> = ({
   folder = "instructions",
   file = "abef9d6a-2497-4a37-895f-c6fa3ff16087.glb",
 }) => {
+  console.log(`${RENDER_URL}/render/${folder}/${file}`);
+
   return (
     <WebView
-      style={{ flex: 1, flexGrow: 1 }}
+      style={{ flex: 1, flexGrow: 1, backgroundColor: "#333" }}
       source={{ uri: `${RENDER_URL}/render/${folder}/${file}` }}
-      cacheMode="LOAD_CACHE_ELSE_NETWORK"
       cacheEnabled
       javaScriptEnabled
       domStorageEnabled
       thirdPartyCookiesEnabled
       sharedCookiesEnabled
+      onError={(e) => console.log(e)}
     />
   );
 };

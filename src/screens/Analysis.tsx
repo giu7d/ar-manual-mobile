@@ -16,7 +16,7 @@ export const Analysis: React.FC = observer(() => {
   useEffect(() => {
     if (testBench && !analysisStore.selectedInstruction) {
       analysisStore.setSelectedInstruction(
-        testBench.instructions.find(({ step }) => step === 1) || null
+        testBench.instructions.find(({ step }) => step === 1)
       );
     }
   });

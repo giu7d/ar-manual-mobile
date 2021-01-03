@@ -40,7 +40,7 @@ export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
         <CanvasIconButton
           onPress={() =>
             applicationStore.setCanvasMode(
-              applicationStore.canvasMode === "photo" ? "3d" : "photo"
+              applicationStore.canvasMode === "photo" ? "3D" : "photo"
             )
           }
         >
@@ -62,11 +62,22 @@ export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
           )
         : analysisStore.selectedInstruction && (
             <WebViewCanvas
-              file={
-                analysisStore.selectedInstruction.step % 2 === 0
-                  ? "dcf67589-2f20-4f5c-a4a3-f8ad6b13a34e.glb"
-                  : "4581c22b-204c-410a-8bc9-9888f409c337.glb"
-              }
+              file={(() => {
+                const models = analysisStore.selectedInstruction.sources.filter(
+                  ({ type }) => type === "3D"
+                );
+
+                if (!models) {
+                  return;
+                }
+
+                const [firstModel] = models;
+
+                const splicedSrc = firstModel.src.split("/");
+                const model = splicedSrc[splicedSrc.length - 1];
+
+                return model;
+              })()}
             />
           )}
       <AnalysisInformation

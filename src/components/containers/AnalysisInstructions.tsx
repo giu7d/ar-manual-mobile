@@ -8,6 +8,7 @@ import { useTestBench } from "../../hooks/useTestbench";
 import { Instruction } from "../../models/TestBenchIndexed";
 import { Analysis } from "../../models/Analysis";
 import { InstructionCard } from "../fragments/AnalysisBar/InstructionCard";
+import { useAnalysis } from "../../hooks/useAnalysis";
 
 interface IProps {
   testBenchId: string;
@@ -19,6 +20,7 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
   ({ testBenchId, onLayout = () => {}, toNext = () => {} }) => {
     const navigation = useNavigation();
     const { analysisStore } = useStores();
+    const { analysis, addAnalysis, removeAnalysis } = useAnalysis();
     const { testBench, isError, isLoading } = useTestBench(testBenchId);
 
     const onSelected = (instruction: Instruction, state: boolean) => {
@@ -40,7 +42,7 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
           status,
         });
 
-        analysisStore.addAnalysis(analysis);
+        addAnalysis(analysis);
 
         const nextInstruction =
           testBench.instructions.find(
@@ -58,7 +60,7 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
       }
 
       if (status === "pending") {
-        analysisStore.removeAnalysis(instruction.id);
+        removeAnalysis(instruction.id);
       }
     };
 
@@ -100,7 +102,7 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
                   selected={isSelected}
                   setSelected={(state) => onSelected(instruction, state)}
                   status={
-                    analysisStore.analysis.find(
+                    analysis.find(
                       (item) => item.instructionId === instruction.id
                     )?.status
                   }
