@@ -26,16 +26,18 @@ export const useAnalysis = () => {
 
   const finishAnalysis = async (testBenchId: string) => {
     try {
-      const finishedAt = new Date();
       const { analysis, startedAt } = analysisStore;
+      const finishedAt = new Date();
+
       const status = await persistAnalysis(testBenchId, {
         analysis,
         startedAt,
         finishedAt,
       });
+
       console.log("finishAnalysis", "success", status);
     } catch (error) {
-      console.log("finishAnalysis", "error", error);
+      console.log("finishAnalysis", "error", error.message);
     }
   };
 

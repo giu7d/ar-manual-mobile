@@ -33,50 +33,38 @@ export const persistAnalysis = async (
     finishedAt: Date;
   }
 ) => {
-  console.log("persistAnalysis");
-  console.log(id, payload);
-  return 200;
+  const analysisStatus =
+    payload.analysis.filter(({ status }) => status === "failure").length === 0
+      ? "approved"
+      : "failure";
 
-  // const failLength = payload.analysis.filter(
-  //   ({ status }) => status === "failure"
-  // ).length;
-  // const updatedSteps = payload.analysis.map(
-  //   async ({ instructionId, status, startedAt, finishedAt, failure }) => {
-  //     const updatedPhotos = failure?.photos.map(async (file) => {
-  //       if (!file.base64) {
-  //         return;
-  //       }
-  //       const response = await uploadImage("failures", [file.base64]);
-  //       return response.url[0];
-  //     });
-  //     return {
-  //       instructionId,
-  //       status,
-  //       startedAt,
-  //       finishedAt,
-  //       failure: failure
-  //         ? {
-  //             src: await Promise.all(updatedPhotos || []),
-  //             caoItemId: failure.caoItemId,
-  //             description: failure.description || undefined,
-  //           }
-  //         : undefined,
-  //     };
-  //   }
-  // );
-  // const data = {
-  //   status: failLength === 0 ? "approved" : "failure",
-  //   startedAt: payload.startedAt,
-  //   finishedAt: payload.finishedAt,
-  //   steps: await Promise.all(updatedSteps),
-  // };
-  // console.log(data);
-  // const { status }: AxiosResponse = await API.post("/analysis", data, {
-  //   headers: {
-  //     testbenchid: id,
-  //   },
-  // });
-  // return status;
+  const steps = payload.analysis.map(({ id, failure, ...rest }) => {
+    return {
+      ...rest,
+      failure: failure
+        ? {
+            src: failure.photos,
+            description: failure.description || undefined,
+            caoItemId: failure.caoItemId,
+          }
+        : undefined,
+    };
+  });
+
+  const data = {
+    steps,
+    status: analysisStatus,
+    startedAt: payload.startedAt,
+    finishedAt: payload.finishedAt,
+  };
+
+  const { status }: AxiosResponse = await API.post("/analysis", data, {
+    headers: {
+      testbenchid: id,
+    },
+  });
+
+  return status;
 };
 
 export const uploadFiles = async (

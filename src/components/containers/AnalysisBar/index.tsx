@@ -23,8 +23,8 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
   const { analysisStore, applicationStore } = useStores();
   const { instructions, isLoading, isError } = useInstructions(testBenchId);
 
-  const handleFinish = () => {
-    finishAnalysis(testBenchId);
+  const handleFinish = async () => {
+    await finishAnalysis(testBenchId);
     analysisStore.clear();
     navigation.navigate("Home");
   };
