@@ -3,5 +3,7 @@ type IAuthenticationResponse = {
 };
 
 type IImageUploadResponse = {
-  url: string[];
+  type: string;
+  newName: string;
+  url: string;
 };

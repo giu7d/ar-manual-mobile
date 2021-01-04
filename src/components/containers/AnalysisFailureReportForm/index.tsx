@@ -39,7 +39,13 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
 
     const { addAnalysis } = useAnalysis();
     const { testBench } = useTestBench(testBenchId);
-    const { photos, removePhoto, uploadPhotos, clearPhotos } = usePhotos();
+    const {
+      photos,
+      isLoading,
+      removePhoto,
+      uploadPhotos,
+      clearPhotos,
+    } = usePhotos();
     const {
       selectedInstruction,
       selectedInstructionAt,
@@ -61,31 +67,35 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
 
     const handleFinish = async () => {
       await handleValidation();
-      if (!error && selectedInstruction) {
-        const analysis = new Analysis({
+
+      if (error || !selectedInstruction) return;
+
+      const failurePhotos = await uploadPhotos();
+
+      if (!failurePhotos) return;
+
+      const analysis = new Analysis({
+        id: uuid.v4(),
+        instructionId: selectedInstruction.id,
+        status: "failure",
+        startedAt: selectedInstructionAt,
+        finishedAt: new Date(),
+        failure: {
           id: uuid.v4(),
-          instructionId: selectedInstruction.id,
-          status: "failure",
-          startedAt: selectedInstructionAt,
-          finishedAt: new Date(),
-          failure: {
-            id: uuid.v4(),
-            caoItemId: form.cao.id,
-            description: form.description,
-            photos,
-            createdAt: new Date(),
-          },
-        });
+          caoItemId: form.cao.id,
+          description: form.description,
+          photos: failurePhotos,
+          createdAt: new Date(),
+        },
+      });
 
-        addAnalysis(analysis);
+      addAnalysis(analysis);
 
-        goToInstruction(selectedInstruction.nextInstructionId);
+      goToInstruction(selectedInstruction.nextInstructionId);
 
-        await uploadPhotos();
-        clearPhotos();
+      clearPhotos();
 
-        navigation.goBack();
-      }
+      navigation.goBack();
     };
 
     return (
@@ -115,7 +125,10 @@ export const AnalysisFailureReportForm: React.FC<IProps> = observer(
         />
         <ImageHorizontalThumbnails photos={photos} onClick={removePhoto} />
         <TakePhotoButton>Abrir Camera</TakePhotoButton>
-        <FinishButton error={error} onClick={handleFinish}>
+        <FinishButton
+          error={error !== undefined || isLoading}
+          onClick={handleFinish}
+        >
           Reportar Falha
         </FinishButton>
       </>

@@ -4,7 +4,7 @@ import { Button } from "./Button";
 
 interface IProps {
   children: string;
-  error: string | undefined;
+  error: boolean;
   onClick: () => void;
 }
 
@@ -21,7 +21,7 @@ export const FinishButton: React.FC<IProps> = (props) => {
             ? theme.colors.danger
             : theme.colors.background,
         },
-        disabled: props.error !== undefined,
+        disabled: props.error,
       }}
     >
       {props.children}

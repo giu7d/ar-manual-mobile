@@ -1,10 +1,8 @@
-import { CameraCapturedPicture } from "expo-camera";
-
 export class Failure {
   id!: string;
   caoItemId!: string;
   description!: string;
-  photos!: CameraCapturedPicture[];
+  photos!: string[];
   createdAt!: Date;
 
   constructor(props: Failure) {

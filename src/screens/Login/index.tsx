@@ -10,7 +10,7 @@ import { useStores } from "../../hooks/useStores";
 import { Warning } from "../../components/fragments/Warning";
 import { LoginTemplate } from "../../components/templates/LoginTemplate";
 import { ILoginFormSchema, LoginFormSchema } from "./LoginFormSchema";
-import { authenticate } from "../../services/api";
+import { authenticateAccount } from "../../services/api";
 
 const { LOGIN_USERNAME, LOGIN_PASSWORD } = Constants.manifest.extra;
 
@@ -46,7 +46,7 @@ export const Login: React.FC = observer(() => {
   const handleSubmit = async () => {
     try {
       handleValidation();
-      const account = await authenticate(form.email, form.password);
+      const account = await authenticateAccount(form.email, form.password);
       applicationStore.setAccount(account.token);
     } catch (error) {
       setError(error.message);
