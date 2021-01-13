@@ -36,7 +36,7 @@ const ProgressiveScroll: React.FC<Props> = (props) => {
 
       if (item) {
         scrollRef.current.scrollTo({
-          y: item.y - item.height - ITEM_GAP,
+          y: item.y - ITEM_GAP,
           animated: true,
         });
       } else {
