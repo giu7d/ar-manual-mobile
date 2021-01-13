@@ -16,10 +16,11 @@ interface IProps {
 
 export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
   const navigation = useNavigation();
-  const { applicationStore } = useStores();
+  const { applicationStore, analysisStore } = useStores();
   const { testBench, isLoading, isError } = useTestBench(testBenchId);
 
   const handleGoBack = () => {
+    analysisStore.clear();
     navigation.navigate("Home");
   };
 
