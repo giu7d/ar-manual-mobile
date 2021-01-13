@@ -31,6 +31,7 @@ export default {
       LOGIN_USERNAME: process.env.LOGIN_USERNAME,
       LOGIN_PASSWORD: process.env.LOGIN_PASSWORD,
       API_URL: process.env.API_URL,
+      RENDER_URL: process.env.RENDER_URL,
     },
   },
 };

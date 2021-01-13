@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Camera } from "expo-camera";
+import { Camera as ExpoCamera } from "expo-camera";
 import { BarCodeEvent, BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
 
-import { CameraTemplate } from "../components/templates/CameraTemplate";
-import { CameraTargetMask } from "../components/molecules/CameraTargetMask";
+import { Camera } from "../components/containers/Camera";
+import { CameraTargetMask } from "../components/fragments/CameraTargetMask";
 
 export const QRCodeCamera: React.FC = () => {
   const [scanned, setScanned] = useState(false);
@@ -27,7 +27,7 @@ export const QRCodeCamera: React.FC = () => {
   };
 
   return (
-    <CameraTemplate
+    <Camera
       cameraProps={{
         barCodeScannerSettings: {
           barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
@@ -35,10 +35,10 @@ export const QRCodeCamera: React.FC = () => {
         style: { flex: 1 },
         onBarCodeScanned,
         autoFocus: true,
-        type: Camera.Constants.Type.back,
+        type: ExpoCamera.Constants.Type.back,
       }}
     >
       <CameraTargetMask />
-    </CameraTemplate>
+    </Camera>
   );
 };

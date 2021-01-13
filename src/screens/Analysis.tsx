@@ -1,56 +1,39 @@
 import React, { useEffect } from "react";
-import { Image } from "react-native";
 import { observer } from "mobx-react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
-import { AnalysisInformation } from "../components/molecules/AnalysisInformation";
-import { AnalysisCanvas } from "../components/molecules/AnalysisCanvas";
+import { AnalysisCanvas } from "../components/containers/AnalysisCanvas";
+import { AnalysisBar } from "../components/containers/AnalysisBar";
 import { AnalysisTemplate } from "../components/templates/AnalysisTemplate";
 import { useStores } from "../hooks/useStores";
+import { Typography } from "../components/fragments/Typography";
+import { useTestBench } from "../hooks/useTestbench";
 
 export const Analysis: React.FC = observer(() => {
-  const navigation = useNavigation();
   const route = useRoute() as { params: { id: string } };
   const { analysisStore } = useStores();
+  const { testBench, isLoading, isError } = useTestBench(route.params.id);
 
   useEffect(() => {
-    analysisStore.fetch(route.params.id);
-  }, []);
+    if (testBench && !analysisStore.selectedInstruction) {
+      analysisStore.setSelectedInstruction(
+        testBench.instructions.find(({ step }) => step === 1)
+      );
+    }
+  });
 
-  const handleGoBack = () => {
-    navigation.navigate("Home");
-  };
+  if (isLoading) {
+    return <Typography>Loading Analysis Page</Typography>;
+  }
+
+  if (isError) {
+    return <Typography>Error while loading instructions</Typography>;
+  }
 
   return (
     <AnalysisTemplate>
-      <AnalysisCanvas handleGoBack={handleGoBack}>
-        <>
-          {analysisStore.selectedInstruction && (
-            <Image
-              source={{ uri: analysisStore.selectedInstruction.src }}
-              style={{
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              resizeMode="contain"
-            />
-          )}
-          <AnalysisInformation
-            items={[
-              {
-                key: "Galga de controlo",
-                value: analysisStore.testbenchSerialNumber,
-              },
-              {
-                key: "Componente",
-                value: analysisStore.componentSerialNumber,
-              },
-            ]}
-          />
-        </>
-      </AnalysisCanvas>
+      <AnalysisCanvas testBenchId={route.params.id} />
+      <AnalysisBar testBenchId={route.params.id} />
     </AnalysisTemplate>
   );
 });

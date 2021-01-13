@@ -1,10 +1,10 @@
-export class Testbench {
+export class TestBench {
   id!: string;
-  thumbnailSrc!: string;
-  testbenchSerialNumber!: string;
+  testBenchSerialNumber!: string;
   componentSerialNumber!: string;
+  thumbnailSrc!: string;
 
-  constructor(props: Testbench) {
+  constructor(props: TestBench) {
     Object.assign(this, props);
   }
 }

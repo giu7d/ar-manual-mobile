@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import validatejs from "validate.js";
-
-import { FormInput } from "../../components/molecules/FormInput";
-import { Button } from "../../components/molecules/Button";
-import { useStores } from "../../hooks/useStores";
-import { observer } from "mobx-react";
-import { Warning } from "../../components/molecules/Warning";
 import Constants from "expo-constants";
+import validatejs from "validate.js";
+import { observer } from "mobx-react";
 import { useTheme } from "styled-components";
+
+import { FormInput } from "../../components/fragments/FormInput";
+import { Button } from "../../components/fragments/Button";
+import { useStores } from "../../hooks/useStores";
+import { Warning } from "../../components/fragments/Warning";
 import { LoginTemplate } from "../../components/templates/LoginTemplate";
 import { ILoginFormSchema, LoginFormSchema } from "./LoginFormSchema";
+import { authenticateAccount } from "../../services/api";
 
 const { LOGIN_USERNAME, LOGIN_PASSWORD } = Constants.manifest.extra;
 
@@ -23,14 +24,8 @@ export const Login: React.FC = observer(() => {
     password: LOGIN_PASSWORD || "",
   });
   const [error, setError] = useState<string>();
-  const { userStore } = useStores();
+  const { applicationStore } = useStores();
   const theme = useTheme();
-
-  useEffect(() => {
-    if (userStore.error) {
-      setError(userStore.error);
-    }
-  }, [userStore.error]);
 
   useEffect(() => {
     handleValidation();
@@ -49,8 +44,13 @@ export const Login: React.FC = observer(() => {
   };
 
   const handleSubmit = async () => {
-    handleValidation();
-    await userStore.fetch(form.email, form.password);
+    try {
+      handleValidation();
+      const account = await authenticateAccount(form.email, form.password);
+      applicationStore.setAccount(account.token);
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -84,11 +84,11 @@ export const Login: React.FC = observer(() => {
           style: {
             minHeight: 64,
             backgroundColor:
-              userStore.status === "pending" || error !== undefined
+              error !== undefined
                 ? theme.colors.background
                 : theme.colors.primary,
           },
-          disabled: userStore.status === "pending" || error !== undefined,
+          disabled: error !== undefined,
         }}
       >
         Entrar

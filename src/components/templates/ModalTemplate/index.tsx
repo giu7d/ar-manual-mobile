@@ -4,14 +4,14 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { observer } from "mobx-react";
 
-import { HeaderAppBar } from "../../organisms/HeaderAppBar";
+import { HeaderAppBar } from "../../fragments/HeaderAppBar";
 import { useStores } from "../../../hooks/useStores";
 import { GlobalStyle } from "../../../styles/global";
 import { Wrapper, FormWrapper, Title, Subtitle } from "./styles";
 
 export const ModalTemplate: React.FC = observer((props) => {
   const navigation = useNavigation();
-  const { userStore } = useStores();
+  const { applicationStore } = useStores();
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -22,7 +22,7 @@ export const ModalTemplate: React.FC = observer((props) => {
       <StatusBar backgroundColor="#FFF" />
       <GlobalStyle>
         <HeaderAppBar
-          initial={userStore.user.initial}
+          initial={applicationStore.account?.initial || ""}
           handleGoBack={handleGoBack}
         />
         <Wrapper>

@@ -1,5 +1,6 @@
-import Axios, { AxiosResponse } from "axios";
+import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import Constants from "expo-constants";
+import { Analysis } from "../models/Analysis";
 
 const { API_URL } = Constants.manifest.extra;
 
@@ -7,56 +8,74 @@ export const API = Axios.create({
   baseURL: API_URL,
 });
 
-export const authenticate = async (email: string, password: string) => {
-  const {
-    data,
-  }: AxiosResponse<IAuthenticationResponse> = await API.post("/accounts/auth", {
-    email,
-    password,
-  });
+export const fetcher = (url: string, configs?: AxiosRequestConfig) =>
+  API.get(url, configs).then((res) => res.data);
+
+export const authenticateAccount = async (email: string, password: string) => {
+  const { data }: AxiosResponse<IAuthenticationResponse> = await API.post(
+    "/accounts/auth",
+    {
+      email,
+      password,
+    }
+  );
 
   API.defaults.headers["Authorization"] = `Bearer ${data.token}`;
 
   return data;
 };
 
-export const getTestbenches = async () => {
-  const { data }: AxiosResponse<ITestbenchesResponse> = await API.get(
-    "/testbenches"
-  );
+export const persistAnalysis = async (
+  id: string,
+  payload: {
+    analysis: Analysis[];
+    startedAt: Date;
+    finishedAt: Date;
+  }
+) => {
+  const analysisStatus =
+    payload.analysis.filter(({ status }) => status === "failure").length === 0
+      ? "approved"
+      : "failure";
 
-  return data;
-};
+  const steps = payload.analysis.map(({ id, failure, ...rest }) => {
+    return {
+      ...rest,
+      failure: failure
+        ? {
+            src: failure.photos,
+            description: failure.description || undefined,
+            caoItemId: failure.caoItemId,
+          }
+        : undefined,
+    };
+  });
 
-export const getTestbench = async (id: string) => {
-  const { data }: AxiosResponse<ITestbenchResponse> = await API.get(
-    `/testbenches/${id}`
-  );
+  const data = {
+    steps,
+    status: analysisStatus,
+    startedAt: payload.startedAt,
+    finishedAt: payload.finishedAt,
+  };
 
-  return data;
-};
-
-export const createAnalysis = async (testBenchId: string, payload: {}) => {
-  const { status }: AxiosResponse = await API.post("/analysis", payload, {
+  const { status }: AxiosResponse = await API.post("/analysis", data, {
     headers: {
-      testbenchid: testBenchId,
+      testbenchid: id,
     },
   });
 
   return status;
 };
 
-export const uploadImage = async (
-  type: "failures" | string,
+export const uploadFiles = async (
+  folder: "failures" | string,
   files: string[]
 ) => {
-  const payload = {
-    files,
-  };
-
-  const { data }: AxiosResponse<IImageUploadResponse> = await API.post(
-    `/upload/base64/${type}`,
-    payload
+  const { data }: AxiosResponse<IImageUploadResponse[]> = await API.post(
+    `/upload/base64/${folder}`,
+    {
+      files,
+    }
   );
 
   return data;

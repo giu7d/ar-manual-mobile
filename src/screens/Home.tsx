@@ -1,31 +1,36 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Text } from "react-native";
 import { observer } from "mobx-react";
 import { useNavigation } from "@react-navigation/native";
 
-import { WorkbenchCard } from "../components/organisms/WorkbenchCard";
+import { WorkbenchCard } from "../components/fragments/WorkbenchCard";
 import { HomeTemplate } from "../components/templates/HomeTemplate";
-import { useStores } from "../hooks/useStores";
+import { useTestBenches } from "../hooks/useTestbenches";
 
 export const Home: React.FC = observer(() => {
   const navigation = useNavigation();
 
-  const { testbenchsStore } = useStores();
-
-  useEffect(() => {
-    testbenchsStore.fetch();
-  }, []);
+  const { testBenches, isError, isLoading } = useTestBenches();
 
   const handleAnalysis = (id: string) => {
     navigation.navigate("Analysis", { id });
   };
 
+  if (isLoading) {
+    return <Text>Loading</Text>;
+  }
+
+  if (isError) {
+    return <Text>Error</Text>;
+  }
+
   return (
     <HomeTemplate>
-      {testbenchsStore.testbenchs.map((testbench) => (
+      {testBenches.map((testbench) => (
         <WorkbenchCard
           key={testbench.id}
           componentSeries={testbench.componentSerialNumber}
-          workbenchSeries={testbench.testbenchSerialNumber}
+          workbenchSeries={testbench.testBenchSerialNumber}
           thumbnailSrc={testbench.thumbnailSrc}
           handleAnalysis={() => handleAnalysis(testbench.id)}
         />
