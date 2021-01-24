@@ -1,23 +1,37 @@
 import styled from "styled-components/native";
 
 export const Wrapper = styled.View`
-  margin: 14px;
-  padding: 14px;
-  min-width: 100%;
-  background-color: ${({ theme }) => theme.colors.background};
+  padding: 24px;
+  flex-basis: 650px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-direction: row;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.foreground};
   border-radius: ${({ theme }) => `${theme.roundness}px`};
+`;
+
+export const ContentWrapper = styled.View`
+  margin-left: 24px;
 `;
 
 export const Title = styled.Text`
   margin-bottom: 8px;
-  font-size: 16px;
+  font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.text};
-  opacity: 0.5;
+  color: ${({ theme }) => theme.colors.danger};
 `;
 
 export const Description = styled.Text`
   font-size: 18px;
   color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Error = styled.Text`
+  margin-top: 8px;
+  font-size: 18px;
+  font-style: italic;
+  color: ${({ theme }) => theme.colors.text};
+  opacity: 0.75;
 `;

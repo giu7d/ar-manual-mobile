@@ -6,13 +6,13 @@ import { useNavigation } from "@react-navigation/native";
 import { WorkbenchCard } from "../components/fragments/WorkbenchCard";
 import { HomeTemplate } from "../components/templates/HomeTemplate";
 import { useTestBenches } from "../hooks/useTestbenches";
+import { Warning } from "../components/fragments/Warning";
 
 export const Home: React.FC = observer(() => {
   const navigation = useNavigation();
-
   const { testBenches, isError, isLoading } = useTestBenches();
 
-  const handleAnalysis = (id: string) => {
+  const goToAnalysis = (id: string) => {
     navigation.navigate("Analysis", { id });
   };
 
@@ -21,7 +21,15 @@ export const Home: React.FC = observer(() => {
   }
 
   if (isError) {
-    return <Text>Error</Text>;
+    return (
+      <HomeTemplate>
+        <Warning
+          title="Error"
+          description={`A error happened while loading the test benches.\nMore information:`}
+          error={isError?.message}
+        />
+      </HomeTemplate>
+    );
   }
 
   return (
@@ -32,7 +40,7 @@ export const Home: React.FC = observer(() => {
           componentSeries={testbench.componentSerialNumber}
           workbenchSeries={testbench.testBenchSerialNumber}
           thumbnailSrc={testbench.thumbnailSrc}
-          handleAnalysis={() => handleAnalysis(testbench.id)}
+          handleAnalysis={() => goToAnalysis(testbench.id)}
         />
       ))}
     </HomeTemplate>

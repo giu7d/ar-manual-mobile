@@ -6,7 +6,7 @@ type CanvasType = "photo" | "3D";
 
 interface IApplicationStore {
   account?: Account;
-  setAccount(token: string): void;
+  setAccount(account: Account): void;
   canvasMode: CanvasType;
   setCanvasMode(state: CanvasType): void;
   clear(): void;
@@ -15,9 +15,8 @@ interface IApplicationStore {
 export const ApplicationStore = () =>
   makeAutoObservable<IApplicationStore>({
     account: undefined,
-    setAccount(token) {
-      const { data } = jwt(token);
-      this.account = new Account({ ...data });
+    setAccount(account: Account) {
+      this.account = account;
     },
     canvasMode: "photo",
     setCanvasMode(state) {

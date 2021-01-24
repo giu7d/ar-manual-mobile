@@ -4,6 +4,7 @@ export class Account {
   lastName!: string;
   email!: string;
   initial!: string;
+  token!: string;
 
   constructor(props: Omit<Account, "initial">) {
     Object.assign(this, props);

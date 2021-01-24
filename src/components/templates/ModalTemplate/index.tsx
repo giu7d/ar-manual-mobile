@@ -11,7 +11,6 @@ import { Wrapper, FormWrapper, Title, Subtitle } from "./styles";
 
 export const ModalTemplate: React.FC = observer((props) => {
   const navigation = useNavigation();
-  const { applicationStore } = useStores();
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -21,10 +20,7 @@ export const ModalTemplate: React.FC = observer((props) => {
     <>
       <StatusBar backgroundColor="#FFF" />
       <GlobalStyle>
-        <HeaderAppBar
-          initial={applicationStore.account?.initial || ""}
-          handleGoBack={handleGoBack}
-        />
+        <HeaderAppBar handleGoBack={handleGoBack} />
         <Wrapper>
           <ScrollView>
             <FormWrapper>

@@ -9,23 +9,21 @@ import { Analysis } from "./screens/Analysis";
 import { ReportFailure } from "./screens/ReportFailure";
 import { FailureCamera } from "./screens/FailureCamera";
 import { QRCodeCamera } from "./screens/QRCodeCamera";
-import { useStores } from "./hooks/useStores";
+import { useAccount } from "./hooks/useAccount";
 
 const Navigator = createStackNavigator();
 
-const PublicRoutes = () => (
-  <NavigationContainer>
-    <Navigator.Navigator headerMode="none">
-      <Navigator.Screen name="Login" component={Login} />
-    </Navigator.Navigator>
-  </NavigationContainer>
-);
-
 export const Routes = observer(() => {
-  const { applicationStore } = useStores();
+  const { account } = useAccount();
 
-  if (!applicationStore.account) {
-    return <PublicRoutes />;
+  if (!account) {
+    return (
+      <NavigationContainer>
+        <Navigator.Navigator headerMode="none">
+          <Navigator.Screen name="Login" component={Login} />
+        </Navigator.Navigator>
+      </NavigationContainer>
+    );
   }
 
   return (
