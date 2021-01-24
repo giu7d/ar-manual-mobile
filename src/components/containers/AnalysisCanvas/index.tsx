@@ -1,33 +1,32 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Feather as Icon } from "@expo/vector-icons";
-
+import { View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { useTestBench } from "../../../hooks/useTestbench";
-import { useStores } from "../../../hooks/useStores";
 import { AnalysisInformation } from "../../fragments/AnalysisInformation";
-import { Wrapper, HeaderWrapper, CanvasIconButton } from "./styles";
-import { AnalysisCanvasModes } from "./AnalysisCanvasModes";
+import { Wrapper } from "./styles";
+import { AnalysisCanvasModes } from "./Modes";
+import { AnalysisCanvasHeader } from "./Header";
+import { useTheme } from "styled-components";
+import { Warning } from "../../fragments/Warning";
 
 interface IProps {
   testBenchId: string;
 }
 
 export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
-  const navigation = useNavigation();
-  const { applicationStore, analysisStore } = useStores();
   const { testBench, isLoading, isError } = useTestBench(testBenchId);
-
-  const handleGoBack = () => {
-    analysisStore.clear();
-    navigation.navigate("Home");
-  };
+  const theme = useTheme();
 
   if (isLoading) {
     return (
       <Wrapper>
-        <Text>Loading</Text>
+        <AnalysisCanvasHeader />
+        <ActivityIndicator
+          style={{ top: "50%" }}
+          size="large"
+          color={theme.colors.primary}
+        />
       </Wrapper>
     );
   }
@@ -35,28 +34,27 @@ export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
   if (isError) {
     return (
       <Wrapper>
-        <Text>Error</Text>
+        <AnalysisCanvasHeader />
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Warning
+            wrapperProps={{ style: { maxHeight: 175 } }}
+            title="Error"
+            description={`A error happened while loading the test benches into the canvas.\nMore information:`}
+            error={isError?.message}
+          />
+        </View>
       </Wrapper>
     );
   }
 
   return (
     <Wrapper>
-      <HeaderWrapper>
-        <CanvasIconButton onPress={handleGoBack}>
-          <Icon name="chevron-left" size={24} />
-        </CanvasIconButton>
-
-        <CanvasIconButton
-          onPress={() =>
-            applicationStore.setCanvasMode(
-              applicationStore.canvasMode === "photo" ? "3D" : "photo"
-            )
-          }
-        >
-          <Icon name="box" size={24} />
-        </CanvasIconButton>
-      </HeaderWrapper>
+      <AnalysisCanvasHeader />
       <AnalysisCanvasModes />
       <AnalysisInformation
         items={[
