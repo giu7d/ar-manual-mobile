@@ -1,5 +1,5 @@
+import uuid from "react-native-uuid";
 import React from "react";
-import { Text } from "react-native";
 import { observer } from "mobx-react";
 import { useNavigation } from "@react-navigation/native";
 
@@ -7,6 +7,8 @@ import { WorkbenchCard } from "../components/fragments/WorkbenchCard";
 import { HomeTemplate } from "../components/templates/HomeTemplate";
 import { useTestBenches } from "../hooks/useTestbenches";
 import { Warning } from "../components/fragments/Warning";
+import { WorkBenchCardShimmer } from "../components/fragments/WorkbenchCard/Shimmer";
+import { randomValueInRange } from "../utils";
 
 export const Home: React.FC = observer(() => {
   const navigation = useNavigation();
@@ -17,7 +19,15 @@ export const Home: React.FC = observer(() => {
   };
 
   if (isLoading) {
-    return <Text>Loading</Text>;
+    return (
+      <HomeTemplate>
+        {Array(randomValueInRange(2, 5))
+          .fill("")
+          .map(() => (
+            <WorkBenchCardShimmer key={uuid.v4()} />
+          ))}
+      </HomeTemplate>
+    );
   }
 
   if (isError) {

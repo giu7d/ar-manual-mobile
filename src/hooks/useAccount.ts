@@ -16,7 +16,6 @@ export const useAccount = () => {
 
   const _loadAccountFromLocalStorage = async () => {
     const token = await AsyncStorage.getItem("token");
-    console.log(token);
     if (token) {
       const { data } = decodeJWT(token);
       const account = new Account({ ...data, token });
@@ -37,7 +36,6 @@ export const useAccount = () => {
       await AsyncStorage.setItem("token", token);
       applicationStore.setAccount(account);
     } catch (error) {
-      console.log(error);
       setIsError(error);
     } finally {
       setIsLoading(false);

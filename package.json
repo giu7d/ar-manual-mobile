@@ -40,6 +40,7 @@
     "react-native-render-html": "^4.2.4",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
+    "react-native-shimmer-placeholder": "^2.0.6",
     "react-native-uuid": "^1.4.9",
     "react-native-web": "~0.11.7",
     "react-native-webview": "9.4.0",

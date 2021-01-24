@@ -1,8 +1,6 @@
 import React from "react";
-import { Feather as Icon } from "@expo/vector-icons";
 
 import * as Card from "../Card";
-import { IconButton } from "../IconButton";
 import { Button } from "../Button";
 import { WorkbenchImage } from "./styles";
 
@@ -53,20 +51,11 @@ export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
         }}
       >
         <Button
-          touchableProps={{ style: { minWidth: "75%", minHeight: 64 } }}
+          touchableProps={{ style: { minWidth: "95%" } }}
           onPress={handleAnalysis}
         >
           Iniciar Teste
         </Button>
-        <IconButton
-          style={{
-            width: 64,
-            height: 64,
-            marginLeft: 14,
-          }}
-        >
-          <Icon name="more-vertical" size={24} />
-        </IconButton>
       </Card.ActionsWrapper>
     </Card.Card>
   );
