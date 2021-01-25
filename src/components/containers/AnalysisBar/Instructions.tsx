@@ -3,14 +3,11 @@ import { LayoutRectangle, View } from "react-native";
 import uuid from "react-native-uuid";
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
-import { useStores } from "../../hooks/useStores";
-import { useTestBench } from "../../hooks/useTestbench";
-import { Instruction } from "../../models/TestBenchIndexed";
-import { Analysis } from "../../models/Analysis";
-import { InstructionCard } from "../fragments/AnalysisBar/InstructionCard";
-import { useAnalysis } from "../../hooks/useAnalysis";
-import { useInstructions } from "../../hooks/useInstructions";
-import { Typography } from "../fragments/Typography";
+import { Instruction } from "../../../models/TestBenchIndexed";
+import { Analysis } from "../../../models/Analysis";
+import { InstructionCard } from "../../fragments/AnalysisBar/InstructionCard";
+import { useAnalysis } from "../../../hooks/useAnalysis";
+import { useInstructions } from "../../../hooks/useInstructions";
 
 interface IProps {
   testBenchId: string;
@@ -18,24 +15,20 @@ interface IProps {
   toNext?: (id?: string) => void;
 }
 
-export const AnalysisInstructions: React.FC<IProps> = observer(
+export const AnalysisBarInstructions: React.FC<IProps> = observer(
   ({ testBenchId, onLayout = () => {}, toNext = () => {} }) => {
     const navigation = useNavigation();
-    const { analysisStore } = useStores();
     const { analysis, addAnalysis, removeAnalysis } = useAnalysis();
     const {
       instructions,
       selectedInstruction,
       selectedInstructionAt,
+      setSelectedInstruction,
       goToInstruction,
-      isError,
-      isLoading,
     } = useInstructions(testBenchId);
 
     const onSelected = (instruction: Instruction, state: boolean) => {
-      if (state) {
-        analysisStore.setSelectedInstruction(instruction);
-      }
+      if (state) setSelectedInstruction(instruction);
     };
 
     const onAnalysisDone = (
@@ -43,35 +36,24 @@ export const AnalysisInstructions: React.FC<IProps> = observer(
       status: "success" | "failure" | "pending"
     ) => {
       if (status === "success") {
-        const analysis = new Analysis({
-          id: uuid.v4(),
-          instructionId: instruction.id,
-          startedAt: selectedInstructionAt,
-          finishedAt: new Date(),
-          status,
-        });
-
-        addAnalysis(analysis);
+        addAnalysis(
+          new Analysis({
+            id: uuid.v4(),
+            instructionId: instruction.id,
+            startedAt: selectedInstructionAt,
+            finishedAt: new Date(),
+            status,
+          })
+        );
         goToInstruction(instruction.nextInstructionId);
         toNext(instruction.nextInstructionId);
       }
 
-      if (status === "failure") {
+      if (status === "failure")
         navigation.navigate("FailureModal", { id: testBenchId });
-      }
 
-      if (status === "pending") {
-        removeAnalysis(instruction.id);
-      }
+      if (status === "pending") removeAnalysis(instruction.id);
     };
-
-    if (isLoading) {
-      return <Typography>Loading</Typography>;
-    }
-
-    if (isError) {
-      return <Typography>Error</Typography>;
-    }
 
     return (
       <>

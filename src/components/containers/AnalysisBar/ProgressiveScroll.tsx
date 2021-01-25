@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import { observer } from "mobx-react";
+import React, { useEffect, useRef, useState } from "react";
 import { LayoutRectangle, ScrollView } from "react-native";
-
-const ITEM_GAP = 250;
+import { useStores } from "../../../hooks/useStores";
 
 interface ItemPosition extends LayoutRectangle {
   id: string;
@@ -15,19 +15,27 @@ interface Props {
   ) => JSX.Element | JSX.Element[];
 }
 
-const ProgressiveScroll: React.FC<Props> = (props) => {
+export const ProgressiveScroll: React.FC<Props> = observer((props) => {
+  const { analysisStore } = useStores();
   const scrollRef = useRef<ScrollView>(null);
-
   const [itemsPosition, setItemsPosition] = useState<ItemPosition[]>([]);
 
+  useEffect(() => {
+    if (itemsPosition.length !== 0) {
+      toNext(analysisStore.selectedInstruction?.id);
+    }
+  }, [analysisStore.selectedInstruction]);
+
   const onLayout = (layout: LayoutRectangle, id: string) => {
-    setItemsPosition((state) => [
-      ...state,
-      {
-        ...layout,
-        id,
-      },
-    ]);
+    const exists = itemsPosition.find((item) => item.id === id);
+    if (!exists)
+      setItemsPosition((state) => [
+        ...state,
+        {
+          ...layout,
+          id,
+        },
+      ]);
   };
 
   const toNext = (id?: string) => {
@@ -36,8 +44,7 @@ const ProgressiveScroll: React.FC<Props> = (props) => {
 
       if (item) {
         scrollRef.current.scrollTo({
-          y: item.y - ITEM_GAP,
-          animated: true,
+          y: item.y,
         });
       } else {
         toEnd();
@@ -56,6 +63,4 @@ const ProgressiveScroll: React.FC<Props> = (props) => {
       {props.renderItems(onLayout, toNext, toEnd)}
     </ScrollView>
   );
-};
-
-export default ProgressiveScroll;
+});

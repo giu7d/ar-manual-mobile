@@ -2,24 +2,16 @@ import React from "react";
 import { Bar } from "react-native-progress";
 import { useTheme } from "styled-components";
 
-import { Avatar } from "../../Avatar";
 import { ProgressConter } from "../../ProgressCounter";
 
 import { Wrapper, HorizontalWrapper } from "./style";
 
 interface IProps {
-  initial: string;
   done?: number;
   total?: number;
-  handleLogout?: VoidFunction;
 }
 
-export const Header: React.FC<IProps> = ({
-  initial,
-  done = 0,
-  total = 0,
-  handleLogout = () => {},
-}) => {
+export const Header: React.FC<IProps> = ({ children, done = 0, total = 0 }) => {
   const theme = useTheme();
 
   return (
@@ -34,13 +26,7 @@ export const Header: React.FC<IProps> = ({
       />
       <HorizontalWrapper>
         <ProgressConter done={done} total={total} />
-        <Avatar
-          touchableProps={{
-            onPress: handleLogout,
-          }}
-        >
-          {initial}
-        </Avatar>
+        {children}
       </HorizontalWrapper>
     </Wrapper>
   );

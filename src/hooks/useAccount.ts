@@ -15,12 +15,16 @@ export const useAccount = () => {
   }, []);
 
   const _loadAccountFromLocalStorage = async () => {
-    const token = await AsyncStorage.getItem("token");
-    if (token) {
-      const { data } = decodeJWT(token);
-      const account = new Account({ ...data, token });
-      API.defaults.headers["Authorization"] = `Bearer ${token}`;
-      applicationStore.setAccount(account);
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const { data } = decodeJWT(token);
+        const account = new Account({ ...data, token });
+        API.defaults.headers["Authorization"] = `Bearer ${token}`;
+        applicationStore.setAccount(account);
+      }
+    } catch (error) {
+      logoutAccount();
     }
   };
 

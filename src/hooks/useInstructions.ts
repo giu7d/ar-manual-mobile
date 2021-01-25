@@ -1,3 +1,4 @@
+import { Instruction } from "../models/TestBenchIndexed";
 import { useStores } from "./useStores";
 import { useTestBench } from "./useTestbench";
 
@@ -15,11 +16,16 @@ export const useInstructions = (testbenchId: string) => {
     analysisStore.setSelectedInstruction(selectedInstruction);
   };
 
+  const setSelectedInstruction = (instruction: Instruction | undefined) => {
+    analysisStore.setSelectedInstruction(instruction);
+  };
+
   return {
     instructions: isReady ? testBench.instructions : [],
     selectedInstruction: analysisStore.selectedInstruction,
     selectedInstructionAt: analysisStore.selectedInstructionAt,
     goToInstruction,
+    setSelectedInstruction,
     isLoading,
     isError,
   };
