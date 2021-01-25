@@ -10,11 +10,11 @@
 
 A tela de login é composta por um formulário com os campos email e senha. Ambos os campos são obrigatórios. Para iniciar o uso da aplicação **insira a seu email e senha**, posteriormente **selecione o botão "ENTER"**.
 
-![](images/login-screen.jpg)
+![](../images/login-screen.jpg)
 
 **Em caso de erro no login**, a seguinte tela de error será exibida. A tela de error contem informações sobre o erro ocorrido e também um botão que permite ao usuário retornar a tela anterior e tentar realizar o login novamente.
 
-![](images/login-error-screen.jpg)
+![](../images/login-error-screen.jpg)
 
 Se o login ocorreu corretamente, a tela de listagem de galgas de controlo estará disponível.
 
@@ -29,7 +29,7 @@ A tela de galgas de controlo apresenta as seguintes funcionalidades:
 1. Visualizar QR Code
 1. Realizar Log out
 
-![](images/testbenches-screen.jpg)
+![](../images/testbenches-screen.jpg)
 
 ## Realizar Análise
 
@@ -39,13 +39,13 @@ A tela de análise apresenta as seguintes partes:
 1. [Informações da análise](###informações-da-análise)
 1. [Instruções](###instruções)
 
-![](images/analysis-screen-image.jpg)
+![](../images/analysis-screen-image.jpg)
 
 ### Canvas de visualização
 
 A canvas de visualização é utilizada para **visualizar a operação relacionada a instrução selecionada**, esta tela apresenta as seguintes funcionalidades:
 
-![](images/analysis-screen-3D.jpg)
+![](../images/analysis-screen-3D.jpg)
 
 #### 1. Desistir da análise
 
@@ -63,13 +63,13 @@ O **modo de 3D** exibe animações da operação que será realizada, permite o 
 
 Está seção apresenta informações sobre o modelo do componente e da galga de controlo que está sendo utilizada na análise.
 
-![](images/analysis-screen-info.jpg)
+![](../images/analysis-screen-info.jpg)
 
 ### Instruções
 
 O componente de instruções é composta pelo **progresso da análise (1)**, **card de instrução (2)** e botão "FINALIZAR".
 
-![](images/analysis-screen-instruction.jpg)
+![](../images/analysis-screen-instruction.jpg)
 
 #### Progresso da análise
 
@@ -94,10 +94,10 @@ Ao **reprovar uma instrução**, o usuário será levado a uma tela especifica p
 1. Registrar uma foto da falha, acionará a camera do dispositivo (obrigatório)
 1. Selecionar o botão "reportar falha" para finalizar.
 
-![](images/report-failure-screen.jpg)
+![](../images/report-failure-screen.jpg)
 
 **Após todas as instruções terem sido realizadas** e o progresso da análise ter sido concluído **é necessário selecionar o botão "FINALIZAR" para reportar a análise**.
 
-![](images/analysis-complete-screen.jpg)
+![](../images/analysis-complete-screen.jpg)
 
 Finalmente, a análise será registrada e o usuário será redirecionado a tela de listagem das galgas.
