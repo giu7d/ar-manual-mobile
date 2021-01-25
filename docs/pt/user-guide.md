@@ -1,4 +1,4 @@
-# User Guide - Digital Manual (Mobile)
+# Guia de Utilização - Digital Manual (Mobile)
 
 ## Índice
 
