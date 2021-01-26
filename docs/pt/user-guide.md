@@ -1,5 +1,7 @@
 # Guia de Utilização - Digital Manual (Mobile)
 
+[Download PDF](https://github.com/giu7d/ar-manual-mobile/blob/dev/docs/pt/user-guide.pdf)
+
 ## Índice
 
 1. [Login](##login)
