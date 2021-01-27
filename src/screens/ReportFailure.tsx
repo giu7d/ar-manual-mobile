@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useRoute } from "@react-navigation/native";
 import { ModalTemplate } from "../components/templates/ModalTemplate";
-import { AnalysisFailureReportForm } from "../components/containers/AnalysisFailureReportForm";
+import { AnalysisFailureForm } from "../components/containers/AnalysisFailureForm";
 
 export const ReportFailure: React.FC = observer(() => {
   const route = useRoute() as {
@@ -11,7 +11,7 @@ export const ReportFailure: React.FC = observer(() => {
 
   return (
     <ModalTemplate>
-      <AnalysisFailureReportForm testBenchId={route.params.id} />
+      <AnalysisFailureForm testBenchId={route.params.id} />
     </ModalTemplate>
   );
 });

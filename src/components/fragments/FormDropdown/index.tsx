@@ -4,7 +4,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Label, LabelRequired } from "../Label";
 import { Wrapper } from "./styles";
 
-interface IDropdownInputProps {
+interface IFormDropdownProps {
   items: {
     id: string;
     description: string;
@@ -17,7 +17,7 @@ interface IDropdownInputProps {
   onChange?: (item: { id: string; description: string }) => void;
 }
 
-export const DropdownInput: React.FC<IDropdownInputProps> = ({
+export const FormDropdown: React.FC<IFormDropdownProps> = ({
   items,
   defaultValue,
   label,

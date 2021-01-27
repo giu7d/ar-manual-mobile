@@ -17,12 +17,18 @@ export const useAccount = () => {
   const _loadAccountFromLocalStorage = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      if (token) {
-        const { data } = decodeJWT(token);
-        const account = new Account({ ...data, token });
-        API.defaults.headers["Authorization"] = `Bearer ${token}`;
-        applicationStore.setAccount(account);
-      }
+
+      if (!token) throw new Error("No token stored!");
+
+      const { data, exp } = decodeJWT(token);
+      const currentDate = Math.floor(new Date().getTime() / 1000);
+
+      if (exp < currentDate) throw new Error("Authentication token expired!");
+
+      const account = new Account({ ...data, token });
+
+      API.defaults.headers["Authorization"] = `Bearer ${token}`;
+      applicationStore.setAccount(account);
     } catch (error) {
       logoutAccount();
     }
@@ -32,12 +38,12 @@ export const useAccount = () => {
     setIsLoading(true);
     try {
       const { token } = await authenticate(email, password);
-      API.defaults.headers["Authorization"] = `Bearer ${token}`;
       const { data } = decodeJWT(token);
-
       const account = new Account({ ...data, token });
 
       await AsyncStorage.setItem("token", token);
+
+      API.defaults.headers["Authorization"] = `Bearer ${token}`;
       applicationStore.setAccount(account);
     } catch (error) {
       setIsError(error);
