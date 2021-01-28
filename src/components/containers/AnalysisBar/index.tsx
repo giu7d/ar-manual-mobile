@@ -1,22 +1,24 @@
-import React, { useCallback } from "react";
+import React from "react";
+import { Linking, View } from "react-native";
 import { observer } from "mobx-react";
+import uuid from "react-native-uuid";
+import Constants from "expo-constants";
+import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-
-import { ProgressiveScroll } from "./ProgressiveScroll";
+import { InstructionCardShimmer } from "../../fragments/AnalysisBar/InstructionCard/Shimmer";
 import { Header } from "../../fragments/AnalysisBar/Header";
 import { FinalAction } from "../../fragments/FinalAction";
 import { Typography } from "../../fragments/Typography";
+import { Warning } from "../../fragments/Warning";
+import { useInstructions } from "../../../hooks/useInstructions";
+import { useAnalysis } from "../../../hooks/useAnalysis";
 import { useStores } from "../../../hooks/useStores";
+import { randomValueInRange } from "../../../utils";
+import { ProgressiveScroll } from "./ProgressiveScroll";
 import { Wrapper, ScrollWrapper } from "./styles";
 import { AnalysisBarInstructions } from "./Instructions";
-import { useAnalysis } from "../../../hooks/useAnalysis";
-import { useInstructions } from "../../../hooks/useInstructions";
-import { InstructionCardShimmer } from "../../fragments/AnalysisBar/InstructionCard/Shimmer";
-import uuid from "react-native-uuid";
-import { randomValueInRange } from "../../../utils";
-import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { Warning } from "../../fragments/Warning";
+
+const { SURVEY_ENABLE, SURVEY_URL } = Constants.manifest.extra;
 
 interface IProps {
   testBenchId: string;
@@ -32,6 +34,7 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
     await finishAnalysis(testBenchId);
     analysisStore.clear();
     navigation.navigate("Home");
+    if (SURVEY_ENABLE) Linking.openURL(SURVEY_URL);
   };
 
   if (isLoading) {

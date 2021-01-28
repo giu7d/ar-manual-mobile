@@ -55,7 +55,7 @@ export const AnalysisCanvas: React.FC<IProps> = observer(({ testBenchId }) => {
   return (
     <Wrapper>
       <AnalysisCanvasHeader />
-      <AnalysisCanvasModes />
+      <AnalysisCanvasModes testBenchId={testBenchId} />
       <AnalysisInformation
         items={[
           {

@@ -43,7 +43,10 @@ export const AnalysisCanvasHeader = observer(() => {
         <Icon name="x" size={24} />
       </CanvasIconButton>
       <CanvasIconButton onPress={handleCanvasMode}>
-        <Icon name="box" size={24} />
+        <Icon
+          name={applicationStore.canvasMode === "photo" ? "box" : "image"}
+          size={24}
+        />
       </CanvasIconButton>
     </HeaderWrapper>
   );

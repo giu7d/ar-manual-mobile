@@ -1,6 +1,8 @@
-import jwt from "jwt-decode";
 import { makeAutoObservable } from "mobx";
 import { Account } from "../models/Account";
+import Constants from "expo-constants";
+
+const { RENDER_MODE } = Constants.manifest.extra;
 
 type CanvasType = "photo" | "3D";
 
@@ -18,7 +20,7 @@ export const ApplicationStore = () =>
     setAccount(account: Account) {
       this.account = account;
     },
-    canvasMode: "photo",
+    canvasMode: RENDER_MODE || "photo",
     setCanvasMode(state) {
       this.canvasMode = state;
     },
