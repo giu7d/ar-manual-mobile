@@ -2,19 +2,14 @@ import React from "react";
 import { Feather as Icon } from "@expo/vector-icons";
 
 import { IconButton } from "../IconButton";
-import { Avatar } from "../Avatar";
-import { ActionsWrapper } from "../AppBar/styles";
+import { ActionsWrapper } from "../../containers/AppBar/styles";
 import { HeaderAppBarWrapper } from "./styles";
 
 interface IHeaderAppBarProps {
-  initial: string;
-  handleLogout?: VoidFunction;
   handleGoBack?: VoidFunction;
 }
 
 export const HeaderAppBar: React.FC<IHeaderAppBarProps> = ({
-  initial,
-  handleLogout = () => {},
   handleGoBack = () => {},
 }) => {
   return (
@@ -25,9 +20,6 @@ export const HeaderAppBar: React.FC<IHeaderAppBarProps> = ({
         <IconButton onPress={handleGoBack}>
           <Icon name="chevron-left" size={24} />
         </IconButton>
-      </ActionsWrapper>
-      <ActionsWrapper>
-        <Avatar touchableProps={{ onPress: handleLogout }}>{initial}</Avatar>
       </ActionsWrapper>
     </HeaderAppBarWrapper>
   );

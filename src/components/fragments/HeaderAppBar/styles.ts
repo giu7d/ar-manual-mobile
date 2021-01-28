@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import styled from "styled-components/native";
-import { AppBarWrapper } from "../AppBar/styles";
+import { AppBarWrapper } from "../../containers/AppBar/styles";
 
 export const HeaderAppBarWrapper = styled(AppBarWrapper)`
   position: absolute;

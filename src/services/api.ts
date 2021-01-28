@@ -19,9 +19,6 @@ export const authenticateAccount = async (email: string, password: string) => {
       password,
     }
   );
-
-  API.defaults.headers["Authorization"] = `Bearer ${data.token}`;
-
   return data;
 };
 

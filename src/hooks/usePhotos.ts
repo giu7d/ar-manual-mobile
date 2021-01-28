@@ -7,23 +7,20 @@ export const usePhotos = () => {
   const { analysisStore } = useStores();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState();
 
   const addPhoto = (photo: CameraCapturedPicture) => {
     const photos = [...analysisStore.photos, photo];
-
     analysisStore.setPhotos(photos);
   };
 
   const removePhoto = (index: number) => {
     const photos = [...analysisStore.photos];
-
     photos.splice(index, 1);
     analysisStore.setPhotos(photos);
   };
 
-  const clearPhotos = () => {
-    analysisStore.setPhotos([]);
-  };
+  const clearPhotos = () => analysisStore.setPhotos([]);
 
   const uploadPhotos = async () => {
     try {
@@ -36,11 +33,9 @@ export const usePhotos = () => {
       const data = await uploadFiles("failures", photosWithBase64);
       const urls = data.map(({ url }) => url);
 
-      console.log("uploadPhotos", "success");
-
       return urls;
     } catch (error) {
-      console.log("uploadPhotos", "error", error);
+      setIsError(error);
     } finally {
       setIsLoading(false);
     }
@@ -49,6 +44,7 @@ export const usePhotos = () => {
   return {
     photos: analysisStore.photos,
     isLoading,
+    isError,
     addPhoto,
     removePhoto,
     uploadPhotos,

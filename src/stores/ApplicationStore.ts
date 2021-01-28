@@ -1,12 +1,14 @@
-import jwt from "jwt-decode";
 import { makeAutoObservable } from "mobx";
 import { Account } from "../models/Account";
+import Constants from "expo-constants";
+
+const { RENDER_MODE } = Constants.manifest.extra;
 
 type CanvasType = "photo" | "3D";
 
 interface IApplicationStore {
   account?: Account;
-  setAccount(token: string): void;
+  setAccount(account: Account): void;
   canvasMode: CanvasType;
   setCanvasMode(state: CanvasType): void;
   clear(): void;
@@ -15,11 +17,10 @@ interface IApplicationStore {
 export const ApplicationStore = () =>
   makeAutoObservable<IApplicationStore>({
     account: undefined,
-    setAccount(token) {
-      const { data } = jwt(token);
-      this.account = new Account({ ...data });
+    setAccount(account: Account) {
+      this.account = account;
     },
-    canvasMode: "photo",
+    canvasMode: RENDER_MODE || "photo",
     setCanvasMode(state) {
       this.canvasMode = state;
     },
