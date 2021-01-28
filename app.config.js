@@ -2,8 +2,8 @@ import "dotenv/config";
 
 export default {
   expo: {
-    name: "ar-manual",
-    slug: "ar-manual",
+    name: "virtual manual",
+    slug: "virtual-manual",
     entryPoint: "./src/index.tsx",
     version: "1.0.0",
     orientation: "landscape",
