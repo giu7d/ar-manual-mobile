@@ -18,7 +18,7 @@ import { ProgressiveScroll } from "./ProgressiveScroll";
 import { Wrapper, ScrollWrapper } from "./styles";
 import { AnalysisBarInstructions } from "./Instructions";
 
-const { SURVEY_ENABLE, SURVEY_URL } = Constants.manifest.extra;
+const { SURVEY_ENABLE, SURVEY_URL = "" } = Constants.manifest.extra;
 
 interface IProps {
   testBenchId: string;

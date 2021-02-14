@@ -35,6 +35,8 @@ export default {
       RENDER_MODE: process.env.RENDER_MODE,
       SURVEY_URL: process.env.SURVEY_URL,
       SURVEY_ENABLE: process.env.SURVEY_ENABLE,
+      SENTRY_DSN: process.env.SENTRY_DSN,
+      SENTRY_DEBUG: process.env.SENTRY_DEBUG,
     },
   },
 };

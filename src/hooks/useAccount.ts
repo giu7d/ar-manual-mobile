@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import * as Sentry from "sentry-expo";
 import decodeJWT from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Account } from "../models/Account";
@@ -14,6 +15,14 @@ export const useAccount = () => {
     _loadAccountFromLocalStorage();
   }, []);
 
+  const _setAccount = (data: any, token: string) => {
+    const account = new Account({ ...data, token });
+
+    API.defaults.headers["Authorization"] = `Bearer ${token}`;
+    applicationStore.setAccount(account);
+    Sentry.Native.setUser({ email: account.email, token: account.token });
+  };
+
   const _loadAccountFromLocalStorage = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -25,10 +34,7 @@ export const useAccount = () => {
 
       if (exp < currentDate) throw new Error("Authentication token expired!");
 
-      const account = new Account({ ...data, token });
-
-      API.defaults.headers["Authorization"] = `Bearer ${token}`;
-      applicationStore.setAccount(account);
+      _setAccount(data, token);
     } catch (error) {
       logoutAccount();
     }
@@ -39,12 +45,10 @@ export const useAccount = () => {
     try {
       const { token } = await authenticate(email, password);
       const { data } = decodeJWT(token);
-      const account = new Account({ ...data, token });
 
       await AsyncStorage.setItem("token", token);
 
-      API.defaults.headers["Authorization"] = `Bearer ${token}`;
-      applicationStore.setAccount(account);
+      _setAccount(data, token);
     } catch (error) {
       setIsError(error);
     } finally {

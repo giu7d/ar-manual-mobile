@@ -107,7 +107,7 @@ export const AnalysisFailureForm: React.FC<{ testBenchId: string }> = observer(
           required
         />
         <FormInput
-          label="Descrição da falha"
+          label="Descrição da falha (opcional)"
           inputProps={{
             multiline: true,
             numberOfLines: 3,
