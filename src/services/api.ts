@@ -6,6 +6,9 @@ const { API_URL } = Constants.manifest.extra;
 
 export const API = Axios.create({
   baseURL: API_URL,
+  headers: {
+    "Client-Type": "ANALYSIS_MOBILE_APP", // Identify app to get API permission
+  },
 });
 
 export const fetcher = (url: string, configs?: AxiosRequestConfig) =>
