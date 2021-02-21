@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { Camera as ExpoCamera } from "expo-camera";
 import { useTheme } from "styled-components";
 import { useNavigation } from "@react-navigation/native";
@@ -14,12 +14,14 @@ import { usePhotos } from "../hooks/usePhotos";
 export const FailureCamera: React.FC = observer(() => {
   const cameraRef = useRef<ExpoCamera>(null);
   const [cameraSide, setCameraSide] = useState(ExpoCamera.Constants.Type.back);
+  const [isTakingPhoto, setIsTakingPhoto] = useState(false);
   const navigation = useNavigation();
   const theme = useTheme();
   const { addPhoto } = usePhotos();
 
   const handlePhoto = async () => {
     if (cameraRef.current) {
+      setIsTakingPhoto(true);
       const photo = await cameraRef.current.takePictureAsync({ base64: true });
       addPhoto(photo);
       navigation.goBack();
@@ -46,16 +48,22 @@ export const FailureCamera: React.FC = observer(() => {
       <View
         style={{
           flex: 1,
-          backgroundColor: "transparent",
+          backgroundColor: !isTakingPhoto ? "transparent" : "#F5F5F5",
           flexDirection: "row",
         }}
       >
         <CameraSwitchSideButton onPress={toggleCamera}>
           <Icon name="rotate-cw" color={theme.colors.foreground} size={24} />
         </CameraSwitchSideButton>
-        <CameraButton onPress={handlePhoto}>
-          <Icon name="camera" color="#FFF" size={24} />
-        </CameraButton>
+        {!isTakingPhoto ? (
+          <CameraButton onPress={handlePhoto}>
+            <Icon name="camera" color="#FFF" size={24} />
+          </CameraButton>
+        ) : (
+          <CameraButton>
+            <ActivityIndicator color="#FFF" size="large" />
+          </CameraButton>
+        )}
       </View>
     </Camera>
   );

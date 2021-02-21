@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import * as Yup from "yup";
 import { useTestBench } from "../../hooks/useTestbench";
 import { FormInput } from "../fragments/FormInput";
@@ -85,6 +85,10 @@ export const AnalysisFailureForm: React.FC<{ testBenchId: string }> = observer(
         setError(err.message);
       }
     };
+
+    useLayoutEffect(() => {
+      PhotoUtils.clearPhotos();
+    }, []);
 
     if (isLoading) {
       return (
