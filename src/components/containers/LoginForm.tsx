@@ -8,6 +8,7 @@ import { FormInput } from "../fragments/FormInput";
 import { Warning } from "../fragments/Warning";
 import { useAccount } from "../../hooks/useAccount";
 import { useTheme } from "styled-components";
+import Axios from "axios";
 
 const { LOGIN_USERNAME, LOGIN_PASSWORD } = Constants.manifest.extra;
 
@@ -55,11 +56,49 @@ export const LoginForm: React.FC = observer(() => {
   }
 
   if (isError) {
+    const status = isError?.message.match(/[0-9]/g)?.join("");
+
+    if (status === "404")
+      return (
+        <>
+          <Warning
+            title="Atenção!"
+            description="O usuário requisitado não foi encontrado!"
+            error="Verifique se o email foi informado corretamente."
+          />
+          <Button onPress={() => logoutAccount()}>Go Back</Button>
+        </>
+      );
+
+    if (status === "403")
+      return (
+        <>
+          <Warning
+            title="Atenção!"
+            description="A senha requisitada está incorreta!"
+            error="Verifique se a senha informada está correta."
+          />
+          <Button onPress={() => logoutAccount()}>Go Back</Button>
+        </>
+      );
+
+    if (status === "500")
+      return (
+        <>
+          <Warning
+            title="Atenção!"
+            description="Um erro desconhecido aconteceu no servidor."
+            error={isError?.message}
+          />
+          <Button onPress={() => logoutAccount()}>Go Back</Button>
+        </>
+      );
+
     return (
       <>
         <Warning
-          title="Error"
-          description={`A error happened while loading the test benches.\nMore information:`}
+          title="Atenção!"
+          description={`Um erro desconhecido aconteceu. Mais informações:`}
           error={isError?.message}
         />
         <Button onPress={() => logoutAccount()}>Go Back</Button>
@@ -71,8 +110,8 @@ export const LoginForm: React.FC = observer(() => {
     <>
       {error && (
         <Warning
-          title="Warning"
-          description={"The following error occurs:"}
+          title="Atenção!"
+          description={"O seguinte erro ocorreu:"}
           error={error}
         />
       )}

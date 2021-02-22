@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Camera as ExpoCamera } from "expo-camera";
 import { BarCodeEvent, BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 import { Camera } from "../components/containers/Camera";
 import { CameraTargetMask } from "../components/fragments/CameraTargetMask";
@@ -22,7 +23,16 @@ export const QRCodeCamera: React.FC = () => {
         setScanned(true);
       }
     } catch (error) {
-      console.log("Não foi possível extrair dados do QRCode!", error);
+      Alert.alert(
+        "QR Code Inválido",
+        "O QR Code identificado não é válido! Verifique se o QR Code faz parte da galga de controlo.",
+        [
+          {
+            onPress: () => setScanned(false),
+          },
+        ]
+      );
+      setScanned(true);
     }
   };
 

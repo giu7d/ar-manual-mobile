@@ -4,7 +4,7 @@ export const Wrapper = styled.ScrollView`
   display: flex;
   flex-direction: column;
   flex: 1 1;
-  width: 100%;
+  width: 99%;
   padding: 0 64px;
   margin: 0 64px;
 `;

@@ -15,6 +15,7 @@ import { Analysis } from "../../models/Analysis";
 import { useAnalysis } from "../../hooks/useAnalysis";
 import { useNavigation } from "@react-navigation/native";
 import { Warning } from "../fragments/Warning";
+import { Label, LabelRequired } from "../fragments/Label";
 
 const FailureSchema = Yup.object().shape({
   type: Yup.string().required(),
@@ -121,6 +122,14 @@ export const AnalysisFailureForm: React.FC<{ testBenchId: string }> = observer(
           }}
         />
         <>
+          <Label
+            style={{
+              alignSelf: "flex-start",
+            }}
+          >
+            Foto da falha
+            <LabelRequired>*</LabelRequired>
+          </Label>
           <ImageHorizontalThumbnails
             photos={photos}
             onClick={PhotoUtils.removePhoto}

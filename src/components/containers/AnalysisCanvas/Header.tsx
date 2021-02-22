@@ -12,8 +12,8 @@ export const AnalysisCanvasHeader = observer(() => {
 
   const handleGoBack = () => {
     Alert.alert(
-      "Be careful!",
-      "All your progress will be lost! Do you really want to leave the analysis?",
+      "Atenção!",
+      "O teu progresso será perdido caso deixe a analise! Realmente deseja sair?",
       [
         {
           text: "OK",

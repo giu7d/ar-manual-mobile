@@ -5,7 +5,7 @@ export const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
   flex: 1 1;
-  width: 100%;
+  width: 99%;
   background-color: ${({ theme }) => theme.colors.foreground};
   min-height: 100%;
 `;
