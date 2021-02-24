@@ -20,6 +20,7 @@ export interface Instruction {
   description: string;
   step: number;
   nextInstructionId?: string;
+  inspectionType: "VISUAL-INSPECTION" | "GEOMETRIC-INSPECTION";
   isActive: boolean;
   sources: {
     id: string;

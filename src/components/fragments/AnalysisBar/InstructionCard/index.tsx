@@ -15,11 +15,13 @@ import {
   Title,
   Description,
   ActionsWrapper,
+  HeaderWrapper,
 } from "./styles";
 
 interface IProps {
   step: number;
   title: string;
+  inspectionType: "VISUAL-INSPECTION" | "GEOMETRIC-INSPECTION";
   description: string;
   warning?: Array<IWarningProps>;
   selected?: boolean;
@@ -31,6 +33,7 @@ interface IProps {
 export const InstructionCard: React.FC<IProps> = ({
   title,
   step,
+  inspectionType,
   description,
   warning = [],
   selected = false,
@@ -48,7 +51,10 @@ export const InstructionCard: React.FC<IProps> = ({
     <Wrapper onPress={() => setSelected(true)}>
       <ContentWrapper>
         <ContentHeaderWrapper>
-          <Step>#{step}</Step>
+          <HeaderWrapper>
+            <Step>#{step}</Step>
+            <Step>{inspectionType.replace("-", " ")}</Step>
+          </HeaderWrapper>
           <View>
             {status === "failure" && (
               <Icon

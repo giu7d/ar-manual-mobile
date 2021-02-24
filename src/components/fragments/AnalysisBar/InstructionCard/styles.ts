@@ -36,8 +36,15 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export const Step = styled.Text`
+export const HeaderWrapper = styled.View`
+  display: flex;
+  flex: 1 1;
+  flex-direction: row;
   margin-bottom: 8px;
+  justify-content: space-between;
+`;
+
+export const Step = styled.Text`
   font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;

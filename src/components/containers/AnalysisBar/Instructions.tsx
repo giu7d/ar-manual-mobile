@@ -79,6 +79,7 @@ export const AnalysisBarInstructions: React.FC<IProps> = observer(
                 <InstructionCard
                   step={instruction.step}
                   title={instruction.title}
+                  inspectionType={instruction.inspectionType}
                   description={instruction.description}
                   warning={warnings}
                   selected={isSelected}
