@@ -65,7 +65,12 @@ export const AnalysisCanvasModes: React.FC<{ testBenchId: string }> = observer(
       );
     }
 
-    if (applicationStore.canvasMode === "photo") {
+    if (
+      applicationStore.canvasMode === "photo" ||
+      analysisStore.selectedInstruction?.sources.filter(
+        ({ type }) => type === "3D"
+      ).length === 0
+    ) {
       return <AnalysisCanvasImage />;
     }
 
