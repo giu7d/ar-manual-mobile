@@ -1,19 +1,23 @@
 import React, { useRef, useState } from "react";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { ActivityIndicator, Alert, Linking, View } from "react-native";
 import { Camera as ExpoCamera } from "expo-camera";
 import { useTheme } from "styled-components";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Feather as Icon } from "@expo/vector-icons";
+import Constants from "expo-constants";
+import uuid from "react-native-uuid";
+import { observer } from "mobx-react";
 
 import { Camera } from "../components/containers/Camera";
-import { observer } from "mobx-react";
 import { CameraButton } from "../components/fragments/CameraButton";
 import { CameraSwitchSideButton } from "../components/fragments/CameraSwitchSideButton";
 import { usePhotos } from "../hooks/usePhotos";
 import { useInstructions } from "../hooks/useInstructions";
 import { useAnalysis } from "../hooks/useAnalysis";
 import { Analysis } from "../models/Analysis";
-import uuid from "react-native-uuid";
+import { useStores } from "../hooks/useStores";
+
+const { SURVEY_ENABLE, SURVEY_URL = "" } = Constants.manifest.extra;
 
 export const FailureCamera: React.FC = observer(() => {
   const route = useRoute() as {
@@ -30,7 +34,8 @@ export const FailureCamera: React.FC = observer(() => {
     selectedInstructionAt,
     ...InstructionUtils
   } = useInstructions(route.params.id);
-  const { addAnalysis } = useAnalysis();
+  const { addAnalysis, finishAnalysis } = useAnalysis();
+  const { analysisStore } = useStores();
 
   const handlePhoto = async () => {
     if (cameraRef.current) {
@@ -65,8 +70,25 @@ export const FailureCamera: React.FC = observer(() => {
 
       InstructionUtils.goToInstruction(selectedInstruction.nextInstructionId);
       PhotoUtils.clearPhotos();
-      navigation.goBack();
+
+      await finishAnalysis(route.params.id);
+
+      Alert.alert(
+        "NOT OK!",
+        "Foi detectada não conformidades com as tolerâncias definidas, seguir as regras de paragem ao defeito expostas na linha.",
+        [
+          {
+            onPress: _exit,
+          },
+        ]
+      );
     }
+  };
+
+  const _exit = () => {
+    analysisStore.clear();
+    navigation.navigate("Home");
+    if (SURVEY_ENABLE) Linking.openURL(SURVEY_URL);
   };
 
   const toggleCamera = () => {
