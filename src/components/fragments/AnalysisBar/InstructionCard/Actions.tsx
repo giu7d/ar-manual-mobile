@@ -6,8 +6,8 @@ import { IconButton } from "../../IconButton";
 import { Button } from "../../Button";
 
 interface IActionsProps {
-  status?: "pending" | "success" | "failure";
-  handleStatusChange?: (newStatus: "pending" | "success" | "failure") => void;
+  status?: "pending" | "approved" | "failure";
+  handleStatusChange?: (newStatus: "pending" | "approved" | "failure") => void;
 }
 
 export const Actions: React.FC<IActionsProps> = ({
@@ -16,7 +16,7 @@ export const Actions: React.FC<IActionsProps> = ({
 }) => {
   const theme = useTheme();
 
-  if (status === "success") {
+  if (status === "approved") {
     return (
       <>
         <Button
@@ -67,7 +67,7 @@ export const Actions: React.FC<IActionsProps> = ({
   return (
     <>
       <Button
-        onPress={() => handleStatusChange("success")}
+        onPress={() => handleStatusChange("approved")}
         touchableProps={{
           style: {
             minWidth: "70%",

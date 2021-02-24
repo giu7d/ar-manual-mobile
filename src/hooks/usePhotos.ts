@@ -41,6 +41,24 @@ export const usePhotos = () => {
     }
   };
 
+  const uploadPhoto = async (photo: CameraCapturedPicture) => {
+    try {
+      setIsLoading(true);
+      const photoWithBase64 = photo.base64;
+
+      if (!photoWithBase64) throw new Error("No photo was found");
+
+      const data = await uploadFiles("failures", [photoWithBase64]);
+      const urls = data.map(({ url }) => url);
+
+      return urls;
+    } catch (error) {
+      setIsError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     photos: analysisStore.photos,
     isLoading,
@@ -48,6 +66,7 @@ export const usePhotos = () => {
     addPhoto,
     removePhoto,
     uploadPhotos,
+    uploadPhoto,
     clearPhotos,
   };
 };

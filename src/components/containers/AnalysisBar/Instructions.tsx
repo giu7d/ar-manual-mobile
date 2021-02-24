@@ -1,5 +1,5 @@
 import React from "react";
-import { LayoutRectangle, View } from "react-native";
+import { Alert, LayoutRectangle, View } from "react-native";
 import uuid from "react-native-uuid";
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
@@ -8,6 +8,7 @@ import { Analysis } from "../../../models/Analysis";
 import { InstructionCard } from "../../fragments/AnalysisBar/InstructionCard";
 import { useAnalysis } from "../../../hooks/useAnalysis";
 import { useInstructions } from "../../../hooks/useInstructions";
+import { usePhotos } from "../../../hooks/usePhotos";
 
 interface IProps {
   testBenchId: string;
@@ -31,11 +32,15 @@ export const AnalysisBarInstructions: React.FC<IProps> = observer(
       if (state) setSelectedInstruction(instruction);
     };
 
-    const onAnalysisDone = (
+    const onAnalysisDone = async (
       instruction: Instruction,
-      status: "success" | "failure" | "pending"
+      status: "approved" | "failure" | "pending"
     ) => {
-      if (status === "success") {
+      if (
+        status === "approved" ||
+        (status === "failure" &&
+          instruction.inspectionType === "GEOMETRIC-INSPECTION")
+      ) {
         addAnalysis(
           new Analysis({
             id: uuid.v4(),
@@ -49,8 +54,12 @@ export const AnalysisBarInstructions: React.FC<IProps> = observer(
         toNext(instruction.nextInstructionId);
       }
 
-      if (status === "failure")
-        navigation.navigate("FailureModal", { id: testBenchId });
+      if (
+        status === "failure" &&
+        instruction.inspectionType === "VISUAL-INSPECTION"
+      ) {
+        navigation.navigate("FailureCamera", { id: testBenchId });
+      }
 
       if (status === "pending") removeAnalysis(instruction.id);
     };

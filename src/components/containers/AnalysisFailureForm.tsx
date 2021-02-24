@@ -68,10 +68,7 @@ export const AnalysisFailureForm: React.FC<{ testBenchId: string }> = observer(
           finishedAt: new Date(),
           failure: {
             id: uuid.v4(),
-            caoItemId: form.type,
-            description: form.description,
             photos: failurePhotos,
-            createdAt: new Date(),
           },
         });
 

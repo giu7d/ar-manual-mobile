@@ -44,8 +44,6 @@ export const persistAnalysis = async (
       failure: failure
         ? {
             src: failure.photos,
-            description: failure.description || undefined,
-            caoItemId: failure.caoItemId,
           }
         : undefined,
     };
@@ -58,7 +56,7 @@ export const persistAnalysis = async (
     finishedAt: payload.finishedAt,
   };
 
-  const { status }: AxiosResponse = await API.post("/analysis", data, {
+  const { status, ...rest }: AxiosResponse = await API.post("/analysis", data, {
     headers: {
       testbenchid: id,
     },
