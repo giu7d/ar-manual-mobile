@@ -20,7 +20,7 @@ export const Title = styled.Text`
   font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.success};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Description = styled.Text`

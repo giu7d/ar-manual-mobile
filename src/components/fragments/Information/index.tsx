@@ -11,7 +11,7 @@ import {
 import { useTheme } from "styled-components";
 
 export interface IWarningProps {
-  icon: string;
+  icon?: string;
   title: string;
   description: string;
   additionalDescription?: string;
@@ -29,7 +29,7 @@ export const Information: React.FC<IWarningProps> = ({
 
   return (
     <Wrapper {...wrapperProps}>
-      <Icon name={icon} size={54} color={theme.colors.success} />
+      {icon && <Icon name={icon} size={54} color={theme.colors.primary} />}
       <ContentWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Linking, View } from "react-native";
+import { Alert, Linking, View } from "react-native";
 import { observer } from "mobx-react";
 import uuid from "react-native-uuid";
 import Constants from "expo-constants";
@@ -26,12 +26,33 @@ interface IProps {
 
 export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
   const navigation = useNavigation();
-  const { analysis, finishAnalysis } = useAnalysis();
+  const { analysis, finishAnalysis, isApproved } = useAnalysis();
   const { analysisStore } = useStores();
   const { instructions, isLoading, isError } = useInstructions(testBenchId);
 
   const handleFinish = async () => {
     await finishAnalysis(testBenchId);
+
+    if (isApproved()) {
+      Alert.alert("OK!", "Não detectada nenhuma inconformidade. Prossiga.", [
+        {
+          onPress: _exit,
+        },
+      ]);
+    } else {
+      Alert.alert(
+        "NOT OK!",
+        "Foi detectada não conformidades com as tolerâncias definidas, seguir as regras de paragem ao defeito expostas na linha.",
+        [
+          {
+            onPress: _exit,
+          },
+        ]
+      );
+    }
+  };
+
+  const _exit = () => {
     analysisStore.clear();
     navigation.navigate("Home");
     if (SURVEY_ENABLE) Linking.openURL(SURVEY_URL);

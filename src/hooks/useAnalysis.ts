@@ -5,6 +5,13 @@ import { useStores } from "./useStores";
 export const useAnalysis = () => {
   const { analysisStore } = useStores();
 
+  const isApproved = () => {
+    return (
+      analysisStore.analysis.filter(({ status }) => status === "failure")
+        .length === 0
+    );
+  };
+
   const addAnalysis = (analyze: Analysis) => {
     const analysis = [...analysisStore.analysis, analyze];
 
@@ -43,6 +50,7 @@ export const useAnalysis = () => {
 
   return {
     analysis: analysisStore.analysis,
+    isApproved,
     addAnalysis,
     removeAnalysis,
     finishAnalysis,

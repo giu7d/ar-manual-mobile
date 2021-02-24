@@ -48,9 +48,8 @@ export const AnalysisCanvasModes: React.FC<{ testBenchId: string }> = observer(
         >
           <Information
             wrapperProps={{ style: { maxHeight: 150 } }}
-            icon="check"
-            title="Pronto!"
-            description="Todos os itens foram avaliados, selecione 'finalizar' para prosseguir."
+            title="Selecione Finalizar"
+            description="Todos os itens foram avaliados, selecione 'finalizar' quando desejar prosseguir."
           />
         </View>
       );
