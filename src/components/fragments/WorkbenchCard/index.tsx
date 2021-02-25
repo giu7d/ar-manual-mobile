@@ -3,20 +3,24 @@ import React from "react";
 import * as Card from "../Card";
 import { Button } from "../Button";
 import { WorkbenchImage } from "./styles";
+import { useTheme } from "styled-components";
+import { rgba } from "polished";
 
 export interface IWorkbenchCardProps {
   componentSeries: string;
   workbenchSeries: string;
   thumbnailSrc: string;
-  handleAnalysis?: VoidFunction;
+  handleAnalysis?: (type: "visual" | "complete") => void;
 }
 
 export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
   componentSeries,
   workbenchSeries,
   thumbnailSrc,
-  handleAnalysis = () => {},
+  handleAnalysis = (type: "visual" | "complete") => {},
 }) => {
+  const theme = useTheme();
+
   return (
     <Card.Card
       style={{
@@ -51,10 +55,26 @@ export const WorkbenchCard: React.FC<IWorkbenchCardProps> = ({
         }}
       >
         <Button
-          touchableProps={{ style: { minWidth: "95%" } }}
-          onPress={handleAnalysis}
+          touchableProps={{
+            style: {
+              flex: 1,
+              minHeight: 64,
+              backgroundColor: rgba(theme.colors.primary, 0.75),
+              marginTop: 8,
+              marginBottom: 4,
+            },
+          }}
+          onPress={() => handleAnalysis("visual")}
         >
-          Iniciar Teste
+          Inspeção Visual
+        </Button>
+        <Button
+          touchableProps={{
+            style: { flex: 1, minHeight: 64, marginTop: 4, marginBottom: 8 },
+          }}
+          onPress={() => handleAnalysis("complete")}
+        >
+          Inspeção Completa
         </Button>
       </Card.ActionsWrapper>
     </Card.Card>

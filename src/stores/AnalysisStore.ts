@@ -5,7 +5,9 @@ import { Instruction } from "../models/TestBenchIndexed";
 
 interface IAnalysisStore {
   analysis: Analysis[];
+  analysisType?: "visual" | "complete";
   setAnalysis(analysis: Analysis[]): void;
+  setAnalysisType(type?: "visual" | "complete"): void;
   selectedInstruction?: Instruction;
   selectedInstructionAt: Date;
   startedAt: Date;
@@ -21,6 +23,10 @@ export const AnalysisStore = () =>
     setAnalysis(analysis) {
       this.analysis = analysis;
     },
+    analysisType: undefined,
+    setAnalysisType(type) {
+      this.analysisType = type;
+    },
     selectedInstruction: undefined,
     selectedInstructionAt: new Date(),
     startedAt: new Date(),
@@ -34,6 +40,7 @@ export const AnalysisStore = () =>
     },
     clear() {
       this.analysis = [];
+      this.analysisType = undefined;
       this.selectedInstruction = undefined;
       this.selectedInstructionAt = new Date();
       this.startedAt = new Date();

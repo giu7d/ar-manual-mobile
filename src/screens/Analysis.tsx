@@ -9,7 +9,9 @@ import { useStores } from "../hooks/useStores";
 import { useTestBench } from "../hooks/useTestbench";
 
 export const Analysis: React.FC = observer(() => {
-  const route = useRoute() as { params: { id: string } };
+  const route = useRoute() as {
+    params: { id: string };
+  };
   const { analysisStore } = useStores();
   const { testBench } = useTestBench(route.params.id);
 

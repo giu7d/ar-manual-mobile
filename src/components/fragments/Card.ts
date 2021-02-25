@@ -4,7 +4,6 @@ import { rgba } from "polished";
 export const Card = styled.View`
   margin: 14px;
   max-width: 500px;
-  height: 300px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -36,13 +35,13 @@ export const GroupWrapper = styled.View`
 
 export const ActionsWrapper = styled.View`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1;
   padding: 8px 14px;
   background: ${({ theme }) => rgba(theme.colors.text, 0.1)};
   height: auto;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 export const Title = styled.Text`

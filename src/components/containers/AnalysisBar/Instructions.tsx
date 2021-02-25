@@ -8,7 +8,8 @@ import { Analysis } from "../../../models/Analysis";
 import { InstructionCard } from "../../fragments/AnalysisBar/InstructionCard";
 import { useAnalysis } from "../../../hooks/useAnalysis";
 import { useInstructions } from "../../../hooks/useInstructions";
-import { usePhotos } from "../../../hooks/usePhotos";
+import { useStores } from "../../../hooks/useStores";
+import { filterAnalysisByTypeOfInspection } from "../../../utils";
 
 interface IProps {
   testBenchId: string;
@@ -27,6 +28,7 @@ export const AnalysisBarInstructions: React.FC<IProps> = observer(
       setSelectedInstruction,
       goToInstruction,
     } = useInstructions(testBenchId);
+    const { analysisStore } = useStores();
 
     const onSelected = (instruction: Instruction, state: boolean) => {
       if (state) setSelectedInstruction(instruction);
@@ -67,6 +69,12 @@ export const AnalysisBarInstructions: React.FC<IProps> = observer(
     return (
       <>
         {instructions
+          .filter(({ inspectionType }) =>
+            filterAnalysisByTypeOfInspection(
+              inspectionType,
+              analysisStore.analysisType
+            )
+          )
           .sort((a, b) => a.step - b.step)
           .map((instruction) => {
             const isSelected = selectedInstruction?.id === instruction.id;

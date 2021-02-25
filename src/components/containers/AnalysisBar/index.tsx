@@ -13,7 +13,10 @@ import { Warning } from "../../fragments/Warning";
 import { useInstructions } from "../../../hooks/useInstructions";
 import { useAnalysis } from "../../../hooks/useAnalysis";
 import { useStores } from "../../../hooks/useStores";
-import { randomValueInRange } from "../../../utils";
+import {
+  filterAnalysisByTypeOfInspection,
+  randomValueInRange,
+} from "../../../utils";
 import { ProgressiveScroll } from "./ProgressiveScroll";
 import { Wrapper, ScrollWrapper } from "./styles";
 import { AnalysisBarInstructions } from "./Instructions";
@@ -58,6 +61,15 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
     if (SURVEY_ENABLE) Linking.openURL(SURVEY_URL);
   };
 
+  const getInstructionsLength = () => {
+    return instructions.filter(({ inspectionType }) =>
+      filterAnalysisByTypeOfInspection(
+        inspectionType,
+        analysisStore.analysisType
+      )
+    ).length;
+  };
+
   if (isLoading) {
     return (
       <Wrapper>
@@ -94,7 +106,7 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
 
   return (
     <Wrapper>
-      <Header done={analysis.length} total={instructions.length} />
+      <Header done={analysis.length} total={getInstructionsLength()} />
       <ScrollWrapper>
         <ProgressiveScroll
           renderItems={(onLayout, toNext) => (
@@ -106,7 +118,7 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
               />
               <FinalAction
                 onFinish={handleFinish}
-                disabled={analysis.length !== instructions.length}
+                disabled={analysis.length !== getInstructionsLength()}
               />
             </>
           )}

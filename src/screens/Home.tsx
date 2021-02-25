@@ -9,12 +9,15 @@ import { useTestBenches } from "../hooks/useTestbenches";
 import { Warning } from "../components/fragments/Warning";
 import { WorkBenchCardShimmer } from "../components/fragments/WorkbenchCard/Shimmer";
 import { randomValueInRange } from "../utils";
+import { useStores } from "../hooks/useStores";
 
 export const Home: React.FC = observer(() => {
   const navigation = useNavigation();
   const { testBenches, isError, isLoading } = useTestBenches();
+  const { analysisStore } = useStores();
 
-  const goToAnalysis = (id: string) => {
+  const goToAnalysis = (id: string, type: "visual" | "complete") => {
+    analysisStore.setAnalysisType(type);
     navigation.navigate("Analysis", { id });
   };
 
@@ -50,7 +53,7 @@ export const Home: React.FC = observer(() => {
           componentSeries={testbench.componentSerialNumber}
           workbenchSeries={testbench.testBenchSerialNumber}
           thumbnailSrc={testbench.thumbnailSrc}
-          handleAnalysis={() => goToAnalysis(testbench.id)}
+          handleAnalysis={(type) => goToAnalysis(testbench.id, type)}
         />
       ))}
     </HomeTemplate>
