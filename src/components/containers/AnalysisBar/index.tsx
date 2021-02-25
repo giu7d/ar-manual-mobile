@@ -35,17 +35,38 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
 
   const handleFinish = async () => {
     await finishAnalysis(testBenchId);
+    const endDate = new Date();
 
     if (isApproved()) {
-      Alert.alert("OK!", "Não detectada nenhuma inconformidade. Prossiga.", [
-        {
-          onPress: _exit,
-        },
-      ]);
+      Alert.alert(
+        "OK!",
+        `
+Não detectada nenhuma inconformidade. Prossiga.
+
+A inspeção foi finalizada às ${endDate.toLocaleTimeString(
+          "pt"
+        )} na data ${endDate.toLocaleDateString("pt")}.
+`,
+        [
+          {
+            onPress: _exit,
+          },
+        ]
+      );
     } else {
       Alert.alert(
         "NOT OK!",
-        "Foi detectada não conformidades com as tolerâncias definidas, seguir as regras de paragem ao defeito expostas na linha.",
+        `
+Foram detectadas não conformidades com as tolerâncias definidas, seguir as regras de paragem ao defeito expostas na linha.
+
+As seguintes inconformidades foram detectadas:\n${generateSummary().map(
+          (instruction) => `${instruction?.title}\n`
+        )}
+
+A inspeção foi finalizada às ${endDate.toLocaleTimeString(
+          "pt"
+        )} na data ${endDate.toLocaleDateString("pt")}.
+`,
         [
           {
             onPress: _exit,
@@ -53,6 +74,15 @@ export const AnalysisBar: React.FC<IProps> = observer(({ testBenchId }) => {
         ]
       );
     }
+  };
+
+  const generateSummary = () => {
+    const reprovedInstructions = analysis
+      .filter((el) => el.status === "failure")
+      .map((el) => instructions.find(({ id }) => id === el.instructionId))
+      .filter((el) => el !== undefined);
+
+    return reprovedInstructions;
   };
 
   const _exit = () => {
